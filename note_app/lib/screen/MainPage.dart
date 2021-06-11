@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:note_app/widget/NoteTile.dart';
 
 class MainPage extends StatefulWidget {
   MainPage({key}) : super(key: key);
@@ -21,28 +22,26 @@ class _MainPageState extends State<MainPage> {
           Container(
             decoration: BoxDecoration(
               gradient: LinearGradient(colors: [
-                Color.fromARGB(0xFF, 0xE1, 0x55, 0x54),
-                Colors.black54
-              ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
+                Color.fromARGB(0xFF, 0x33, 0x33, 0x32),
+                Color.fromARGB(0xFF, 0x33, 0x33, 0x32) // 0x1D, 0x27, 0x2F
+              ], begin: Alignment.topLeft, end: Alignment.bottomRight),
             ),
           ),
-          Positioned(
-            child: AppBar(
-              title: Text(
-                'Notes',
-                style: TextStyle(color: Colors.white),
-              ),
-              centerTitle: true,
-              backgroundColor: Colors.transparent,
-              elevation: 0,
-            ),
-          ),
+          Center(
+              child: Container(
+            alignment: Alignment.center,
+            width: MediaQuery.of(context).size.width * 0.90,
+            child: ListView.separated(
+                separatorBuilder: (BuildContext context, int index) {
+                  return SizedBox(height: 10);
+                },
+                itemCount: 15,
+                itemBuilder: (context, index) => NoteTile()),
+          ))
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: Icon(Icons.add),
-      ),
+          onPressed: () {}, child: Icon(Icons.keyboard_arrow_left_rounded)),
     );
   }
 }
