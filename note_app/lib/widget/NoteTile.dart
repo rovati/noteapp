@@ -1,11 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:note_app/model/NotesList.dart';
 
 class NoteTile extends StatefulWidget {
+  final int noteID;
+
+  NoteTile(this.noteID);
+
   @override
   _NoteTileState createState() => _NoteTileState();
 }
 
 class _NoteTileState extends State<NoteTile> {
+  final NotesList list = NotesList();
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -25,7 +37,9 @@ class _NoteTileState extends State<NoteTile> {
         child: ListTile(
           onTap: () {},
           leading: Icon(Icons.dehaze_outlined),
-          title: Text('New note'),
+          title: Text(list.getTitleOf(widget.noteID)),
+          minVerticalPadding: 20,
+          horizontalTitleGap: 10,
         ));
   }
 }

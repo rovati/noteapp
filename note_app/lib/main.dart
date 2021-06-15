@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:note_app/model/NotesList.dart';
 import 'package:note_app/screen/LoadingPage.dart';
-import 'package:note_app/screen/MainPage.dart';
+import 'package:provider/provider.dart';
 
+import 'screen/MainPage.dart';
 import 'util/app_theme.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(
+      ChangeNotifierProvider(create: (context) => NotesList(), child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {

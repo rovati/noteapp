@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:note_app/widget/NoteTile.dart';
 
+/// Shows the list of notes and a bar that allows to create notes and access the
+/// settings page, plus other thingies
 class MainPage extends StatefulWidget {
   MainPage({key}) : super(key: key);
 
@@ -36,7 +38,7 @@ class _MainPageState extends State<MainPage> {
                   return SizedBox(height: 12);
                 },
                 itemCount: 15,
-                itemBuilder: (context, index) => NoteTile()),
+                itemBuilder: (context, index) => NoteTile(index)),
           ))
         ],
       ),
