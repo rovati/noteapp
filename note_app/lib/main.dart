@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:note_app/model/NotesList.dart';
-import 'package:note_app/screen/LoadingPage.dart';
 import 'package:provider/provider.dart';
 
-import 'screen/MainPage.dart';
+import 'screen/LoadingPage.dart';
 import 'util/app_theme.dart';
 
 void main() {
@@ -17,7 +16,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: Themes.defaultTheme,
-      home: MainPage(),
+      home: LoadingPage(),
     );
   }
 }
