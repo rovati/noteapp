@@ -19,9 +19,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: Themes.defaultTheme,
-      home: NotePage(
-        note: note,
-      ),
+      home: LoadingPage(),
     );
   }
 }

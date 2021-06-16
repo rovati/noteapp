@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:note_app/util/constant/app_theme.dart';
 import 'package:note_app/widget/NoteTile.dart';
+import 'dart:math' show pi;
+
+import 'package:note_app/widget/Toolbar.dart';
 
 /// Shows the list of notes and a bar that allows to create notes and access the
 /// settings page, plus other thingies
@@ -10,10 +14,15 @@ class MainPage extends StatefulWidget {
   _MainPageState createState() => _MainPageState();
 }
 
-class _MainPageState extends State<MainPage> {
+class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
@@ -21,29 +30,27 @@ class _MainPageState extends State<MainPage> {
     return Scaffold(
       body: Stack(
         children: [
-          /*Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(colors: [
-                Color.fromARGB(0xFF, 0x33, 0x33, 0x32),
-                Color.fromARGB(0xFF, 0x33, 0x33, 0x32) // 0x1D, 0x27, 0x2F
-              ], begin: Alignment.topLeft, end: Alignment.bottomRight),
-            ),
-          ),*/
           Center(
-              child: Container(
-            alignment: Alignment.center,
-            width: MediaQuery.of(context).size.width * 0.90,
-            child: ListView.separated(
-                separatorBuilder: (BuildContext context, int index) {
-                  return SizedBox(height: 12);
-                },
-                itemCount: 15,
-                itemBuilder: (context, index) => NoteTile(index)),
-          ))
+            child: Container(
+              alignment: Alignment.center,
+              width: MediaQuery.of(context).size.width * 0.90,
+              child: ListView.separated(
+                  separatorBuilder: (BuildContext context, int index) {
+                    return SizedBox(height: 12);
+                  },
+                  itemCount: 7,
+                  itemBuilder: (context, index) => NoteTile(index)),
+            ),
+          ),
+          Align(
+            alignment: Alignment.bottomRight,
+            child: Padding(
+              padding: EdgeInsets.only(bottom: 15, right: 15),
+              child: Toolbar(),
+            ),
+          )
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-          onPressed: () {}, child: Icon(Icons.keyboard_arrow_left_rounded)),
     );
   }
 }

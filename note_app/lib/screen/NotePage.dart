@@ -56,7 +56,7 @@ class _NotePageState extends State<NotePage> {
                       },
                       controller: _titleController,
                       textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 20),
+                      style: TextStyle(fontSize: 24),
                       decoration: InputDecoration.collapsed(
                         hintText: 'Note title',
                         border: InputBorder.none,
