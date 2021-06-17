@@ -1,7 +1,7 @@
 class Note {
   final int id;
-  String title;
-  String content;
+  final String title;
+  final String content;
 
   Note(this.id, this.title, {this.content = ''});
 
@@ -16,11 +16,11 @@ class Note {
         'content': content,
       };
 
-  void modifyContent(String newContent) {
-    this.content = newContent;
+  Note modifyContent(String newContent) {
+    return Note(this.id, this.title, content: newContent);
   }
 
-  void modifyTitle(String newTitle) {
-    this.title = newTitle;
+  Note modifyTitle(String newTitle) {
+    return Note(this.id, newTitle, content: this.content);
   }
 }

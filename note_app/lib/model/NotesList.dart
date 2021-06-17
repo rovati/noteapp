@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:note_app/util/DatabaseHelper.dart';
 
 import 'Note.dart';
 
@@ -14,12 +15,28 @@ class NotesList extends ChangeNotifier {
   }
 
   NotesList._internal() {
-    this.notes = [];
+    loadNotes().then((value) => notifyListeners());
+  }
+
+  Future<void> loadNotes() async {
+    notes = await DatabaseHelper.getNotes();
   }
 
   void addNote(Note newNote) {
     notes.add(newNote);
+    DatabaseHelper.writeNote(newNote);
     notifyListeners();
+  }
+
+  void modifyNote(Note modifiedNote) {
+    for (int i = 0; i < notes.length; i++) {
+      if (notes[i].id == modifiedNote.id) {
+        notes.remove(i);
+        notes = [modifiedNote, ...notes];
+        notifyListeners();
+        return;
+      }
+    }
   }
 
   String getTitleOf(int id) {
