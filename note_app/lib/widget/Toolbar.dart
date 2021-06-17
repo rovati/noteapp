@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:note_app/model/Note.dart';
+import 'package:note_app/model/NotesList.dart';
+import 'package:note_app/util/IDProvider.dart';
 import 'package:note_app/util/constant/app_theme.dart';
 import 'dart:math' show pi;
 
@@ -42,7 +45,7 @@ class _ToolbarState extends State<Toolbar> {
                     icon: Icon(Icons.settings_rounded),
                   ),
                   IconButton(
-                    onPressed: () {},
+                    onPressed: _onTapNewNote,
                     icon: Icon(Icons.add_rounded),
                   ),
                 ],
@@ -59,7 +62,7 @@ class _ToolbarState extends State<Toolbar> {
                   width: 2,
                 )),
             child: InkWell(
-              onTap: _onTap,
+              onTap: _onTapArrow,
               borderRadius: BorderRadius.circular(35),
               highlightColor: Themes.red,
               child: Transform.rotate(
@@ -72,7 +75,7 @@ class _ToolbarState extends State<Toolbar> {
     );
   }
 
-  void _onTap() {
+  void _onTapArrow() {
     setState(() {
       _width = _width == 70.0 ? MediaQuery.of(context).size.width - 30.0 : 70.0;
       _angle = _angle == 0.0 ? pi : 0.0;
@@ -86,5 +89,10 @@ class _ToolbarState extends State<Toolbar> {
         });
       }
     });
+  }
+
+  void _onTapNewNote() {
+    IDProvider.getNextId().then(
+        (id) => NotesList().addNote(Note(id, 'New note ' + id.toString())));
   }
 }

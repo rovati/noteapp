@@ -33,6 +33,7 @@ class NotesList extends ChangeNotifier {
       if (notes[i].id == modifiedNote.id) {
         notes.remove(i);
         notes = [modifiedNote, ...notes];
+        DatabaseHelper.writeNote(modifiedNote);
         notifyListeners();
         return;
       }
