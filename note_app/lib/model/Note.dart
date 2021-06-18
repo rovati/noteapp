@@ -6,11 +6,11 @@ class Note {
   Note(this.id, this.title, {this.content = ''});
 
   Note.fromJSON(Map<String, dynamic> json)
-      : id = json['id'],
+      : id = json['id'] as int,
         title = json['title'],
         content = json['content'];
 
-  Map<String, dynamic> toJSON() => {
+  Map<String, dynamic> toJson() => {
         'id': id,
         'title': title,
         'content': content,

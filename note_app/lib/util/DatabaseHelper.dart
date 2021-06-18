@@ -21,7 +21,7 @@ class DatabaseHelper {
   static void writeNote(Note note) async {
     await createDir();
     getPathForNote(note.id.toString())
-        .then((file) => deleteThenWrite(file, note.toJSON().toString()));
+        .then((file) => deleteThenWrite(file, jsonEncode(note).toString()));
   }
 
   /* Helpers */
