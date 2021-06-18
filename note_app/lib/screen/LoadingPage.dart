@@ -7,13 +7,8 @@ import 'MainPage.dart';
 class LoadingPage extends StatelessWidget {
   void navigateWhenComplete(BuildContext context) {
     final notes = NotesList();
-    DatabaseHelper.getNotes().then((list) => {
-          for (var note in list) {notes.addNote(note)},
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => MainPage()),
-          )
-        });
+    DatabaseHelper.getNotes().then((list) => Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => MainPage())));
   }
 
   @override

@@ -20,10 +20,12 @@ class NotesList extends ChangeNotifier {
 
   Future<void> loadNotes() async {
     notes = await DatabaseHelper.getNotes();
+    print('LD - notes length: ' + notes.length.toString());
   }
 
   void addNote(Note newNote) {
     notes.add(newNote);
+    print('ADD - notes length: ' + notes.length.toString());
     DatabaseHelper.writeNote(newNote);
     notifyListeners();
   }
