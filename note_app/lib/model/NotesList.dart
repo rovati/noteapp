@@ -8,6 +8,8 @@ import 'Note.dart';
 /// also takes care of reading and writing the local database.
 class NotesList extends ChangeNotifier {
   static final NotesList _list = NotesList._internal();
+  static final Note errorNote =
+      Note(-1, 'ERROR', content: 'This note is note present in the database');
   late List<Note> notes;
 
   factory NotesList() {
@@ -40,11 +42,12 @@ class NotesList extends ChangeNotifier {
     }
   }
 
-  String getTitleOf(int id) {
-    return 'New note ' + id.toString();
-  }
-
-  String getContentOf(int id) {
-    return 'No content';
+  Note getNoteWithID(int id) {
+    for (var note in notes) {
+      if (note.id == id) {
+        return note;
+      }
+    }
+    return errorNote;
   }
 }

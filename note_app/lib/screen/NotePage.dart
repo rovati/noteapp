@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:note_app/model/Note.dart';
+import 'package:note_app/model/NotesList.dart';
 
 class NotePage extends StatefulWidget {
-  final Note note;
+  final int noteID;
 
-  NotePage({required this.note});
+  NotePage({required this.noteID});
 
   @override
   _NotePageState createState() => _NotePageState();
@@ -13,12 +14,14 @@ class NotePage extends StatefulWidget {
 class _NotePageState extends State<NotePage> {
   TextEditingController _titleController = new TextEditingController();
   TextEditingController _bodyController = new TextEditingController();
+  late var note;
 
   @override
   void initState() {
     super.initState();
-    _titleController.text = widget.note.title;
-    _bodyController.text = widget.note.content;
+    note = NotesList().getNoteWithID(widget.noteID);
+    _titleController.text = note.title;
+    _bodyController.text = note.content;
   }
 
   @override
@@ -40,6 +43,7 @@ class _NotePageState extends State<NotePage> {
               child: Center(
                 child: Container(
                     child: TextField(
+                      readOnly: note.id == -1,
                       onChanged: (text) {
                         if (text.length > 50) {
                           setState(() {
@@ -82,6 +86,7 @@ class _NotePageState extends State<NotePage> {
             Container(
               width: MediaQuery.of(context).size.width * 0.9,
               child: TextField(
+                readOnly: note.id == -1,
                 controller: _bodyController,
                 style: TextStyle(fontSize: 20),
                 decoration: InputDecoration.collapsed(

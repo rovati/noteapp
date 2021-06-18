@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:note_app/model/Note.dart';
 import 'package:note_app/model/NotesList.dart';
 import 'package:note_app/screen/NotePage.dart';
+import 'package:provider/provider.dart';
 
 class NoteTile extends StatefulWidget {
   final int noteID;
@@ -33,15 +34,18 @@ class _NoteTileState extends State<NoteTile> {
         child: ListTile(
           onTap: _onTap,
           leading: Icon(Icons.dehaze_outlined),
-          title: Text(list.getTitleOf(widget.noteID)),
+          title: Consumer<NotesList>(
+              builder: (context, noteslist, child) =>
+                  Text(noteslist.getNoteWithID(widget.noteID).title)),
           minVerticalPadding: 20,
           horizontalTitleGap: 10,
         ));
   }
 
   void _onTap() {
-    Note note = Note(0, 'Note title', content: 'test content');
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => NotePage(note: note)));
+        context,
+        MaterialPageRoute(
+            builder: (context) => NotePage(noteID: widget.noteID)));
   }
 }
