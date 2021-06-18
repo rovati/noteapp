@@ -3,7 +3,8 @@ class Note {
   final String title;
   final String content;
 
-  Note(this.id, this.title, {this.content = ''});
+  Note(this.id, title, {this.content = ''})
+      : this.title = title + ' ' + id.toString();
 
   Note.fromJSON(Map<String, dynamic> json)
       : id = json['id'] as int,
