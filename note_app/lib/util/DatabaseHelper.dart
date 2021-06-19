@@ -21,7 +21,7 @@ class DatabaseHelper {
   static void writeNote(Note note) async {
     await createDir();
     getPathForNote(note.id.toString())
-        .then((file) => deleteThenWrite(file, jsonEncode(note).toString()));
+        .then((file) => file.writeAsString(jsonEncode(note).toString()));
   }
 
   /* Helpers */
@@ -34,17 +34,6 @@ class DatabaseHelper {
   static Future<String> get _localPath async {
     final directory = await getApplicationDocumentsDirectory();
     return directory.path + '/' + dir;
-  }
-
-  static void deleteThenWrite(File file, String s) {
-    file.exists().then((b) => {
-          if (b)
-            {
-              file.delete().then((f) => {(f as File).writeAsString(s)})
-            }
-          else
-            {file.writeAsString(s)}
-        });
   }
 
   static Future<void> createDir() async {

@@ -107,7 +107,7 @@ class _ToolbarState extends State<Toolbar> with TickerProviderStateMixin {
   }
 
   void _onTapNewNote() {
-    IDProvider.getNextId().then(
-        (id) => NotesList().addNote(Note(id, 'New note ' + id.toString())));
+    IDProvider.getNextId()
+        .then((id) => NotesList().addNote(Note(id, 'New note')));
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:note_app/model/Note.dart';
 import 'package:note_app/model/NotesList.dart';
@@ -15,6 +17,7 @@ class _NotePageState extends State<NotePage> {
   TextEditingController _titleController = new TextEditingController();
   TextEditingController _bodyController = new TextEditingController();
   late var note;
+  Timer? _updateTimer;
 
   @override
   void initState() {
@@ -28,6 +31,9 @@ class _NotePageState extends State<NotePage> {
   void dispose() {
     _titleController.dispose();
     _bodyController.dispose();
+    if (_updateTimer != null) {
+      _updateTimer!.cancel();
+    }
     super.dispose();
   }
 
@@ -50,14 +56,9 @@ class _NotePageState extends State<NotePage> {
                             _titleController.text = text.substring(0, 50);
                           });
                         }
+                        _onNoteModified('');
                       },
-                      onEditingComplete: () {
-                        FocusScopeNode currentFocus = FocusScope.of(context);
-
-                        if (!currentFocus.hasPrimaryFocus) {
-                          currentFocus.unfocus();
-                        }
-                      },
+                      maxLines: null,
                       controller: _titleController,
                       textAlign: TextAlign.center,
                       style: TextStyle(fontSize: 24),
@@ -86,7 +87,9 @@ class _NotePageState extends State<NotePage> {
             Container(
               width: MediaQuery.of(context).size.width * 0.9,
               child: TextField(
+                onChanged: _onNoteModified,
                 readOnly: note.id == -1,
+                maxLines: null,
                 controller: _bodyController,
                 style: TextStyle(fontSize: 20),
                 decoration: InputDecoration.collapsed(
@@ -99,5 +102,18 @@ class _NotePageState extends State<NotePage> {
         ),
       ),
     );
+  }
+
+  void _onNoteModified(String ignore) {
+    if (_updateTimer != null) {
+      _updateTimer!.cancel();
+    }
+    _updateTimer = Timer(Duration(milliseconds: 200), _updateCallback);
+  }
+
+  void _updateCallback() {
+    final modifiedNote = Note(widget.noteID, _titleController.text,
+        content: _bodyController.text);
+    NotesList().modifyNote(modifiedNote);
   }
 }
