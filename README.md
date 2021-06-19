@@ -6,7 +6,7 @@ This project was started by [Rova](https://github.com/rovati) as a little playgr
 For the first release, the following features are planned:
 - access the notes from a main page that shows the list of all locally saved notes
 - create new notes through a minimal toolbar
-- edit notes titles and content
+- edit notes title and content
 - delete notes from the main page
 
 For future releases, the following features will be added:
@@ -22,8 +22,4 @@ If you would like to contribute to this project, feel free to contact [Rova](htt
 
 ## Links
 
-Report a bug [here](https://github.com/rovati/notesapp/issues)</br>
-Trello public board: [NotesApp Features](https://trello.com/b/r8PhpgHF/notesapp-features)
-
-# WARNING!
-At the moment the app is not properly working due to issues with the local database. When the issue is solved there will be a first very basic release.
+Report a bug [here](https://github.com/rovati/notesapp/issues)
