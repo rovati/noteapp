@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:note_app/model/Note.dart';
 import 'package:note_app/model/NotesList.dart';
 import 'package:note_app/screen/NotePage.dart';
 import 'package:provider/provider.dart';

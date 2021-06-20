@@ -4,6 +4,8 @@ import 'dart:io';
 import 'package:note_app/model/Note.dart';
 import 'package:path_provider/path_provider.dart';
 
+/// Database entry point. It offers a set of static functions to access the
+/// local database for read and write operations.
 class DatabaseHelper {
   static String dir = 'notes';
 
@@ -22,6 +24,10 @@ class DatabaseHelper {
     await createDir();
     getPathForNote(note.id.toString())
         .then((file) => file.writeAsString(jsonEncode(note).toString()));
+  }
+
+  static void deleteNote(int id) async {
+    getPathForNote(id.toString()).then((file) => file.delete());
   }
 
   /* Helpers */

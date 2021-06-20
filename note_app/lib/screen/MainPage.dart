@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:note_app/model/NotesList.dart';
-import 'package:note_app/util/constant/app_theme.dart';
-import 'package:note_app/widget/NoteTile.dart';
+import 'package:note_app/widget/DismissibleNotes.dart';
 import 'dart:math' show pi;
 
 import 'package:note_app/widget/Toolbar.dart';
-import 'package:provider/provider.dart';
 
 /// Shows the list of notes and a bar that allows to create notes and access the
 /// settings page, plus other thingies
@@ -36,15 +33,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
             child: Container(
               alignment: Alignment.center,
               width: MediaQuery.of(context).size.width * 0.90,
-              child: Consumer<NotesList>(
-                builder: (context, noteslist, child) => ListView.separated(
-                    separatorBuilder: (BuildContext context, int index) {
-                      return SizedBox(height: 12);
-                    },
-                    itemCount: noteslist.notes.length,
-                    itemBuilder: (context, index) =>
-                        NoteTile(noteslist.notes[index].id)),
-              ),
+              child: DismissibleNotes(),
             ),
           ),
           Align(
