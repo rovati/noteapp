@@ -30,6 +30,17 @@ class NotesList extends ChangeNotifier {
     notifyListeners();
   }
 
+  void removeNote(int noteID) {
+    for (int i = 0; i < notes.length; i++) {
+      if (notes[i].id == noteID) {
+        notes.removeAt(i);
+        DatabaseHelper.deleteNote(noteID);
+        notifyListeners();
+        return;
+      }
+    }
+  }
+
   void modifyNote(Note modifiedNote) {
     for (int i = 0; i < notes.length; i++) {
       if (notes[i].id == modifiedNote.id) {
