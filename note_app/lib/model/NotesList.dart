@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:note_app/util/DatabaseHelper.dart';
 
 import 'Note.dart';
+import 'Ordering.dart';
 
 /// Model for the list of all notes. Used by the main page and modified by main
 /// page (when creating/deleting notes) and note page (when editing a note). It
@@ -11,6 +12,7 @@ class NotesList extends ChangeNotifier {
   static final Note errorNote =
       Note(-1, 'ERROR', content: 'This note is note present in the database');
   late List<Note> notes;
+  late Ordering ordering;
 
   factory NotesList() {
     return _list;
@@ -21,12 +23,17 @@ class NotesList extends ChangeNotifier {
   }
 
   Future<void> loadNotes() async {
+    ordering = Ordering();
     notes = await DatabaseHelper.getNotes();
+    for (int i = 0; i < notes.length; i++) {
+      ordering.append(notes[i].id);
+    }
   }
 
   void addNote(Note newNote) {
     notes.insert(0, newNote);
-    DatabaseHelper.writeNote(newNote);
+    ordering.prepend(newNote.id);
+    DatabaseHelper.writeNote(newNote, ordering);
     notifyListeners();
   }
 
@@ -34,7 +41,8 @@ class NotesList extends ChangeNotifier {
     for (int i = 0; i < notes.length; i++) {
       if (notes[i].id == noteID) {
         notes.removeAt(i);
-        DatabaseHelper.deleteNote(noteID);
+        ordering.remove(noteID);
+        DatabaseHelper.deleteNote(noteID, ordering);
         notifyListeners();
         return;
       }
@@ -46,7 +54,8 @@ class NotesList extends ChangeNotifier {
       if (notes[i].id == modifiedNote.id) {
         notes.removeAt(i);
         notes.insert(0, modifiedNote);
-        DatabaseHelper.writeNote(modifiedNote);
+        ordering.bump(modifiedNote.id);
+        DatabaseHelper.writeNote(modifiedNote, ordering);
         notifyListeners();
         return;
       }

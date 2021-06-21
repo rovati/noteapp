@@ -6,6 +6,8 @@ import 'package:note_app/util/IDProvider.dart';
 import 'package:note_app/util/constant/app_theme.dart';
 import 'dart:math' show pi;
 
+import 'package:note_app/util/constant/app_values.dart';
+
 class Toolbar extends StatefulWidget {
   @override
   _ToolbarState createState() => _ToolbarState();
@@ -108,8 +110,10 @@ class _ToolbarState extends State<Toolbar> with TickerProviderStateMixin {
   }
 
   void _onTapNewNote() {
-    IDProvider.getNextId()
-        .then((id) => NotesList().addNote(Note(id, 'New note')));
+    if (NotesList().notes.length < Values.MAX_NOTES) {
+      IDProvider.getNextId()
+          .then((id) => NotesList().addNote(Note(id, 'New note')));
+    }
   }
 
   void _onTapOpenInfo() {
