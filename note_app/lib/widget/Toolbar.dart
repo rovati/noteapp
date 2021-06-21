@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:note_app/model/Note.dart';
 import 'package:note_app/model/NotesList.dart';
+import 'package:note_app/screen/InfoPage.dart';
 import 'package:note_app/util/IDProvider.dart';
 import 'package:note_app/util/constant/app_theme.dart';
 import 'dart:math' show pi;
@@ -50,7 +51,7 @@ class _ToolbarState extends State<Toolbar> with TickerProviderStateMixin {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   IconButton(
-                    onPressed: () {},
+                    onPressed: _onTapOpenInfo,
                     icon: Icon(Icons.info_rounded),
                   ),
                   IconButton(
@@ -109,5 +110,11 @@ class _ToolbarState extends State<Toolbar> with TickerProviderStateMixin {
   void _onTapNewNote() {
     IDProvider.getNextId()
         .then((id) => NotesList().addNote(Note(id, 'New note')));
+  }
+
+  void _onTapOpenInfo() {
+    _onTapArrow();
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => InfoPage()));
   }
 }

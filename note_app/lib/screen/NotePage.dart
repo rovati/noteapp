@@ -40,66 +40,96 @@ class _NotePageState extends State<NotePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Padding(
-              padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
-              child: Center(
-                child: Container(
-                    child: TextField(
-                      readOnly: note.id == -1,
-                      onChanged: (text) {
-                        if (text.length > 50) {
-                          setState(() {
-                            _titleController.text = text.substring(0, 50);
-                          });
-                        }
-                        _onNoteModified('');
-                      },
-                      maxLines: null,
-                      controller: _titleController,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 24),
-                      decoration: InputDecoration.collapsed(
-                        hintText: 'Note title',
-                        border: InputBorder.none,
-                      ),
-                    ),
-                    width: MediaQuery.of(context).size.width * 0.85,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                        color: Color.fromARGB(0xFF, 0xE1, 0x55, 0x54),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black26,
-                            offset: Offset(0.0, 5.0),
-                            blurRadius: 10,
-                          ),
-                        ],
-                        borderRadius: BorderRadius.circular(20),
-                        border: Border.all(
-                            width: 12.0,
-                            color: Color.fromARGB(0xFF, 0xE1, 0x55, 0x54)))),
-              ),
+      resizeToAvoidBottomInset: false,
+      body: Stack(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                  image: AssetImage('assets/grad1.jpg'), fit: BoxFit.cover),
             ),
-            Container(
-              width: MediaQuery.of(context).size.width * 0.9,
-              child: TextField(
-                onChanged: _onNoteModified,
-                readOnly: note.id == -1,
-                maxLines: null,
-                controller: _bodyController,
-                style: TextStyle(fontSize: 20),
-                decoration: InputDecoration.collapsed(
-                  hintText: 'New note',
-                  border: InputBorder.none,
+          ),
+          SafeArea(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(top: 10.0),
+                  child: Center(
+                    child: Container(
+                        child: TextField(
+                          readOnly: note.id == -1,
+                          onChanged: (text) {
+                            if (text.length > 50) {
+                              setState(() {
+                                _titleController.text = text.substring(0, 50);
+                              });
+                            }
+                            _onNoteModified('');
+                          },
+                          maxLines: null,
+                          controller: _titleController,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(fontSize: 24),
+                          decoration: InputDecoration.collapsed(
+                            hintText: 'Note title',
+                            border: InputBorder.none,
+                          ),
+                        ),
+                        width: MediaQuery.of(context).size.width * 0.85,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                            color: Color.fromARGB(0xFF, 0xE1, 0x55, 0x54),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black26,
+                                offset: Offset(0.0, 5.0),
+                                blurRadius: 10,
+                              ),
+                            ],
+                            borderRadius: BorderRadius.circular(20),
+                            border: Border.all(
+                                width: 12.0,
+                                color:
+                                    Color.fromARGB(0xFF, 0xE1, 0x55, 0x54)))),
+                  ),
                 ),
-              ),
-            )
-          ],
-        ),
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.all(20),
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            color: Color.fromARGB(0x22, 0x10, 0x10, 0x10),
+                          ),
+                        ),
+                        FractionallySizedBox(
+                          alignment: Alignment.center,
+                          widthFactor: 0.95,
+                          heightFactor: 0.95,
+                          child: TextField(
+                            onChanged: _onNoteModified,
+                            readOnly: note.id == -1,
+                            maxLines: null,
+                            controller: _bodyController,
+                            style: TextStyle(fontSize: 20),
+                            decoration: InputDecoration.collapsed(
+                              hintText: 'New note',
+                              border: InputBorder.none,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
