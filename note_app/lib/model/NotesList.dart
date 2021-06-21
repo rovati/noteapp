@@ -25,7 +25,7 @@ class NotesList extends ChangeNotifier {
   }
 
   void addNote(Note newNote) {
-    notes.add(newNote);
+    notes.insert(0, newNote);
     DatabaseHelper.writeNote(newNote);
     notifyListeners();
   }
