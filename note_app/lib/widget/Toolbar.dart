@@ -112,6 +112,7 @@ class _ToolbarState extends State<Toolbar> with TickerProviderStateMixin {
   void closeToolbar() {
     setState(() {
       _infoOpacity = 0.0;
+      _angle = 0.0;
     });
     Future.delayed(Duration(milliseconds: 100), () {
       setState(() {
