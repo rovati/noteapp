@@ -16,19 +16,19 @@ class Toolbar extends StatefulWidget {
 class _ToolbarState extends State<Toolbar> with TickerProviderStateMixin {
   final double iconSize = 70;
   late var _height;
-  var _angle = 0.0;
   bool _infoVisible = false;
   bool _addVisible = false;
   double _infoOpacity = 0.0;
   double _addOpacity = 0.0;
   late AnimationController _controller;
+  var isAnimating = false;
 
   @override
   void initState() {
     super.initState();
     _height = iconSize;
     _controller =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 200));
+        AnimationController(vsync: this, duration: Duration(milliseconds: 500));
     _controller.addListener(() {
       setState(() {});
     });
@@ -92,8 +92,8 @@ class _ToolbarState extends State<Toolbar> with TickerProviderStateMixin {
               borderRadius: BorderRadius.circular(iconSize / 2),
               highlightColor: Themes.red,
               child: Transform.rotate(
-                  angle: _controller.value * pi * -1,
-                  child: Icon(Icons.keyboard_arrow_up_rounded)),
+                  angle: _controller.value * pi,
+                  child: Icon(Icons.keyboard_arrow_down_rounded)),
             ),
           ),
         ],
@@ -102,17 +102,20 @@ class _ToolbarState extends State<Toolbar> with TickerProviderStateMixin {
   }
 
   void _onTapArrow() {
-    if (_height != iconSize) {
-      closeToolbar();
-    } else {
-      openToolbar();
+    if (!isAnimating) {
+      if (_height != iconSize) {
+        closeToolbar();
+      } else {
+        openToolbar();
+      }
     }
   }
 
   void closeToolbar() {
+    isAnimating = true;
     setState(() {
       _infoOpacity = 0.0;
-      _angle = 0.0;
+      _controller.forward();
     });
     Future.delayed(Duration(milliseconds: 100), () {
       setState(() {
@@ -125,13 +128,15 @@ class _ToolbarState extends State<Toolbar> with TickerProviderStateMixin {
         _addVisible = false;
         _height = iconSize;
       });
+      isAnimating = false;
     });
   }
 
   void openToolbar() {
+    isAnimating = true;
     setState(() {
       _height = (iconSize * 3 + 2 * iconSize * 0.1);
-      _angle = pi;
+      _controller.reverse();
     });
     Future.delayed(Duration(milliseconds: 200), () {
       setState(() {
@@ -144,6 +149,7 @@ class _ToolbarState extends State<Toolbar> with TickerProviderStateMixin {
       setState(() {
         _infoOpacity = 1.0;
       });
+      isAnimating = false;
     });
   }
 
