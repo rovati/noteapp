@@ -28,7 +28,7 @@ class _ToolbarState extends State<Toolbar> with TickerProviderStateMixin {
     super.initState();
     _height = iconSize;
     _controller =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 500));
+        AnimationController(vsync: this, duration: Duration(milliseconds: 300));
     _controller.addListener(() {
       setState(() {});
     });
@@ -92,8 +92,8 @@ class _ToolbarState extends State<Toolbar> with TickerProviderStateMixin {
               borderRadius: BorderRadius.circular(iconSize / 2),
               highlightColor: Themes.red,
               child: Transform.rotate(
-                  angle: _controller.value * pi,
-                  child: Icon(Icons.keyboard_arrow_down_rounded)),
+                  angle: _controller.value * pi * -1,
+                  child: Icon(Icons.keyboard_arrow_up_rounded)),
             ),
           ),
         ],
