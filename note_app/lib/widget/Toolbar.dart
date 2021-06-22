@@ -115,7 +115,7 @@ class _ToolbarState extends State<Toolbar> with TickerProviderStateMixin {
     isAnimating = true;
     setState(() {
       _infoOpacity = 0.0;
-      _controller.forward();
+      _controller.reverse();
     });
     Future.delayed(Duration(milliseconds: 100), () {
       setState(() {
@@ -136,7 +136,7 @@ class _ToolbarState extends State<Toolbar> with TickerProviderStateMixin {
     isAnimating = true;
     setState(() {
       _height = (iconSize * 3 + 2 * iconSize * 0.1);
-      _controller.reverse();
+      _controller.forward();
     });
     Future.delayed(Duration(milliseconds: 200), () {
       setState(() {
