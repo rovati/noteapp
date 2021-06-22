@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:note_app/model/Note.dart';
 import 'package:note_app/model/NotesList.dart';
+import 'package:note_app/util/constant/app_theme.dart';
 
 class NotePage extends StatefulWidget {
   final int noteID;
@@ -40,15 +41,10 @@ class _NotePageState extends State<NotePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      //resizeToAvoidBottomInset: false,
       body: Stack(
         children: [
-          Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                  image: AssetImage('assets/grad1.jpg'), fit: BoxFit.cover),
-            ),
-          ),
+          Themes.background,
           SafeArea(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -103,7 +99,7 @@ class _NotePageState extends State<NotePage> {
                         Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(15),
-                            color: Color.fromARGB(0x22, 0x10, 0x10, 0x10),
+                            color: Color.fromARGB(0x10, 0xFF, 0xFF, 0xFF),
                           ),
                         ),
                         FractionallySizedBox(

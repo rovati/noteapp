@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:note_app/util/constant/app_theme.dart';
 import 'package:note_app/widget/DismissibleNotes.dart';
 import 'dart:math' show pi;
 
@@ -19,12 +20,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
     return Scaffold(
       body: Stack(
         children: [
-          Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                  image: AssetImage('assets/grad1.jpg'), fit: BoxFit.cover),
-            ),
-          ),
+          Themes.background,
           Center(
             child: Container(
               alignment: Alignment.center,

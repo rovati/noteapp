@@ -12,12 +12,7 @@ class InfoPage extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-          Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                  image: AssetImage('assets/grad1.jpg'), fit: BoxFit.cover),
-            ),
-          ),
+          Themes.background,
           Center(
             child: Container(
               width: MediaQuery.of(context).size.width * 0.66,

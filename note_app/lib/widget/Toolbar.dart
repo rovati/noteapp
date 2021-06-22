@@ -17,7 +17,10 @@ class _ToolbarState extends State<Toolbar> with TickerProviderStateMixin {
   final double iconSize = 70;
   late var _height;
   var _angle = 0.0;
-  bool _visible = false;
+  bool _infoVisible = false;
+  bool _addVisible = false;
+  double _infoOpacity = 0.0;
+  double _addOpacity = 0.0;
   late AnimationController _controller;
 
   @override
@@ -25,7 +28,7 @@ class _ToolbarState extends State<Toolbar> with TickerProviderStateMixin {
     super.initState();
     _height = iconSize;
     _controller =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 300));
+        AnimationController(vsync: this, duration: Duration(milliseconds: 200));
     _controller.addListener(() {
       setState(() {});
     });
@@ -40,28 +43,39 @@ class _ToolbarState extends State<Toolbar> with TickerProviderStateMixin {
         borderRadius: BorderRadius.circular(iconSize / 2),
         color: Themes.red,
       ),
-      duration: Duration(milliseconds: 500),
+      duration: Duration(milliseconds: 250),
       curve: Curves.easeInOutQuad,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          Visibility(
-            visible: _visible,
-            child: Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  IconButton(
-                    onPressed: _onTapOpenInfo,
-                    icon: Icon(Icons.info_rounded),
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Visibility(
+                  visible: _infoVisible,
+                  child: AnimatedOpacity(
+                    opacity: _infoOpacity,
+                    duration: Duration(milliseconds: 150),
+                    child: IconButton(
+                      onPressed: _onTapOpenInfo,
+                      icon: Icon(Icons.info_rounded),
+                    ),
                   ),
-                  IconButton(
-                    onPressed: _onTapNewNote,
-                    icon: Icon(Icons.add_rounded),
+                ),
+                Visibility(
+                  visible: _addVisible,
+                  child: AnimatedOpacity(
+                    opacity: _addOpacity,
+                    duration: Duration(milliseconds: 150),
+                    child: IconButton(
+                      onPressed: _onTapNewNote,
+                      icon: Icon(Icons.add_rounded),
+                    ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
           Container(
@@ -70,7 +84,7 @@ class _ToolbarState extends State<Toolbar> with TickerProviderStateMixin {
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(iconSize / 2),
                 border: Border.all(
-                  color: Colors.grey.shade800,
+                  color: Themes.grey,
                   width: 2,
                 )),
             child: InkWell(
@@ -88,24 +102,47 @@ class _ToolbarState extends State<Toolbar> with TickerProviderStateMixin {
   }
 
   void _onTapArrow() {
+    if (_height != iconSize) {
+      closeToolbar();
+    } else {
+      openToolbar();
+    }
+  }
+
+  void closeToolbar() {
     setState(() {
-      _height =
-          _height != iconSize ? iconSize : (iconSize * 3 + 2 * iconSize * 0.1);
-      _angle = _angle == 0.0 ? pi : 0.0;
-      if (_controller.isCompleted) {
-        _controller.reverse();
-      } else {
-        _controller.forward();
-      }
-      if (_visible) {
-        _visible = !_visible;
-      } else {
-        Future.delayed(Duration(milliseconds: 500), () {
-          setState(() {
-            _visible = !_visible;
-          });
-        });
-      }
+      _infoOpacity = 0.0;
+    });
+    Future.delayed(Duration(milliseconds: 100), () {
+      setState(() {
+        _addOpacity = 0.0;
+      });
+    });
+    Future.delayed(Duration(milliseconds: 250), () {
+      setState(() {
+        _infoVisible = false;
+        _addVisible = false;
+        _height = iconSize;
+      });
+    });
+  }
+
+  void openToolbar() {
+    setState(() {
+      _height = (iconSize * 3 + 2 * iconSize * 0.1);
+      _angle = pi;
+    });
+    Future.delayed(Duration(milliseconds: 200), () {
+      setState(() {
+        _addVisible = true;
+        _infoVisible = true;
+        _addOpacity = 1.0;
+      });
+    });
+    Future.delayed(Duration(milliseconds: 250), () {
+      setState(() {
+        _infoOpacity = 1.0;
+      });
     });
   }
 
