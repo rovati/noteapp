@@ -33,9 +33,13 @@ class _NoteTileState extends State<NoteTile> {
         child: ListTile(
           onTap: _onTap,
           leading: Icon(Icons.dehaze_outlined),
-          title: Consumer<NotesList>(
-              builder: (context, noteslist, child) =>
-                  Text(noteslist.getNoteWithID(widget.noteID).title)),
+          title: Consumer<NotesList>(builder: (context, noteslist, child) {
+            var text = noteslist.getNoteWithID(widget.noteID).title;
+            if (text == '') {
+              text = 'New note';
+            }
+            return Text(text);
+          }),
           minVerticalPadding: 20,
           horizontalTitleGap: 10,
         ));

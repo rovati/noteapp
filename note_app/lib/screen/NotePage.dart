@@ -138,8 +138,8 @@ class _NotePageState extends State<NotePage> {
   }
 
   void _updateCallback() {
-    final modifiedNote = Note(widget.noteID, _titleController.text,
-        content: _bodyController.text);
+    final modifiedNote = Note(widget.noteID,
+        title: _titleController.text, content: _bodyController.text);
     NotesList().modifyNote(modifiedNote);
   }
 }
