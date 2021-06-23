@@ -42,6 +42,15 @@ class _DismissibleNotesState extends State<DismissibleNotes> {
   }
 
   void _onDismissDelete(DismissDirection dir, int noteID) {
+    var note = NotesList().getNoteWithID(noteID);
     NotesList().removeNote(noteID);
+    SnackBar snack = SnackBar(
+      content: Text('Note deleted'),
+      action: SnackBarAction(
+        label: 'UNDO',
+        onPressed: () => NotesList().addNote(note),
+      ),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snack);
   }
 }
