@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:note_app/util/DatabaseHelper.dart';
 
 import 'Note.dart';
+import 'Plaintext.dart';
 import 'Ordering.dart';
 
 /// Model for the list of all notes. Used by the main page and modified by main
@@ -9,7 +10,7 @@ import 'Ordering.dart';
 /// also takes care of reading and writing the local database.
 class NotesList extends ChangeNotifier {
   static final NotesList _list = NotesList._internal();
-  static final Note errorNote = Note(-1,
+  static final Plaintext errorNote = Plaintext(-1,
       title: 'ERROR', content: 'This note is note present in the database');
   late List<Note> notes;
   late Ordering ordering;
@@ -33,7 +34,7 @@ class NotesList extends ChangeNotifier {
   void addNote(Note newNote) {
     notes.insert(0, newNote);
     ordering.prepend(newNote.id);
-    DatabaseHelper.writeNote(newNote, ordering);
+    DatabaseHelper.writePlaintext(newNote as Plaintext, ordering);
     notifyListeners();
   }
 
@@ -55,7 +56,7 @@ class NotesList extends ChangeNotifier {
         notes.removeAt(i);
         notes.insert(0, modifiedNote);
         ordering.bump(modifiedNote.id);
-        DatabaseHelper.writeNote(modifiedNote, ordering);
+        DatabaseHelper.writePlaintext(modifiedNote as Plaintext, ordering);
         notifyListeners();
         return;
       }
