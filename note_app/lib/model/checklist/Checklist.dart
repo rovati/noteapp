@@ -16,6 +16,7 @@ class Checklist extends Note {
   Map<String, dynamic> toJson() {
     Map<String, dynamic> json = {};
     json['id'] = id;
+    json['plain'] = false;
     json['title'] = title;
     json['content'] = chContent.map((e) => e.toJson()).toList();
     return json;

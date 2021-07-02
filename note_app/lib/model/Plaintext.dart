@@ -11,6 +11,7 @@ class Plaintext extends Note {
 
   Map<String, dynamic> toJson() => {
         'id': id,
+        'plain': true,
         'title': title,
         'content': content,
       };

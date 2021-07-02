@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:note_app/model/Note.dart';
 import 'package:note_app/model/Plaintext.dart';
 import 'package:note_app/model/Ordering.dart';
+import 'package:note_app/model/checklist/Checklist.dart';
 import 'package:path_provider/path_provider.dart';
 
 import 'constant/app_values.dart';
@@ -17,16 +18,20 @@ class DatabaseHelper {
     final path = await _localPath + '/' + Values.NOTES_DIR;
     final children = await filterFiles(Directory(path));
     for (var i = 0; i < children.length; i++) {
-      unorderedNotes
-          .add(Plaintext.fromJSON(jsonDecode(children[i].readAsStringSync())));
+      unorderedNotes.add(buildNote(jsonDecode(children[i].readAsStringSync())));
     }
     return await sortByOrdering(unorderedNotes);
   }
 
-  static void writePlaintext(Plaintext note, Ordering ord) async {
+  static void writeNote(Note note, Ordering ord) async {
     await createDirs();
-    getPathForNote(note.id.toString())
-        .then((file) => file.writeAsString(jsonEncode(note).toString()));
+    getPathForNote(note.id.toString()).then((file) {
+      if (note is Plaintext) {
+        file.writeAsString(jsonEncode(note as Plaintext).toString());
+      } else {
+        file.writeAsString(jsonEncode(note as Checklist).toString());
+      }
+    });
     writeOrdering(ord);
   }
 
@@ -76,6 +81,18 @@ class DatabaseHelper {
       }
     }
     return files;
+  }
+
+  static Note buildNote(Map<String, dynamic> json) {
+    // for back-compatibility
+    if (!json.keys.contains('plain')) {
+      json['plain'] = true;
+    }
+    if (json['plain']) {
+      return Plaintext.fromJSON(json);
+    } else {
+      return Checklist.fromJSON(json);
+    }
   }
 
   static Future<List<Note>> sortByOrdering(List<Note> notes) async {

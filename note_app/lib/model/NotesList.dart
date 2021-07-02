@@ -34,7 +34,7 @@ class NotesList extends ChangeNotifier {
   void addNote(Note newNote) {
     notes.insert(0, newNote);
     ordering.prepend(newNote.id);
-    DatabaseHelper.writePlaintext(newNote as Plaintext, ordering);
+    DatabaseHelper.writeNote(newNote as Plaintext, ordering);
     notifyListeners();
   }
 
@@ -56,7 +56,7 @@ class NotesList extends ChangeNotifier {
         notes.removeAt(i);
         notes.insert(0, modifiedNote);
         ordering.bump(modifiedNote.id);
-        DatabaseHelper.writePlaintext(modifiedNote as Plaintext, ordering);
+        DatabaseHelper.writeNote(modifiedNote as Plaintext, ordering);
         notifyListeners();
         return;
       }
