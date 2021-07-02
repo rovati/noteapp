@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:note_app/model/Note.dart';
+import 'package:note_app/model/Plaintext.dart';
 import 'package:note_app/model/NotesList.dart';
 import 'package:note_app/screen/InfoPage.dart';
 import 'package:note_app/util/IDProvider.dart';
@@ -155,7 +155,7 @@ class _ToolbarState extends State<Toolbar> with TickerProviderStateMixin {
 
   void _onTapNewNote() {
     if (NotesList().notes.length < Values.MAX_NOTES) {
-      IDProvider.getNextId().then((id) => NotesList().addNote(Note(id)));
+      IDProvider.getNextId().then((id) => NotesList().addNote(Plaintext(id)));
     }
   }
 

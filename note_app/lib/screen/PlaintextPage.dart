@@ -1,20 +1,20 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:note_app/model/Note.dart';
+import 'package:note_app/model/Plaintext.dart';
 import 'package:note_app/model/NotesList.dart';
 import 'package:note_app/util/constant/app_theme.dart';
 
-class NotePage extends StatefulWidget {
+class PlaintextPage extends StatefulWidget {
   final int noteID;
 
-  NotePage({required this.noteID});
+  PlaintextPage({required this.noteID});
 
   @override
-  _NotePageState createState() => _NotePageState();
+  _PlaintextPageState createState() => _PlaintextPageState();
 }
 
-class _NotePageState extends State<NotePage> {
+class _PlaintextPageState extends State<PlaintextPage> {
   TextEditingController _titleController = new TextEditingController();
   TextEditingController _bodyController = new TextEditingController();
   late var note;
@@ -138,7 +138,7 @@ class _NotePageState extends State<NotePage> {
   }
 
   void _updateCallback() {
-    final modifiedNote = Note(widget.noteID,
+    final modifiedNote = Plaintext(widget.noteID,
         title: _titleController.text, content: _bodyController.text);
     NotesList().modifyNote(modifiedNote);
   }

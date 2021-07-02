@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:note_app/model/Note.dart';
+import 'package:note_app/model/Plaintext.dart';
 import 'package:note_app/model/NotesList.dart';
 import 'package:provider/provider.dart';
 
@@ -17,7 +17,7 @@ class _DismissibleNotesState extends State<DismissibleNotes> {
       builder: (context, noteslist, child) => ListView.builder(
           itemCount: noteslist.notes.length,
           itemBuilder: (context, index) {
-            Note note = noteslist.notes[index];
+            Plaintext note = noteslist.notes[index];
             return Padding(
               padding: EdgeInsets.only(top: 12),
               child: Dismissible(

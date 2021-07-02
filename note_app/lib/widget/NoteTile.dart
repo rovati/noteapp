@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:note_app/model/NotesList.dart';
-import 'package:note_app/screen/NotePage.dart';
+import 'package:note_app/screen/PlaintextPage.dart';
 import 'package:provider/provider.dart';
 
 class NoteTile extends StatefulWidget {
@@ -49,6 +49,6 @@ class _NoteTileState extends State<NoteTile> {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => NotePage(noteID: widget.noteID)));
+            builder: (context) => PlaintextPage(noteID: widget.noteID)));
   }
 }

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:note_app/model/Note.dart';
+import 'package:note_app/model/Plaintext.dart';
 import 'package:note_app/model/Ordering.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -17,12 +18,12 @@ class DatabaseHelper {
     final children = await filterFiles(Directory(path));
     for (var i = 0; i < children.length; i++) {
       unorderedNotes
-          .add(Note.fromJSON(jsonDecode(children[i].readAsStringSync())));
+          .add(Plaintext.fromJSON(jsonDecode(children[i].readAsStringSync())));
     }
     return await sortByOrdering(unorderedNotes);
   }
 
-  static void writeNote(Note note, Ordering ord) async {
+  static void writePlaintext(Plaintext note, Ordering ord) async {
     await createDirs();
     getPathForNote(note.id.toString())
         .then((file) => file.writeAsString(jsonEncode(note).toString()));
