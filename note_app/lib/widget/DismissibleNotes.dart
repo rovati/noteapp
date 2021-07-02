@@ -17,7 +17,7 @@ class _DismissibleNotesState extends State<DismissibleNotes> {
       builder: (context, noteslist, child) => ListView.builder(
           itemCount: noteslist.notes.length,
           itemBuilder: (context, index) {
-            Plaintext note = noteslist.notes[index];
+            Plaintext note = noteslist.notes[index] as Plaintext;
             return Padding(
               padding: EdgeInsets.only(top: 12),
               child: Dismissible(
