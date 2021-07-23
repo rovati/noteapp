@@ -17,9 +17,11 @@ class _ToolbarState extends State<Toolbar> with TickerProviderStateMixin {
   final double iconSize = 70;
   late var _height;
   bool _infoVisible = false;
-  bool _addVisible = false;
+  bool _addPlainVisible = false;
+  bool _addCheckVisible = false;
   double _infoOpacity = 0.0;
-  double _addOpacity = 0.0;
+  double _addPlainOpacity = 0.0;
+  double _addCheckOpacity = 0.0;
   late AnimationController _controller;
   var isAnimating = false;
 
@@ -28,7 +30,7 @@ class _ToolbarState extends State<Toolbar> with TickerProviderStateMixin {
     super.initState();
     _height = iconSize;
     _controller =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 300));
+        AnimationController(vsync: this, duration: Duration(milliseconds: 350));
     _controller.addListener(() {
       setState(() {});
     });
@@ -65,12 +67,23 @@ class _ToolbarState extends State<Toolbar> with TickerProviderStateMixin {
                   ),
                 ),
                 Visibility(
-                  visible: _addVisible,
+                  visible: _addCheckVisible,
                   child: AnimatedOpacity(
-                    opacity: _addOpacity,
+                    opacity: _addCheckOpacity,
                     duration: Duration(milliseconds: 150),
                     child: IconButton(
-                      onPressed: _onTapNewNote,
+                      onPressed: _onTapNewChecklist,
+                      icon: Icon(Icons.check_box_rounded),
+                    ),
+                  ),
+                ),
+                Visibility(
+                  visible: _addPlainVisible,
+                  child: AnimatedOpacity(
+                    opacity: _addPlainOpacity,
+                    duration: Duration(milliseconds: 150),
+                    child: IconButton(
+                      onPressed: _onTapNewPlainNote,
                       icon: Icon(Icons.add_rounded),
                     ),
                   ),
@@ -119,13 +132,19 @@ class _ToolbarState extends State<Toolbar> with TickerProviderStateMixin {
     });
     Future.delayed(Duration(milliseconds: 100), () {
       setState(() {
-        _addOpacity = 0.0;
+        _addCheckOpacity = 0.0;
+      });
+    });
+    Future.delayed(Duration(milliseconds: 150), () {
+      setState(() {
+        _addPlainOpacity = 0.0;
       });
     });
     Future.delayed(Duration(milliseconds: 250), () {
       setState(() {
         _infoVisible = false;
-        _addVisible = false;
+        _addCheckVisible = false;
+        _addPlainVisible = false;
         _height = iconSize;
       });
       isAnimating = false;
@@ -135,17 +154,23 @@ class _ToolbarState extends State<Toolbar> with TickerProviderStateMixin {
   void openToolbar() {
     isAnimating = true;
     setState(() {
-      _height = (iconSize * 3 + 2 * iconSize * 0.1);
+      _height = (iconSize * 4 + 3 * iconSize * 0.1);
       _controller.forward();
     });
     Future.delayed(Duration(milliseconds: 200), () {
       setState(() {
-        _addVisible = true;
+        _addPlainVisible = true;
+        _addCheckVisible = true;
         _infoVisible = true;
-        _addOpacity = 1.0;
+        _addPlainOpacity = 1.0;
       });
     });
     Future.delayed(Duration(milliseconds: 250), () {
+      setState(() {
+        _addCheckOpacity = 1.0;
+      });
+    });
+    Future.delayed(Duration(milliseconds: 300), () {
       setState(() {
         _infoOpacity = 1.0;
       });
@@ -153,11 +178,13 @@ class _ToolbarState extends State<Toolbar> with TickerProviderStateMixin {
     });
   }
 
-  void _onTapNewNote() {
+  void _onTapNewPlainNote() {
     if (NotesList().notes.length < Values.MAX_NOTES) {
       IDProvider.getNextId().then((id) => NotesList().addNote(Plaintext(id)));
     }
   }
+
+  void _onTapNewChecklist() {}
 
   void _onTapOpenInfo() {
     _onTapArrow();
