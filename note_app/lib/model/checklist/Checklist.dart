@@ -26,11 +26,19 @@ class Checklist extends Note {
           List<Map<String, dynamic>> jsonList) =>
       jsonList.map((e) => ChecklistElement.fromJson(e)).toList();
 
+  ChecklistElement elementAt(int idx) {
+    return chContent[idx];
+  }
+
   void addElement() {
     chContent.add(ChecklistElement());
   }
 
   void deleteElementAt(int idx) {
     chContent.removeAt(idx);
+  }
+
+  int length() {
+    return chContent.length;
   }
 }
