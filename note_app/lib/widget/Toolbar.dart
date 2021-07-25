@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:note_app/model/Plaintext.dart';
 import 'package:note_app/model/NotesList.dart';
+import 'package:note_app/model/checklist/Checklist.dart';
 import 'package:note_app/screen/InfoPage.dart';
 import 'package:note_app/util/IDProvider.dart';
 import 'package:note_app/util/constant/app_theme.dart';
@@ -84,7 +85,7 @@ class _ToolbarState extends State<Toolbar> with TickerProviderStateMixin {
                     duration: Duration(milliseconds: 150),
                     child: IconButton(
                       onPressed: _onTapNewPlainNote,
-                      icon: Icon(Icons.add_rounded),
+                      icon: Icon(Icons.dehaze_rounded),
                     ),
                   ),
                 ),
@@ -181,10 +182,25 @@ class _ToolbarState extends State<Toolbar> with TickerProviderStateMixin {
   void _onTapNewPlainNote() {
     if (NotesList().notes.length < Values.MAX_NOTES) {
       IDProvider.getNextId().then((id) => NotesList().addNote(Plaintext(id)));
+    } else {
+      showNotesFullSnackbar();
     }
   }
 
-  void _onTapNewChecklist() {}
+  void _onTapNewChecklist() {
+    if (NotesList().notes.length < Values.MAX_NOTES) {
+      IDProvider.getNextId().then((id) => NotesList().addNote(Checklist(id)));
+    } else {
+      showNotesFullSnackbar();
+    }
+  }
+
+  void showNotesFullSnackbar() {
+    SnackBar snack = SnackBar(
+      content: Text('There already are too many notes!'),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snack);
+  }
 
   void _onTapOpenInfo() {
     _onTapArrow();

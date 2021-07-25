@@ -24,9 +24,9 @@ class _DismissibleCLState extends State<DismissibleChecklist> {
           padding: EdgeInsets.only(top: 12),
           child: Dismissible(
             key: UniqueKey(),
-            child: ListTile(),
+            child: ListTile(), // TODO
             direction: DismissDirection.endToStart,
-            onDismissed: (direction) => _onDismissRemove(direction, el),
+            onDismissed: (direction) => _onDismissRemove(direction, index),
             background: Container(
               color: Colors.transparent,
             ),
@@ -43,8 +43,8 @@ class _DismissibleCLState extends State<DismissibleChecklist> {
     );
   }
 
-  void _onDismissRemove(DismissDirection dir, ChecklistElement el) {
-    widget.note.deleteElement(el);
+  void _onDismissRemove(DismissDirection dir, int index) {
+    widget.note.deleteElementAt(index);
     // TODO save!!
   }
 }
