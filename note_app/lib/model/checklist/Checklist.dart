@@ -38,6 +38,10 @@ class Checklist extends Note {
     chContent.removeAt(idx);
   }
 
+  void deleteElement(ChecklistElement el) {
+    chContent.remove(el);
+  }
+
   int length() {
     return chContent.length;
   }

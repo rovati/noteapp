@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:note_app/model/Plaintext.dart';
 import 'package:note_app/model/NotesList.dart';
+import 'package:note_app/widget/ChecklistTile.dart';
 import 'package:provider/provider.dart';
 
 import 'NoteTile.dart';
