@@ -3,9 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:note_app/model/NotesList.dart';
 import 'package:note_app/model/checklist/Checklist.dart';
-import 'package:note_app/model/checklist/ChecklistElement.dart';
 import 'package:note_app/util/constant/app_theme.dart';
-import 'package:note_app/widget/ChecklistTile.dart';
+import 'package:note_app/widget/DismissibleChecklist.dart';
 
 class ChecklistPage extends StatefulWidget {
   final int noteID;
@@ -18,7 +17,6 @@ class ChecklistPage extends StatefulWidget {
 
 class _ChecklistPageState extends State<ChecklistPage> {
   TextEditingController _titleController = new TextEditingController();
-  TextEditingController _bodyController = new TextEditingController();
   late var note;
   Timer? _updateTimer;
 
@@ -43,70 +41,49 @@ class _ChecklistPageState extends State<ChecklistPage> {
                   padding: EdgeInsets.only(top: 10.0),
                   child: Center(
                     child: Container(
-                        child: TextField(
-                          readOnly: note.id == -1,
-                          onChanged: (text) {
-                            if (text.length > 50) {
-                              setState(() {
-                                _titleController.text = text.substring(0, 50);
-                              });
-                            }
-                            _onNoteModified('');
-                          },
-                          maxLines: null,
-                          controller: _titleController,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 24),
-                          decoration: InputDecoration.collapsed(
-                            hintText: 'Note title',
-                            border: InputBorder.none,
-                          ),
+                      child: TextField(
+                        readOnly: note.id == -1,
+                        onChanged: (text) {
+                          if (text.length > 50) {
+                            setState(() {
+                              _titleController.text = text.substring(0, 50);
+                            });
+                          }
+                          _onNoteModified('');
+                        },
+                        maxLines: null,
+                        controller: _titleController,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 24),
+                        decoration: InputDecoration.collapsed(
+                          hintText: 'Note title',
+                          border: InputBorder.none,
                         ),
-                        width: MediaQuery.of(context).size.width * 0.85,
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                            color: Color.fromARGB(0xFF, 0xE1, 0x55, 0x54),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black26,
-                                offset: Offset(0.0, 5.0),
-                                blurRadius: 10,
-                              ),
-                            ],
-                            borderRadius: BorderRadius.circular(20),
-                            border: Border.all(
-                                width: 12.0,
-                                color:
-                                    Color.fromARGB(0xFF, 0xE1, 0x55, 0x54)))),
+                      ),
+                      width: MediaQuery.of(context).size.width * 0.85,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color: Color.fromARGB(0xFF, 0xE1, 0x55, 0x54),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black26,
+                            offset: Offset(0.0, 5.0),
+                            blurRadius: 10,
+                          ),
+                        ],
+                        borderRadius: BorderRadius.circular(20),
+                        border: Border.all(
+                          width: 12.0,
+                          color: Color.fromARGB(0xFF, 0xE1, 0x55, 0x54),
+                        ),
+                      ),
+                    ),
                   ),
                 ),
                 Expanded(
                   child: Padding(
                     padding: EdgeInsets.only(top: 20, left: 20, right: 20),
-                    child: ListView.builder(
-                      itemCount: note.length(),
-                      itemBuilder: (context, index) {
-                        ChecklistElement el = note.elementAt(index);
-                        return Padding(
-                          padding: EdgeInsets.only(top: 12),
-                          child: Dismissible(
-                            key: UniqueKey(),
-                            child: ChecklistTile(),
-                            direction: DismissDirection.endToStart,
-                            onDismissed: (direction) => {},
-                            background: Container(
-                              color: Colors.transparent,
-                            ),
-                            secondaryBackground: Container(
-                                alignment: Alignment.centerRight,
-                                child: Icon(
-                                  Icons.delete_rounded,
-                                  color: Colors.red,
-                                )),
-                          ),
-                        );
-                      },
-                    ),
+                    child: DismissibleChecklist(note),
                   ),
                 ),
               ],
