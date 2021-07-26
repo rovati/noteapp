@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:note_app/model/NotesList.dart';
-import 'package:note_app/model/checklist/Checklist.dart';
 import 'package:note_app/util/constant/app_theme.dart';
 import 'package:note_app/widget/DismissibleChecklist.dart';
 
@@ -52,6 +51,7 @@ class _ChecklistPageState extends State<ChecklistPage> {
                           _onNoteModified('');
                         },
                         maxLines: null,
+                        textInputAction: TextInputAction.done,
                         controller: _titleController,
                         textAlign: TextAlign.center,
                         style: TextStyle(fontSize: 24),
@@ -82,7 +82,7 @@ class _ChecklistPageState extends State<ChecklistPage> {
                 ),
                 Expanded(
                   child: Padding(
-                    padding: EdgeInsets.only(top: 20, left: 20, right: 20),
+                    padding: EdgeInsets.only(top: 20, left: 10, right: 10),
                     child: DismissibleChecklist(note),
                   ),
                 ),
@@ -102,7 +102,8 @@ class _ChecklistPageState extends State<ChecklistPage> {
   }
 
   void _updateCallback() {
-    final modifiedNote = Checklist(widget.noteID, title: _titleController.text);
-    NotesList().modifyNote(modifiedNote);
+    // TODO
+    //final modifiedNote = Checklist(widget.noteID, title: _titleController.text);
+    //NotesList().modifyNote(modifiedNote);
   }
 }

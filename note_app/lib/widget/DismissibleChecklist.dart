@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:note_app/model/checklist/Checklist.dart';
 import 'package:note_app/model/checklist/ChecklistElement.dart';
-
-import 'ChecklistTile.dart';
+import 'package:note_app/widget/ChecklistTile.dart';
 
 class DismissibleChecklist extends StatefulWidget {
   final Checklist note;
@@ -20,6 +19,9 @@ class _DismissibleCLState extends State<DismissibleChecklist> {
   @override
   void initState() {
     super.initState();
+    for (int i = 0; i < _note.length(); i++) {
+      controllers.add(TextEditingController(text: _note.elementAt(i).content));
+    }
   }
 
   @override
@@ -33,56 +35,47 @@ class _DismissibleCLState extends State<DismissibleChecklist> {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: _note.length(),
+      itemCount: _note.length() + 1,
       itemBuilder: (context, index) {
-        ChecklistElement el = _note.elementAt(index);
-        return Padding(
-          padding: EdgeInsets.only(top: 12),
-          child: Dismissible(
-            key: UniqueKey(),
-            child: ListTile(), // TODO
-            direction: DismissDirection.endToStart,
-            onDismissed: (direction) => _onDismissRemove(direction, index),
-            background: Container(
-              color: Colors.transparent,
-            ),
-            secondaryBackground: Container(
-              alignment: Alignment.centerRight,
-              child: Icon(
-                Icons.delete_rounded,
-                color: Colors.red,
+        if (index < _note.length()) {
+          return Stack(
+            children: [
+              Padding(
+                padding: EdgeInsets.only(top: 10),
+                child: ChecklistTile(_note.elementAt(index)),
               ),
+              Align(
+                alignment: Alignment.topRight,
+                child: IconButton(
+                  icon: Icon(Icons.remove_circle_rounded, size: 18),
+                  onPressed: () => _onTapRemoveElement(index),
+                ),
+              )
+            ],
+          );
+        } else {
+          return Padding(
+            padding: EdgeInsets.only(top: 10),
+            child: ListTile(
+              leading: Icon(Icons.add_rounded),
+              title: Text('Add item'),
+              onTap: _onTapAddElement,
             ),
-          ),
-        );
+          );
+        }
       },
     );
   }
 
-  void _onDismissRemove(DismissDirection dir, int index) {
-    _note.deleteElementAt(index);
-    controllers[index].dispose();
-    controllers.removeAt(index);
-    // TODO save!!
-  }
-
-  Widget tile(int idx) {
-    TextEditingController _controller =
-        TextEditingController(text: widget.note.elementAt(idx).content);
-    controllers.add(_controller);
-    return ListTile(
-      leading: Icon(Icons.check_box_outline_blank_rounded),
-      title: TextField(
-        controller: _controller,
-        onSubmitted: (string) => _onSubmitted(idx),
-        textInputAction: TextInputAction.next,
-      ),
-    );
-  }
-
-  void _onSubmitted(int idx) {
+  void _onTapAddElement() {
     setState(() {
-      _note.addElementAfter(idx);
+      _note.addElement();
+    });
+  }
+
+  void _onTapRemoveElement(idx) {
+    setState(() {
+      _note.deleteElementAt(idx);
     });
   }
 }

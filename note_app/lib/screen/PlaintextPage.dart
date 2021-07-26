@@ -110,6 +110,7 @@ class _PlaintextPageState extends State<PlaintextPage> {
                             onChanged: _onNoteModified,
                             readOnly: note.id == -1,
                             maxLines: null,
+                            textInputAction: TextInputAction.done,
                             controller: _bodyController,
                             style: TextStyle(fontSize: 20),
                             decoration: InputDecoration.collapsed(
