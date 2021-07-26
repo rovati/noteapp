@@ -1,48 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:note_app/model/checklist/Checklist.dart';
-import 'package:note_app/model/checklist/ChecklistElement.dart';
+import 'package:note_app/model/checklist/ChecklistManager.dart';
 import 'package:note_app/widget/ChecklistTile.dart';
 
 class DismissibleChecklist extends StatefulWidget {
-  final Checklist note;
-
-  DismissibleChecklist(this.note);
+  DismissibleChecklist();
 
   @override
   _DismissibleCLState createState() => _DismissibleCLState();
 }
 
 class _DismissibleCLState extends State<DismissibleChecklist> {
-  List<TextEditingController> controllers = [];
-  late Checklist _note = widget.note;
-
-  @override
-  void initState() {
-    super.initState();
-    for (int i = 0; i < _note.length(); i++) {
-      controllers.add(TextEditingController(text: _note.elementAt(i).content));
-    }
-  }
-
-  @override
-  void dispose() {
-    for (TextEditingController contr in controllers) {
-      contr.dispose();
-    }
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: _note.length() + 1,
+      itemCount: ChecklistManager().elems.length + 1,
       itemBuilder: (context, index) {
-        if (index < _note.length()) {
+        if (index < ChecklistManager().elems.length) {
           return Stack(
             children: [
               Padding(
                 padding: EdgeInsets.only(top: 10),
-                child: ChecklistTile(_note.elementAt(index)),
+                child: ChecklistTile(index),
               ),
               Align(
                 alignment: Alignment.topRight,
@@ -68,14 +46,12 @@ class _DismissibleCLState extends State<DismissibleChecklist> {
   }
 
   void _onTapAddElement() {
-    setState(() {
-      _note.addElement();
-    });
+    ChecklistManager().addElement();
+    setState(() {});
   }
 
   void _onTapRemoveElement(idx) {
-    setState(() {
-      _note.deleteElementAt(idx);
-    });
+    ChecklistManager().removeElement(idx);
+    setState(() {});
   }
 }

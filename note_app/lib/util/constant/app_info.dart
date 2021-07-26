@@ -14,8 +14,6 @@ class PageInfo {
   static final String BUG_REPORT_LINK =
       "https://github.com/rovati/noteapp/issues";
 
-  static final String VERSION = "v beta 0.5.4";
-
   Future<String> get appVersion =>
       PackageInfo.fromPlatform().then((info) => info.version);
 }

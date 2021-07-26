@@ -55,21 +55,16 @@ class _PlaintextPageState extends State<PlaintextPage> {
                     child: Container(
                         child: TextField(
                           readOnly: note.id == -1,
-                          onChanged: (text) {
-                            if (text.length > 50) {
-                              setState(() {
-                                _titleController.text = text.substring(0, 50);
-                              });
-                            }
-                            _onNoteModified('');
-                          },
+                          onChanged: _onNoteModified,
                           maxLines: null,
+                          maxLength: 50,
                           controller: _titleController,
                           textAlign: TextAlign.center,
                           style: TextStyle(fontSize: 24),
-                          decoration: InputDecoration.collapsed(
+                          decoration: InputDecoration(
                             hintText: 'Note title',
                             border: InputBorder.none,
+                            counterText: '',
                           ),
                         ),
                         width: MediaQuery.of(context).size.width * 0.85,
@@ -85,7 +80,6 @@ class _PlaintextPageState extends State<PlaintextPage> {
                             ],
                             borderRadius: BorderRadius.circular(20),
                             border: Border.all(
-                                width: 12.0,
                                 color:
                                     Color.fromARGB(0xFF, 0xE1, 0x55, 0x54)))),
                   ),

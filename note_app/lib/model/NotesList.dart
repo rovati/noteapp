@@ -56,7 +56,7 @@ class NotesList extends ChangeNotifier {
         notes.removeAt(i);
         notes.insert(0, modifiedNote);
         ordering.bump(modifiedNote.id);
-        DatabaseHelper.writeNote(modifiedNote as Plaintext, ordering);
+        DatabaseHelper.writeNote(modifiedNote, ordering);
         notifyListeners();
         return;
       }

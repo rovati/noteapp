@@ -1,14 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:note_app/model/NotesList.dart';
+import 'package:note_app/model/checklist/ChecklistManager.dart';
 import 'package:note_app/util/constant/app_theme.dart';
 import 'package:note_app/widget/DismissibleChecklist.dart';
 
 class ChecklistPage extends StatefulWidget {
-  final int noteID;
-
-  ChecklistPage({required this.noteID});
+  ChecklistPage();
 
   @override
   _ChecklistPageState createState() => _ChecklistPageState();
@@ -16,14 +14,12 @@ class ChecklistPage extends StatefulWidget {
 
 class _ChecklistPageState extends State<ChecklistPage> {
   TextEditingController _titleController = new TextEditingController();
-  late var note;
   Timer? _updateTimer;
 
   @override
   void initState() {
     super.initState();
-    note = NotesList().getNoteWithID(widget.noteID);
-    _titleController.text = note.title;
+    _titleController.text = ChecklistManager().title;
   }
 
   @override
@@ -41,23 +37,18 @@ class _ChecklistPageState extends State<ChecklistPage> {
                   child: Center(
                     child: Container(
                       child: TextField(
-                        readOnly: note.id == -1,
-                        onChanged: (text) {
-                          if (text.length > 50) {
-                            setState(() {
-                              _titleController.text = text.substring(0, 50);
-                            });
-                          }
-                          _onNoteModified('');
-                        },
+                        readOnly: ChecklistManager().id == -1,
+                        onChanged: _onTitleModified,
                         maxLines: null,
+                        maxLength: 50,
                         textInputAction: TextInputAction.done,
                         controller: _titleController,
                         textAlign: TextAlign.center,
                         style: TextStyle(fontSize: 24),
-                        decoration: InputDecoration.collapsed(
+                        decoration: InputDecoration(
                           hintText: 'Note title',
                           border: InputBorder.none,
+                          counterText: '',
                         ),
                       ),
                       width: MediaQuery.of(context).size.width * 0.85,
@@ -73,7 +64,6 @@ class _ChecklistPageState extends State<ChecklistPage> {
                         ],
                         borderRadius: BorderRadius.circular(20),
                         border: Border.all(
-                          width: 12.0,
                           color: Color.fromARGB(0xFF, 0xE1, 0x55, 0x54),
                         ),
                       ),
@@ -83,7 +73,7 @@ class _ChecklistPageState extends State<ChecklistPage> {
                 Expanded(
                   child: Padding(
                     padding: EdgeInsets.only(top: 20, left: 10, right: 10),
-                    child: DismissibleChecklist(note),
+                    child: DismissibleChecklist(),
                   ),
                 ),
               ],
@@ -94,16 +84,14 @@ class _ChecklistPageState extends State<ChecklistPage> {
     );
   }
 
-  void _onNoteModified(String ignore) {
+  void _onTitleModified(String ignore) {
     if (_updateTimer != null) {
       _updateTimer!.cancel();
     }
-    _updateTimer = Timer(Duration(milliseconds: 200), _updateCallback);
+    _updateTimer = Timer(Duration(milliseconds: 200), _titleUpdateCallback);
   }
 
-  void _updateCallback() {
-    // TODO
-    //final modifiedNote = Checklist(widget.noteID, title: _titleController.text);
-    //NotesList().modifyNote(modifiedNote);
+  void _titleUpdateCallback() {
+    ChecklistManager().setTitle(_titleController.text);
   }
 }

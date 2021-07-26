@@ -13,11 +13,10 @@ class ChecklistManager {
 
   ChecklistManager._internal();
 
-  void init(int id,
-      {String title = '', List<ChecklistElement> elems = const []}) {
+  void init(int id) {
     this.id = id;
-    this.title = title;
-    this.elems = elems;
+    this.title = NotesList().getNoteWithID(id).title;
+    this.elems = (NotesList().getNoteWithID(id) as Checklist).chContent;
   }
 
   void setTitle(String newTitle) {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:note_app/model/NotesList.dart';
 import 'package:note_app/model/Plaintext.dart';
+import 'package:note_app/model/checklist/ChecklistManager.dart';
 import 'package:note_app/screen/ChecklistPage.dart';
 import 'package:note_app/screen/PlaintextPage.dart';
 import 'package:provider/provider.dart';
@@ -54,7 +55,8 @@ class _NoteTileState extends State<NoteTile> {
     if (NotesList().getNoteWithID(widget.noteID) is Plaintext) {
       notePage = PlaintextPage(noteID: widget.noteID);
     } else {
-      notePage = ChecklistPage(noteID: widget.noteID);
+      ChecklistManager().init(widget.noteID);
+      notePage = ChecklistPage();
     }
     Navigator.push(context, MaterialPageRoute(builder: (context) => notePage));
   }

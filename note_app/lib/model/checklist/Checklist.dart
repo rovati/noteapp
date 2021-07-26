@@ -5,8 +5,8 @@ import '../Note.dart';
 class Checklist extends Note {
   List<ChecklistElement> chContent;
 
-  Checklist(id, {title = ''})
-      : chContent = [ChecklistElement()],
+  Checklist(id, {title = '', chContent = const []})
+      : chContent = contentConstructor(chContent),
         super(id, title: title);
 
   Checklist.fromJSON(Map<String, dynamic> json)
@@ -24,6 +24,15 @@ class Checklist extends Note {
 
   static List<ChecklistElement> getContent(List<dynamic> jsonList) =>
       jsonList.map((e) => ChecklistElement.fromJson(e)).toList();
+
+  static List<ChecklistElement> contentConstructor(
+      List<ChecklistElement> elems) {
+    if (elems.isEmpty) {
+      return [ChecklistElement()];
+    } else {
+      return elems;
+    }
+  }
 
   ChecklistElement elementAt(int idx) {
     return chContent[idx];
