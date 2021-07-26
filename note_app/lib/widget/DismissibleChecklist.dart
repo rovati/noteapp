@@ -35,8 +35,13 @@ class _DismissibleCLState extends State<DismissibleChecklist> {
           return Padding(
             padding: EdgeInsets.only(top: 10),
             child: ListTile(
-              leading: Icon(Icons.add_rounded),
-              title: Text('Add item'),
+              leading: IconButton(
+                icon: Icon(Icons.add_rounded),
+                onPressed: _onTapAddElement,
+              ),
+              title: Text(
+                'Add item',
+              ),
               onTap: _onTapAddElement,
             ),
           );
