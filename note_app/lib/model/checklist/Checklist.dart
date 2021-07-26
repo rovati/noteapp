@@ -22,8 +22,7 @@ class Checklist extends Note {
     return json;
   }
 
-  static List<ChecklistElement> getContent(
-          List<Map<String, dynamic>> jsonList) =>
+  static List<ChecklistElement> getContent(List<dynamic> jsonList) =>
       jsonList.map((e) => ChecklistElement.fromJson(e)).toList();
 
   ChecklistElement elementAt(int idx) {
@@ -32,6 +31,10 @@ class Checklist extends Note {
 
   void addElement() {
     chContent.add(ChecklistElement());
+  }
+
+  void addElementAfter(int idx) {
+    chContent.insert(idx + 1, ChecklistElement());
   }
 
   void deleteElementAt(int idx) {

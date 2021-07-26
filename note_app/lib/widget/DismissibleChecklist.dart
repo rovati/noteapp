@@ -14,12 +14,28 @@ class DismissibleChecklist extends StatefulWidget {
 }
 
 class _DismissibleCLState extends State<DismissibleChecklist> {
+  List<TextEditingController> controllers = [];
+  late Checklist _note = widget.note;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    for (TextEditingController contr in controllers) {
+      contr.dispose();
+    }
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: widget.note.length(),
+      itemCount: _note.length(),
       itemBuilder: (context, index) {
-        ChecklistElement el = widget.note.elementAt(index);
+        ChecklistElement el = _note.elementAt(index);
         return Padding(
           padding: EdgeInsets.only(top: 12),
           child: Dismissible(
@@ -44,7 +60,29 @@ class _DismissibleCLState extends State<DismissibleChecklist> {
   }
 
   void _onDismissRemove(DismissDirection dir, int index) {
-    widget.note.deleteElementAt(index);
+    _note.deleteElementAt(index);
+    controllers[index].dispose();
+    controllers.removeAt(index);
     // TODO save!!
+  }
+
+  Widget tile(int idx) {
+    TextEditingController _controller =
+        TextEditingController(text: widget.note.elementAt(idx).content);
+    controllers.add(_controller);
+    return ListTile(
+      leading: Icon(Icons.check_box_outline_blank_rounded),
+      title: TextField(
+        controller: _controller,
+        onSubmitted: (string) => _onSubmitted(idx),
+        textInputAction: TextInputAction.next,
+      ),
+    );
+  }
+
+  void _onSubmitted(int idx) {
+    setState(() {
+      _note.addElementAfter(idx);
+    });
   }
 }
