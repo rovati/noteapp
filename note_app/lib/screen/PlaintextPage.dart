@@ -41,7 +41,6 @@ class _PlaintextPageState extends State<PlaintextPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //resizeToAvoidBottomInset: false,
       body: Stack(
         children: [
           Themes.background,
@@ -59,6 +58,7 @@ class _PlaintextPageState extends State<PlaintextPage> {
                           maxLines: null,
                           maxLength: 50,
                           controller: _titleController,
+                          textInputAction: TextInputAction.done,
                           textAlign: TextAlign.center,
                           style: TextStyle(fontSize: 24),
                           decoration: InputDecoration(
@@ -104,7 +104,7 @@ class _PlaintextPageState extends State<PlaintextPage> {
                             onChanged: _onNoteModified,
                             readOnly: note.id == -1,
                             maxLines: null,
-                            textInputAction: TextInputAction.done,
+                            textInputAction: TextInputAction.newline,
                             controller: _bodyController,
                             style: TextStyle(fontSize: 20),
                             decoration: InputDecoration.collapsed(

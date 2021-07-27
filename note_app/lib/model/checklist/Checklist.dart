@@ -25,12 +25,11 @@ class Checklist extends Note {
   static List<ChecklistElement> getContent(List<dynamic> jsonList) =>
       jsonList.map((e) => ChecklistElement.fromJson(e)).toList();
 
-  static List<ChecklistElement> contentConstructor(
-      List<ChecklistElement> elems) {
+  static List<ChecklistElement> contentConstructor(List<dynamic> elems) {
     if (elems.isEmpty) {
       return [ChecklistElement()];
     } else {
-      return elems;
+      return elems as List<ChecklistElement>;
     }
   }
 
