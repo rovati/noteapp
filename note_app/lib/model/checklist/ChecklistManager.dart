@@ -1,9 +1,10 @@
+import 'package:flutter/material.dart';
 import 'package:note_app/model/NotesList.dart';
 import 'package:note_app/model/checklist/ChecklistElement.dart';
 
 import 'Checklist.dart';
 
-class ChecklistManager {
+class ChecklistManager extends ChangeNotifier {
   static final ChecklistManager _manager = ChecklistManager._internal();
   late int id;
   late String title;
@@ -32,6 +33,7 @@ class ChecklistManager {
   void removeElement(int idx) {
     elems.removeAt(idx);
     updateChecklist();
+    notifyListeners();
   }
 
   void modifyElement(int idx, ChecklistElement newElem) {

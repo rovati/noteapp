@@ -117,7 +117,6 @@ class DatabaseHelper {
     getPathForOrdering().then((file) {
       String enc = ordering.toString();
       file.writeAsString(enc);
-      print('writing ordering: ' + enc.toString());
     });
   }
 }

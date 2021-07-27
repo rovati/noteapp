@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:note_app/model/checklist/ChecklistElement.dart';
 import 'package:note_app/model/checklist/ChecklistManager.dart';
+import 'package:provider/provider.dart';
 
 class ChecklistTile extends StatefulWidget {
   final int idx;
@@ -33,29 +34,33 @@ class _ChecklistTileState extends State<ChecklistTile> {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      leading: IconButton(
-        icon: _ticked
-            ? Icon(Icons.check_box_rounded)
-            : Icon(Icons.check_box_outline_blank_rounded),
-        onPressed: _onTapCheckbox,
-      ),
-      title: TextField(
-        controller: _controller,
-        maxLength: 100,
-        maxLines: null,
-        onChanged: _onContentModified,
-        onSubmitted: _onContentSubmitted,
-        textInputAction: TextInputAction.done,
-        style: TextStyle(fontSize: 20),
-        decoration: InputDecoration(
-          hintText: 'Item',
-          border: InputBorder.none,
-          counterText: '',
+    return Consumer<ChecklistManager>(builder: (context, manager, child) {
+      _controller.text = manager.elems[widget.idx].content;
+      _ticked = manager.elems[widget.idx].isChecked;
+      return ListTile(
+        leading: IconButton(
+          icon: _ticked
+              ? Icon(Icons.check_box_rounded)
+              : Icon(Icons.check_box_outline_blank_rounded),
+          onPressed: _onTapCheckbox,
         ),
-      ),
-      horizontalTitleGap: 0,
-    );
+        title: TextField(
+          controller: _controller,
+          maxLength: 100,
+          maxLines: null,
+          onChanged: _onContentModified,
+          onSubmitted: _onContentSubmitted,
+          textInputAction: TextInputAction.done,
+          style: TextStyle(fontSize: 20),
+          decoration: InputDecoration(
+            hintText: 'Item',
+            border: InputBorder.none,
+            counterText: '',
+          ),
+        ),
+        horizontalTitleGap: 0,
+      );
+    });
   }
 
   void _onTapCheckbox() {
