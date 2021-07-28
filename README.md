@@ -9,9 +9,9 @@ For the first release, the following features are planned:
 - edit notes title and content
 - delete notes from the main page
 - keep track of lists using checklists: tap on the boxes to mark an item as completed
+- pin notes to keep them at the top of your list
 
 For future releases, the following features will be added:
-- pin notes / reorder the list of notes
 - add the possibility to create an account and store notes in cloud (cloud backup, and support for multiple devices)
 
 ## Licensing and forking
