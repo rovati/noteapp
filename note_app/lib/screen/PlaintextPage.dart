@@ -134,7 +134,9 @@ class _PlaintextPageState extends State<PlaintextPage> {
 
   void _updateCallback() {
     final modifiedNote = Plaintext(widget.noteID,
-        title: _titleController.text, content: _bodyController.text);
+        title: _titleController.text,
+        content: _bodyController.text,
+        pinned: NotesList().getNoteWithID(widget.noteID).pinned);
     NotesList().modifyNote(modifiedNote);
   }
 }

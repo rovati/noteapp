@@ -43,6 +43,9 @@ class ChecklistManager extends ChangeNotifier {
   }
 
   void updateChecklist() {
-    NotesList().modifyNote(Checklist(id, title: title, chContent: elems));
+    NotesList().modifyNote(Checklist(id,
+        title: title,
+        chContent: elems,
+        pinned: NotesList().getNoteWithID(id).pinned));
   }
 }

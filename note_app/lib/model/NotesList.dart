@@ -59,9 +59,13 @@ class NotesList extends ChangeNotifier {
     for (int i = 0; i < notes.length; i++) {
       if (notes[i].id == modifiedNote.id) {
         notes.removeAt(i);
-        notes.insert(nbPinned, modifiedNote);
         if (!modifiedNote.pinned) {
+          print('inserting not pinned at ' + nbPinned.toString());
+          notes.insert(nbPinned, modifiedNote);
           ordering.moveTo(modifiedNote.id, nbPinned);
+        } else {
+          print('inserting pinned at ' + i.toString());
+          notes.insert(i, modifiedNote);
         }
         DatabaseHelper.writeNote(modifiedNote, ordering);
         notifyListeners();
@@ -100,8 +104,10 @@ class NotesList extends ChangeNotifier {
 
   void togglePin(Note toggledNote) {
     if (toggledNote.pinned) {
+      print('pinned ' + toggledNote.title);
       pinNote(toggledNote);
     } else {
+      print('unpinned ' + toggledNote.title);
       unpinNote(toggledNote);
     }
   }
