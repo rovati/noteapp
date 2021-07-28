@@ -19,6 +19,7 @@ class Checklist extends Note {
     json['plain'] = false;
     json['title'] = title;
     json['content'] = chContent.map((e) => e.toJson()).toList();
+    json['pinned'] = pinned;
     return json;
   }
 

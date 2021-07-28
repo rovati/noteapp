@@ -14,6 +14,7 @@ class NotesList extends ChangeNotifier {
       title: 'ERROR', content: 'This note is note present in the database');
   late List<Note> notes;
   late Ordering ordering;
+  late int nbPinned;
 
   factory NotesList() {
     return _list;
@@ -26,14 +27,18 @@ class NotesList extends ChangeNotifier {
   Future<void> loadNotes() async {
     ordering = Ordering();
     notes = await DatabaseHelper.getNotes();
+    nbPinned = 0;
     for (int i = 0; i < notes.length; i++) {
       ordering.append(notes[i].id);
+      if (notes[i].pinned) {
+        nbPinned++;
+      }
     }
   }
 
   void addNote(Note newNote) {
-    notes.insert(0, newNote);
-    ordering.prepend(newNote.id);
+    notes.insert(nbPinned, newNote);
+    ordering.insertAt(newNote.id, nbPinned);
     DatabaseHelper.writeNote(newNote, ordering);
     notifyListeners();
   }
@@ -55,8 +60,38 @@ class NotesList extends ChangeNotifier {
       if (notes[i].id == modifiedNote.id) {
         notes.removeAt(i);
         notes.insert(0, modifiedNote);
-        ordering.bump(modifiedNote.id);
+        if (!modifiedNote.pinned) {
+          ordering.moveTo(modifiedNote.id, nbPinned);
+        }
         DatabaseHelper.writeNote(modifiedNote, ordering);
+        notifyListeners();
+        return;
+      }
+    }
+  }
+
+  void pinNote(Note pinnedNote) {
+    for (int i = 0; i < notes.length; i++) {
+      if (notes[i].id == pinnedNote.id) {
+        notes.removeAt(i);
+        notes.insert(nbPinned, pinnedNote);
+        ordering.moveTo(pinnedNote.id, nbPinned);
+        nbPinned++;
+        DatabaseHelper.writeNote(pinnedNote, ordering);
+        notifyListeners();
+        return;
+      }
+    }
+  }
+
+  void unpinNote(Note unpinnedNote) {
+    for (int i = 0; i < notes.length; i++) {
+      if (notes[i].id == unpinnedNote.id) {
+        notes.removeAt(i);
+        notes.insert(nbPinned, unpinnedNote);
+        ordering.moveTo(unpinnedNote.id, nbPinned);
+        nbPinned--;
+        DatabaseHelper.writeNote(unpinnedNote, ordering);
         notifyListeners();
         return;
       }

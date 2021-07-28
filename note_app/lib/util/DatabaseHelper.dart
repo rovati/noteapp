@@ -88,6 +88,9 @@ class DatabaseHelper {
     if (!json.keys.contains('plain')) {
       json['plain'] = true;
     }
+    if (!json.keys.contains('pinned')) {
+      json['pinned'] = false;
+    }
     if (json['plain']) {
       return Plaintext.fromJSON(json);
     } else {

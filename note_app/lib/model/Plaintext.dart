@@ -14,6 +14,7 @@ class Plaintext extends Note {
         'plain': true,
         'title': title,
         'content': content,
+        'pinned': pinned
       };
 
   Plaintext modifyContent(String newContent) {

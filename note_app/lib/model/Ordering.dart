@@ -19,19 +19,19 @@ class Ordering {
     return s;
   }
 
-  void prepend(int id) {
-    removePlaceHolder();
-    ordering.insert(0, id);
-  }
-
   void append(int id) {
     removePlaceHolder();
     ordering.add(id);
   }
 
-  void bump(int id) {
+  void insertAt(int id, int idx) {
+    removePlaceHolder();
+    ordering.insert(idx, id);
+  }
+
+  void moveTo(int id, int idx) {
     ordering.remove(id);
-    prepend(id);
+    ordering.insert(idx, id);
   }
 
   void remove(id) {
