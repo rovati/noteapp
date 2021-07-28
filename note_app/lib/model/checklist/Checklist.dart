@@ -5,13 +5,13 @@ import '../Note.dart';
 class Checklist extends Note {
   List<ChecklistElement> chContent;
 
-  Checklist(id, {title = '', chContent = const []})
+  Checklist(id, {title = '', chContent = const [], pinned = false})
       : chContent = contentConstructor(chContent),
-        super(id, title: title);
+        super(id, title: title, pinned: pinned);
 
   Checklist.fromJSON(Map<String, dynamic> json)
       : chContent = getContent(json['content']),
-        super(json['id'] as int, title: json['title']);
+        super(json['id'] as int, title: json['title'], pinned: json['pinned']);
 
   Map<String, dynamic> toJson() {
     Map<String, dynamic> json = {};

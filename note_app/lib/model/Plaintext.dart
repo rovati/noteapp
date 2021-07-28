@@ -3,11 +3,12 @@ import 'Note.dart';
 class Plaintext extends Note {
   String content;
 
-  Plaintext(id, {title = '', this.content = ''}) : super(id, title: title);
+  Plaintext(id, {title = '', this.content = '', pinned = false})
+      : super(id, title: title, pinned: pinned);
 
   Plaintext.fromJSON(Map<String, dynamic> json)
       : content = json['content'],
-        super(json['id'] as int, title: json['title']);
+        super(json['id'] as int, title: json['title'], pinned: json['pinned']);
 
   Map<String, dynamic> toJson() => {
         'id': id,

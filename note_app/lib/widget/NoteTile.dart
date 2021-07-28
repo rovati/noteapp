@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:note_app/model/Note.dart';
 import 'package:note_app/model/NotesList.dart';
 import 'package:note_app/model/Plaintext.dart';
+import 'package:note_app/model/checklist/Checklist.dart';
 import 'package:note_app/model/checklist/ChecklistManager.dart';
 import 'package:note_app/screen/ChecklistPage.dart';
 import 'package:note_app/screen/PlaintextPage.dart';
@@ -41,7 +43,9 @@ class _NoteTileState extends State<NoteTile> {
         String title = note.title == '' ? 'New note' : note.title;
         return ListTile(
           onTap: _onTap,
+          onLongPress: _onLongPress,
           leading: icon,
+          trailing: note.pinned ? Icon(Icons.push_pin_rounded) : null,
           title: Text(title),
           minVerticalPadding: 20,
           horizontalTitleGap: 10,
@@ -59,5 +63,18 @@ class _NoteTileState extends State<NoteTile> {
       notePage = ChecklistPage();
     }
     Navigator.push(context, MaterialPageRoute(builder: (context) => notePage));
+  }
+
+  void _onLongPress() {
+    Note note = NotesList().getNoteWithID(widget.noteID);
+    if (note is Plaintext) {
+      Plaintext toggled = Plaintext(widget.noteID,
+          title: note.title, content: note.content, pinned: !note.pinned);
+      NotesList().togglePin(toggled);
+    } else if (note is Checklist) {
+      Checklist toggled = Checklist(widget.noteID,
+          title: note.title, chContent: note.chContent, pinned: !note.pinned);
+      NotesList().togglePin(toggled);
+    }
   }
 }

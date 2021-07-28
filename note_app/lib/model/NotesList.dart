@@ -98,6 +98,14 @@ class NotesList extends ChangeNotifier {
     }
   }
 
+  void togglePin(Note toggledNote) {
+    if (toggledNote.pinned) {
+      pinNote(toggledNote);
+    } else {
+      unpinNote(toggledNote);
+    }
+  }
+
   Note getNoteWithID(int id) {
     for (var note in notes) {
       if (note.id == id) {
