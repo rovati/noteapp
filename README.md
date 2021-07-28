@@ -14,6 +14,8 @@ For the first release, the following features are planned:
 For future releases, the following features will be added:
 - add the possibility to create an account and store notes in cloud (cloud backup, and support for multiple devices)
 
+There also are plans to release a web-app and two desktop clients (linux and windows).
+
 ## Licensing and forking
 This project is open-source and non-profit. The project is released under [GNU General Public License v3.0](LICENSE). Feel free to fork it or download it for personal use. If you modify it we would really appreciate you mentioning all the current contributors on this project.
 
