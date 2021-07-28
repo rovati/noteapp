@@ -3,11 +3,13 @@ Welcome! Notes is a simple but effective app for taking plain text notes and mak
 This project was started by [Rova](https://github.com/rovati) as a little playground to learn a new programming language, but quickly evolved to the idea of having a finished, working product. Notes is and always will be an open-source and non-profit project, please refer to the _Licensing and forking_ section for more info about these subjects.
 
 ## Features
-For the first release, the following features are planned:
+For the first release, the following features were planned:
 - access the notes from a main page that shows the list of all locally saved notes
 - create new notes through a minimal toolbar
 - edit notes title and content
 - delete notes from the main page
+
+Version 2 of the app introduced these additional features:
 - keep track of lists using checklists: tap on the boxes to mark an item as completed
 - pin notes to keep them at the top of your list
 
