@@ -1,5 +1,5 @@
 name: note_app
-description: A new Flutter project.
+description: A simple app for taking notes.
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `pub publish`. This is preferred for private packages.
@@ -28,6 +28,10 @@ dependencies:
   shared_preferences: ^2.0.6
   url_launcher: ^6.0.6
   package_info: ^2.0.2
+  firebase_core: ^0.4.0+9
+  firebase_auth: ^0.14.0+5
+  cloud_firestore: ^0.12.9+5
+
 
 
 
