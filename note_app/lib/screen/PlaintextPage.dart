@@ -41,10 +41,13 @@ class _PlaintextPageState extends State<PlaintextPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Stack(
         children: [
           Themes.background,
-          SafeArea(
+          Scaffold(
+            backgroundColor: Colors.transparent,
+            body: SafeArea(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -70,18 +73,11 @@ class _PlaintextPageState extends State<PlaintextPage> {
                         width: MediaQuery.of(context).size.width * 0.85,
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
-                            color: Color.fromARGB(0xFF, 0xE1, 0x55, 0x54),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black26,
-                                offset: Offset(0.0, 5.0),
-                                blurRadius: 10,
-                              ),
-                            ],
+                            color: Themes.titleBg,
                             borderRadius: BorderRadius.circular(20),
                             border: Border.all(
                                 color:
-                                    Color.fromARGB(0xFF, 0xE1, 0x55, 0x54)))),
+                                    Themes.titleOutline))),
                   ),
                 ),
                 Expanded(
@@ -93,7 +89,7 @@ class _PlaintextPageState extends State<PlaintextPage> {
                         Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(15),
-                            color: Color.fromARGB(0x10, 0xFF, 0xFF, 0xFF),
+                            color: Themes.plaintextBg,
                           ),
                         ),
                         FractionallySizedBox(
@@ -119,7 +115,7 @@ class _PlaintextPageState extends State<PlaintextPage> {
                 ),
               ],
             ),
-          ),
+          ),),
         ],
       ),
     );

@@ -25,9 +25,13 @@ class _ChecklistPageState extends State<ChecklistPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Stack(
         children: [
           Themes.background,
+          Scaffold(
+        backgroundColor: Colors.transparent,
+        body: 
           SafeArea(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -54,17 +58,10 @@ class _ChecklistPageState extends State<ChecklistPage> {
                       width: MediaQuery.of(context).size.width * 0.85,
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
-                        color: Color.fromARGB(0xFF, 0xE1, 0x55, 0x54),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black26,
-                            offset: Offset(0.0, 5.0),
-                            blurRadius: 10,
-                          ),
-                        ],
+                        color: Themes.titleBg,
                         borderRadius: BorderRadius.circular(20),
                         border: Border.all(
-                          color: Color.fromARGB(0xFF, 0xE1, 0x55, 0x54),
+                          color: Themes.titleOutline,
                         ),
                       ),
                     ),
@@ -78,7 +75,7 @@ class _ChecklistPageState extends State<ChecklistPage> {
                 ),
               ],
             ),
-          ),
+          ),),
         ],
       ),
     );

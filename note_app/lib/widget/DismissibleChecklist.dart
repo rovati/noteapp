@@ -18,10 +18,7 @@ class _DismissibleCLState extends State<DismissibleChecklist> {
         if (index < ChecklistManager().elems.length) {
           return Stack(
             children: [
-              Padding(
-                padding: EdgeInsets.only(top: 10),
-                child: ChecklistTile(index),
-              ),
+              ChecklistTile(index),
               Align(
                 alignment: Alignment.topRight,
                 child: IconButton(
@@ -33,7 +30,7 @@ class _DismissibleCLState extends State<DismissibleChecklist> {
           );
         } else {
           return Padding(
-            padding: EdgeInsets.only(top: 10),
+            padding: EdgeInsets.only(top: 1),
             child: ListTile(
               leading: IconButton(
                 icon: Icon(Icons.add_rounded),

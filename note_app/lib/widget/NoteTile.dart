@@ -6,6 +6,7 @@ import 'package:note_app/model/checklist/Checklist.dart';
 import 'package:note_app/model/checklist/ChecklistManager.dart';
 import 'package:note_app/screen/ChecklistPage.dart';
 import 'package:note_app/screen/PlaintextPage.dart';
+import 'package:note_app/util/constant/app_theme.dart';
 import 'package:provider/provider.dart';
 
 class NoteTile extends StatefulWidget {
@@ -29,10 +30,7 @@ class _NoteTileState extends State<NoteTile> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        gradient: LinearGradient(colors: [
-          Color.fromARGB(0x22, 0xC1, 0xC1, 0xC1),
-          Color.fromARGB(0x22, 0xC1, 0xC1, 0xC1)
-        ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
+        color: Themes.tileBg,
         borderRadius: BorderRadius.circular(20),
       ),
       child: Consumer<NotesList>(builder: (context, noteslist, child) {
