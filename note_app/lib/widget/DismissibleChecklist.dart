@@ -20,7 +20,7 @@ class _DismissibleCLState extends State<DismissibleChecklist> {
             children: [
               ChecklistTile(index),
               Align(
-                alignment: Alignment.topRight,
+                alignment: Alignment.centerRight,
                 child: IconButton(
                   icon: Icon(Icons.remove_circle_rounded, size: 18),
                   onPressed: () => _onTapRemoveElement(index),
