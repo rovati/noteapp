@@ -98,7 +98,7 @@ class _ToolbarState extends State<Toolbar> with TickerProviderStateMixin {
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(iconSize / 2),
                 border: Border.all(
-                  color: Themes.grey,
+                  color: Themes.tileBg,
                   width: 2,
                 )),
             child: InkWell(
