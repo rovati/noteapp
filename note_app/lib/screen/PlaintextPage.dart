@@ -73,11 +73,10 @@ class _PlaintextPageState extends State<PlaintextPage> {
                         width: MediaQuery.of(context).size.width * 0.85,
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
-                            color: Themes.titleBg,
+                            color: Themes.tileBg,
                             borderRadius: BorderRadius.circular(20),
-                            border: Border.all(
-                                color:
-                                    Themes.titleOutline))),
+                        ),
+                      ),
                   ),
                 ),
                 Expanded(

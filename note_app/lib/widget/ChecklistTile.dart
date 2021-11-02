@@ -39,7 +39,6 @@ class _ChecklistTileState extends State<ChecklistTile> {
       _ticked = manager.elems[widget.idx].isChecked;
       return Row(
           children: [
-            //Padding(padding: EdgeInsets.only(left: 17)),
             IconButton(
             icon: _ticked
                 ? Icon(Icons.check_box_rounded)

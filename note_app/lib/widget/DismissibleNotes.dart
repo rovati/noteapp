@@ -19,7 +19,7 @@ class _DismissibleNotesState extends State<DismissibleNotes> {
           itemBuilder: (context, index) {
             Note note = noteslist.notes[index];
             return Padding(
-              padding: EdgeInsets.only(top: 12),
+              padding: EdgeInsets.only(top: 6, bottom: 6),
               child: Dismissible(
                 key: UniqueKey(),
                 child: NoteTile(note.id),
