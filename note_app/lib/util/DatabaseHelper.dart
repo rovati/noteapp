@@ -130,4 +130,15 @@ class DatabaseHelper {
       file.writeAsString(enc);
     });
   }
+
+  static Future<List<String>> recoverNotes() async {
+    await createDirs();
+    List<String> unparsedNotes = [];
+    final path = await _localPath + '/' + Values.NOTES_DIR;
+    final children = await filterFiles(Directory(path));
+    for (var i = 0; i < children.length; i++) {
+      unparsedNotes.add(children[i].readAsStringSync());
+    }
+    return unparsedNotes;
+  }
 }
