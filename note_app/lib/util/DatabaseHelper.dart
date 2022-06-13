@@ -8,19 +8,27 @@ import 'package:note_app/model/checklist/Checklist.dart';
 import 'package:path_provider/path_provider.dart';
 
 import 'constant/app_values.dart';
+import 'ParseResult.dart';
 
 /// Database entry point. It offers a set of static functions to access the
 /// local database for read and write operations.
 class DatabaseHelper {
-  static Future<List<Note>> getNotes() async {
+  static Future<ParseResult> getNotes() async {
     await createDirs();
     List<Note> unorderedNotes = [];
+    ParseResult res = ParseResult();
     final path = await _localPath + '/' + Values.NOTES_DIR;
     final children = await filterFiles(Directory(path));
     for (var i = 0; i < children.length; i++) {
-      unorderedNotes.add(buildNote(jsonDecode(children[i].readAsStringSync())));
+      final string = children[i].readAsStringSync();
+      try {
+        unorderedNotes.add(buildNote(jsonDecode(string)));
+      } catch (e) {
+        res.addUnparsed(string);
+      }
     }
-    return await sortByOrdering(unorderedNotes);
+    res.addAllParsed(await sortByOrdering(unorderedNotes));
+    return res;
   }
 
   static void writeNote(Note note, Ordering ord) async {

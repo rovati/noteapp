@@ -21,12 +21,13 @@ class NotesList extends ChangeNotifier {
   }
 
   NotesList._internal() {
+    notes = [];
     loadNotes().then((value) => notifyListeners());
   }
 
   Future<void> loadNotes() async {
     ordering = Ordering();
-    notes = await DatabaseHelper.getNotes();
+    notes = (await DatabaseHelper.getNotes()).parsed;
     nbPinned = 0;
     for (int i = 0; i < notes.length; i++) {
       ordering.append(notes[i].id);
