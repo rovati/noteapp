@@ -1,4 +1,4 @@
-import 'package:package_info/package_info.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 class PageInfo {
   /* <--- Info page related ---> */
@@ -9,10 +9,10 @@ class PageInfo {
   static final String APP_INFO_3 =
       "The project is and always will be open-source and non-profit.";
 
-  static final String REPO_URL = "https://github.com/rovati/noteapp";
+  static final Uri REPO_URL = Uri.parse("https://github.com/rovati/noteapp");
 
-  static final String BUG_REPORT_LINK =
-      "https://github.com/rovati/noteapp/issues";
+  static final Uri BUG_REPORT_LINK =
+      Uri.parse("https://github.com/rovati/noteapp/issues");
 
   Future<String> get appVersion =>
       PackageInfo.fromPlatform().then((info) => info.version);
