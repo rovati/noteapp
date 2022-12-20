@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:note_app/util/DatabaseHelper.dart';
-import 'package:note_app/util/ParseResult.dart';
 import 'package:note_app/util/constant/app_theme.dart';
 
 import 'MainPage.dart';
-import 'RecoveryPage.dart';
 
 class LoadingPage extends StatefulWidget {
   @override
@@ -12,26 +10,56 @@ class LoadingPage extends StatefulWidget {
 }
 
 class _LoadingPageState extends State<LoadingPage> {
-  final Future<ParseResult> _res = DatabaseHelper.getNotes();
-  final Future<bool> _timeout = Future<bool>.delayed(
-    const Duration(seconds: 5),
-    () => true,
-  );
+  var _parseResult;
+  var _loaderVisible;
+  var _recoveryTextVisible;
+  var _loaderOpacity;
+  var _recoveryTextOpacity;
+  var _recoveredNotesVisible;
+  var _recoveredNotesOpacity;
 
-  void navigateWhenComplete(BuildContext context) async {
-    Future.delayed(
-        Duration(milliseconds: 200),
-        () => Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => MainPage())));
+  @override
+  void initState() {
+    super.initState();
+    _loaderOpacity = 1.0;
+    _loaderVisible = true;
+    _recoveryTextOpacity = 0.0;
+    _recoveryTextVisible = false;
+    _recoveredNotesOpacity = 0.0;
+    _recoveredNotesVisible = false;
   }
 
-  void navigateToRecovery(BuildContext context) {
-    Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => RecoveryPage()));
+  void loadNotes(BuildContext context) async {
+    DatabaseHelper.getNotes()
+        .then((list) {
+          _parseResult = list;
+          return Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => MainPage()));
+        })
+        .timeout(Duration(seconds: 5), onTimeout: _switchWidgets);
+  }
+
+  void _switchWidgets() {
+    _loaderOpacity = 0.0;
+    Future.delayed(Duration(milliseconds: 200), () {
+      _loaderVisible = false;
+      _recoveryTextVisible = true;
+      _recoveryTextOpacity = 1.0;
+    });
+  }
+
+  void _showRecoveredNotes() {
+    _recoveryTextOpacity = 0.0;
+    Future.delayed(Duration(milliseconds: 200), () {
+      _recoveryTextVisible = false;
+      _recoveredNotesVisible = true;
+      _recoveredNotesOpacity = 1.0;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    loadNotes(context);
     return Scaffold(
       body: Stack(
         children: [
@@ -39,70 +67,71 @@ class _LoadingPageState extends State<LoadingPage> {
           SafeArea(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Center(
-                  child: FutureBuilder<ParseResult>(
-                    future: _res,
-                    builder: (BuildContext context,
-                        AsyncSnapshot<ParseResult> snap) {
-                      if (!snap.hasData) {
-                        return Center(
-                          child: Transform.scale(
-                            scale: 3.0,
-                            child: CircularProgressIndicator(
-                              color: Color.fromARGB(0xFF, 0xE1, 0x55, 0x54),
-                              strokeWidth: 2.0,
-                            ),
-                          ),
-                        );
-                      } else {
-                        if (snap.data != null && snap.data!.unparsed.isEmpty) {
-                          return Center(
-                            child: Transform.scale(
-                              scale: 3.0,
-                              child: CircularProgressIndicator(
-                                color: Color.fromARGB(0xFF, 0xE1, 0x55, 0x54),
-                                strokeWidth: 2.0,
-                              ),
-                            ),
-                          );
-                          /* navigateWhenComplete(context);
-                        return Text('Loaded!'); */
-                        }
-                        if (snap.data != null) {
-                          return unparsedNotesBox(context, snap.data!.unparsed);
-                        }
-                        return Text('Error!');
-                      }
-                    },
+                AnimatedOpacity(
+                  opacity: _loaderOpacity,
+                  duration: Duration(milliseconds: 200),
+                  child: Visibility(
+                    visible: _loaderVisible,
+                    child: Center(
+                      child: Transform.scale(
+                        scale: 3.0,
+                        child: CircularProgressIndicator(
+                          color: Color.fromARGB(0xFF, 0xE1, 0x55, 0x54),
+                          strokeWidth: 2.0,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.only(top: 30),
-                  child: FutureBuilder<bool>(
-                      future: _timeout,
-                      builder:
-                          (BuildContext context, AsyncSnapshot<bool> snap) {
-                        if (snap.hasData && snap.data!)
-                          return Padding(
-                            padding: EdgeInsets.only(top: 10),
-                            child: Center(
-                              child: TextButton(
-                                child: Text(
-                                  'Access local files',
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      decoration: TextDecoration.underline),
+                AnimatedOpacity(
+                  opacity: _recoveryTextOpacity,
+                  duration: Duration(milliseconds: 200),
+                  child: Visibility(
+                    visible: _recoveryTextVisible,
+                    child: Center(
+                      child: TextButton(
+                        child: Text('The app is having issues parsing the notes.\nTap here to try a recovery.'),
+                        onPressed: () => _showRecoveredNotes,
+                      ),
+                    ),
+                  ),
+                ),
+                AnimatedOpacity(
+                  opacity: _recoveredNotesOpacity,
+                  duration: Duration(milliseconds: 200),
+                  child: Visibility(
+                    visible: _recoveredNotesVisible,
+                    child: _parseResult != null ?
+                      Expanded(
+                        child: ListView.builder(
+                          itemCount: _parseResult.unparsed + 1,
+                          itemBuilder: (context, index) =>
+                            index != _parseResult.unparsed.size() ? 
+                              Padding(
+                                padding: EdgeInsets.only(top: 6, bottom: 6),
+                                child: Text(_parseResult.unparsed[index]),
+                              ) : 
+                              Padding(
+                                padding: EdgeInsets.only(top: 10),
+                                child: TextButton(
+                                  child: Text('OK'),
+                                  onPressed: () => MaterialPageRoute(builder: (context) => MainPage(),
+                                  ),
                                 ),
-                                onPressed: () => navigateToRecovery(context),
                               ),
-                            ),
-                          );
-                        else
-                          return SizedBox();
-                      }),
-                )
+                        ),
+                      ) :
+                      Center(
+                        child: TextButton(
+                          child: Text('OK'),
+                          onPressed: () => MaterialPageRoute(builder: (context) => MainPage(),
+                          ),
+                        ),
+                      ),
+                  ),
+                ),
               ],
             ),
           ),
@@ -111,31 +140,4 @@ class _LoadingPageState extends State<LoadingPage> {
     );
   }
 
-  Widget unparsedNotesBox(BuildContext context, List<String> unparsed) =>
-      Container(
-        alignment: Alignment.center,
-        width: MediaQuery.of(context).size.width * 0.90,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Expanded(
-              child: ListView.builder(
-                itemCount: unparsed.length,
-                itemBuilder: (context, index) => Padding(
-                  padding: EdgeInsets.only(top: 6, bottom: 6),
-                  child: Text(unparsed[index]),
-                ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(top: 10),
-              child: TextButton(
-                child: Text('OK'),
-                onPressed: () => navigateWhenComplete(context),
-              ),
-            ),
-          ],
-        ),
-      );
 }
