@@ -28,6 +28,7 @@ dependencies:
   shared_preferences: ^2.0.15
   package_info_plus: ^3.0.2
   url_launcher: ^6.0.6
+  flutter_archive: ^5.0.0
 
 
   # The following adds the Cupertino Icons font to your application.

@@ -3,6 +3,7 @@ import 'package:note_app/model/Plaintext.dart';
 import 'package:note_app/model/NotesList.dart';
 import 'package:note_app/model/checklist/Checklist.dart';
 import 'package:note_app/screen/InfoPage.dart';
+import 'package:note_app/util/DatabaseHelper.dart';
 import 'package:note_app/util/IDProvider.dart';
 import 'package:note_app/util/constant/app_theme.dart';
 import 'dart:math' show pi;
@@ -17,9 +18,11 @@ class Toolbar extends StatefulWidget {
 class _ToolbarState extends State<Toolbar> with TickerProviderStateMixin {
   final double iconSize = 70;
   late var _height;
+  bool _downloadVisible = false;
   bool _infoVisible = false;
   bool _addPlainVisible = false;
   bool _addCheckVisible = false;
+  double _downloadOpacity = 0.0;
   double _infoOpacity = 0.0;
   double _addPlainOpacity = 0.0;
   double _addCheckOpacity = 0.0;
@@ -56,6 +59,17 @@ class _ToolbarState extends State<Toolbar> with TickerProviderStateMixin {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
+                Visibility(
+                  visible: _downloadVisible,
+                  child: AnimatedOpacity(
+                    opacity: _downloadOpacity,
+                    duration: Duration(milliseconds: 150),
+                    child: IconButton(
+                      onPressed: _onTapDownload,
+                      icon: Icon(Icons.download),
+                    ),
+                  ),
+                ),
                 Visibility(
                   visible: _infoVisible,
                   child: AnimatedOpacity(
@@ -128,8 +142,13 @@ class _ToolbarState extends State<Toolbar> with TickerProviderStateMixin {
   void closeToolbar() {
     isAnimating = true;
     setState(() {
-      _infoOpacity = 0.0;
+      _downloadOpacity = 0.0;
       _controller.reverse();
+    });
+    Future.delayed(Duration(milliseconds: 50), () {
+      setState(() {
+        _infoOpacity = 0.0;
+      });
     });
     Future.delayed(Duration(milliseconds: 100), () {
       setState(() {
@@ -143,6 +162,7 @@ class _ToolbarState extends State<Toolbar> with TickerProviderStateMixin {
     });
     Future.delayed(Duration(milliseconds: 250), () {
       setState(() {
+        _downloadVisible = false;
         _infoVisible = false;
         _addCheckVisible = false;
         _addPlainVisible = false;
@@ -155,7 +175,7 @@ class _ToolbarState extends State<Toolbar> with TickerProviderStateMixin {
   void openToolbar() {
     isAnimating = true;
     setState(() {
-      _height = (iconSize * 4 + 3 * iconSize * 0.1);
+      _height = (iconSize * 5 + 3 * iconSize * 0.1);
       _controller.forward();
     });
     Future.delayed(Duration(milliseconds: 200), () {
@@ -163,6 +183,7 @@ class _ToolbarState extends State<Toolbar> with TickerProviderStateMixin {
         _addPlainVisible = true;
         _addCheckVisible = true;
         _infoVisible = true;
+        _downloadVisible = true;
         _addPlainOpacity = 1.0;
       });
     });
@@ -174,6 +195,12 @@ class _ToolbarState extends State<Toolbar> with TickerProviderStateMixin {
     Future.delayed(Duration(milliseconds: 300), () {
       setState(() {
         _infoOpacity = 1.0;
+      });
+      isAnimating = false;
+    });
+    Future.delayed(Duration(milliseconds: 350), () {
+      setState(() {
+        _downloadOpacity = 1.0;
       });
       isAnimating = false;
     });
@@ -195,6 +222,30 @@ class _ToolbarState extends State<Toolbar> with TickerProviderStateMixin {
     }
   }
 
+  void _onTapOpenInfo() {
+    _onTapArrow();
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => InfoPage()));
+  }
+
+  void _onTapDownload() {
+    // TODO add check whether we are already zipping
+    var snack;
+
+    DatabaseHelper.archiveNotes().then((res) {
+      if (res) {
+        snack = SnackBar(
+          content: Text('Notes archive saved to local'),
+        );
+      } else {
+        snack = SnackBar(
+          content: Text('Could not create the notes archive!'),
+        );
+      }
+      ScaffoldMessenger.of(context).showSnackBar(snack);
+    });
+  }
+
   void showNotesFullSnackbar() {
     SnackBar snack = SnackBar(
       content: Text('There already are too many notes!'),
@@ -202,9 +253,4 @@ class _ToolbarState extends State<Toolbar> with TickerProviderStateMixin {
     ScaffoldMessenger.of(context).showSnackBar(snack);
   }
 
-  void _onTapOpenInfo() {
-    _onTapArrow();
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => InfoPage()));
-  }
 }

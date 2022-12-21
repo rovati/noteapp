@@ -6,6 +6,7 @@ import 'package:note_app/model/Plaintext.dart';
 import 'package:note_app/model/Ordering.dart';
 import 'package:note_app/model/checklist/Checklist.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:flutter_archive/flutter_archive.dart';
 
 import 'constant/app_values.dart';
 import 'ParseResult.dart';
@@ -48,6 +49,21 @@ class DatabaseHelper {
     writeOrdering(ord);
   }
 
+  static Future<bool> archiveNotes() async {
+    try {
+      var notesDir = await _localPath;
+      var zipDir = await _externalPath;
+
+      final zipFile = File(zipDir + '/notes.zip');
+      ZipFile.createFromDirectory(
+        sourceDir: Directory(notesDir), zipFile: zipFile, recurseSubDirs: true);
+      return Future.value(true);
+    } catch (e) {
+      print(e.toString());
+      return Future.value(false);
+    }
+  }
+
   /* Helpers */
 
   static Future<File> getPathForNote(String id) async {
@@ -63,6 +79,12 @@ class DatabaseHelper {
   static Future<String> get _localPath async {
     final directory = await getApplicationDocumentsDirectory();
     return directory.path;
+  }
+
+  // NOTE this only works for android!
+  static Future<String> get _externalPath async {
+    final directory = await getExternalStorageDirectory();
+    return directory!.path;
   }
 
   static Future<void> createDirs() async {
