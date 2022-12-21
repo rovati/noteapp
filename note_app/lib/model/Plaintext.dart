@@ -18,6 +18,9 @@ class Plaintext extends Note {
         'pinned': pinned
       };
 
+  String toFormatted() =>
+    'Title: ' + title + '\n\n' + content;
+
   Plaintext modifyContent(String newContent) {
     return Plaintext(this.id, title: this.title, content: newContent);
   }

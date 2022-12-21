@@ -235,7 +235,7 @@ class _ToolbarState extends State<Toolbar> with TickerProviderStateMixin {
     DatabaseHelper.archiveNotes().then((res) {
       if (res) {
         snack = SnackBar(
-          content: Text('Notes archive saved to local'),
+          content: Text('Notes archive saved to local storage'),
         );
       } else {
         snack = SnackBar(

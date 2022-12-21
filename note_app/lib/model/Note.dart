@@ -6,4 +6,5 @@ abstract class Note {
   Note(this.id, {this.title = '', this.pinned = false});
 
   Map<String, dynamic> toJson();
+  String toFormatted();
 }

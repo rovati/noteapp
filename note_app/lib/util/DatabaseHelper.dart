@@ -50,11 +50,12 @@ class DatabaseHelper {
   }
 
   static Future<bool> archiveNotes() async {
-    try {
-      var notesDir = await _localPath;
-      var zipDir = await _externalPath;
+    formatAndSaveNotes();
+    var notesDir = await _localPath + Values.TEMP_DIR;
+    var zipDir = await _externalPath;
+    final zipFile = File(zipDir + '/notes.zip');
 
-      final zipFile = File(zipDir + '/notes.zip');
+    try {
       ZipFile.createFromDirectory(
         sourceDir: Directory(notesDir), zipFile: zipFile, recurseSubDirs: true);
       return Future.value(true);
@@ -111,6 +112,27 @@ class DatabaseHelper {
       }
     }
     return files;
+  }
+
+  static void formatAndSaveNotes() async {
+    Directory tempDir = Directory(await _localPath + '/' + Values.TEMP_DIR);
+    var lcPath = await _localPath;
+
+    // clear folder
+    if (tempDir.existsSync()) {
+      await tempDir.delete(recursive: true);
+    }
+    await tempDir.create();
+    
+    // format each note and save as plain text file
+    var idxFileName = 0;
+    getNotes().then((res) {
+      res.parsed.forEach((note) {
+        var file = File('$lcPath/' + Values.TEMP_DIR + '/note_$idxFileName.txt');
+        file.writeAsString(note.toFormatted());
+        idxFileName++;
+      });
+    });
   }
 
   static Note buildNote(Map<String, dynamic> json) {

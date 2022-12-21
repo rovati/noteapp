@@ -23,6 +23,18 @@ class Checklist extends Note {
     return json;
   }
 
+  String toFormatted() {
+    var string = 'Title: ' + title + '\n\n';
+    chContent.forEach((element) {
+      if (element.isChecked){
+        string += '[X] ' + element.content + '\n';
+      } else {
+        string += '[ ] ' + element.content + '\n';
+      }
+    });
+    return string;
+  }
+
   static List<ChecklistElement> getContent(List<dynamic> jsonList) =>
       jsonList.map((e) => ChecklistElement.fromJson(e)).toList();
 
