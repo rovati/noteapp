@@ -4,6 +4,7 @@ import 'package:note_app/util/constant/app_info.dart';
 import 'package:note_app/util/constant/app_theme.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+
 class InfoPage extends StatelessWidget {
   final Future<String> _version = PageInfo().appVersion;
 
@@ -48,7 +49,7 @@ class InfoPage extends StatelessWidget {
                             color: Themes.red),
                         recognizer: new TapGestureRecognizer()
                           ..onTap = () {
-                            launch(PageInfo.REPO_URL);
+                            launchUrl(PageInfo.REPO_URL);
                           },
                       ),
                     ),
@@ -63,7 +64,7 @@ class InfoPage extends StatelessWidget {
                             color: Themes.red),
                         recognizer: new TapGestureRecognizer()
                           ..onTap = () {
-                            launch(PageInfo.BUG_REPORT_LINK);
+                            launchUrl(PageInfo.BUG_REPORT_LINK);
                           },
                       ),
                     ),
