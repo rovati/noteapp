@@ -16,6 +16,6 @@ class MyApp extends StatelessWidget {
         themeMode: ThemeMode.dark,
         title: 'Notes',
         theme: Themes.defaultTheme,
-        home: const LoadingScreen(),
+        home: const LoadingPage(),
       );
 }
