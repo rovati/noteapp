@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter_archive/flutter_archive.dart';
 import 'package:path_provider/path_provider.dart';
 
 import '../../util/app_values.dart';
@@ -57,23 +58,22 @@ class LocalDB {
     writeOrdering(ord);
   }
 
-  // static Future<bool> archiveNotes() async {
-  //   formatAndSaveNotes();
-  //   var notesDir = await _localPath + Values.tempDir;
-  //   var zipDir = await _externalPath;
-  //   final zipFile = File('$zipDir/notes.zip');
+  static Future<bool> archiveNotes() async {
+    formatAndSaveNotes();
+    var notesDir = await _localPath + Values.tempDir;
+    var zipDir = await _externalPath;
+    final zipFile = File('$zipDir/notes.zip');
 
-  //   try {
-  //     ZipFile.createFromDirectory(
-  //         sourceDir: Directory(notesDir),
-  //         zipFile: zipFile,
-  //         recurseSubDirs: true);
-  //     return Future.value(true);
-  //   } catch (e) {
-  //     print(e.toString());
-  //     return Future.value(false);
-  //   }
-  // }
+    try {
+      ZipFile.createFromDirectory(
+          sourceDir: Directory(notesDir),
+          zipFile: zipFile,
+          recurseSubDirs: true);
+      return Future.value(true);
+    } catch (e) {
+      return Future.value(false);
+    }
+  }
 
   /* Helpers */
 
