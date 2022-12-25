@@ -14,6 +14,6 @@ class AppInfo {
   static final Uri bugReportLink =
       Uri.parse('https://github.com/rovati/noteapp/issues');
 
-  Future<String> get appVersion =>
+  static Future<String> get appVersion =>
       PackageInfo.fromPlatform().then((info) => info.version);
 }
