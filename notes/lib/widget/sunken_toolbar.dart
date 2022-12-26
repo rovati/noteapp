@@ -10,6 +10,12 @@ import '../screen/info.dart';
 import '../theme/app_theme.dart';
 import '../util/app_values.dart';
 
+// idea:
+// wrap everything in sizetransition
+// keep full column with buttons at constant size and right background color
+// stack top an animated container with just shadow that follows the sizetransition
+// problem: how to hide curved part?
+
 class SunkenToolbar extends StatefulWidget {
   const SunkenToolbar({super.key});
 
@@ -19,207 +25,141 @@ class SunkenToolbar extends StatefulWidget {
 
 class _SunkenToolbarState extends State<SunkenToolbar>
     with TickerProviderStateMixin {
-  final double iconSize = 70;
-  late double _height;
-  bool _downloadVisible = false;
-  bool _infoVisible = false;
-  bool _addPlainVisible = false;
-  bool _addCheckVisible = false;
-  double _downloadOpacity = 0.0;
-  double _infoOpacity = 0.0;
-  double _addPlainOpacity = 0.0;
-  double _addCheckOpacity = 0.0;
+  final double _width = 70.0;
+  final _height = 310.0;
+  late Animation<double> animation;
   late AnimationController _controller;
-  var isAnimating = false;
+  late AnimationController _rotation;
+  double _turns = 0;
 
   @override
   void initState() {
     super.initState();
-    _height = iconSize;
+    _rotation = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 250));
     _controller = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 350));
-    _controller.addListener(() {
-      setState(() {});
-    });
+      vsync: this,
+      duration: const Duration(milliseconds: 250),
+    );
+    animation = Tween<double>(begin: _height - _width, end: 0).animate(
+        CurvedAnimation(parent: _controller, curve: Curves.easeInOutCubic));
+  }
+
+  @override
+  void dispose() {
+    _rotation.dispose();
+    _controller.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedContainer(
-        height: _height,
-        width: iconSize,
-        decoration: BoxDecoration(
-          borderRadius:
-              BorderRadius.only(topLeft: Radius.circular(iconSize / 2)),
-          boxShadow: const [
-            BoxShadow(
-              color: Colors.black,
-            ),
-            BoxShadow(
-              color: Themes.lightGrey,
-              blurRadius: 6.0,
-              offset: Offset(6, 6),
-            ),
-          ],
-        ),
-        duration: const Duration(milliseconds: 250),
-        curve: Curves.easeInOutQuad,
-        child: Stack(
-          children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.end,
+    return Container(
+      alignment: Alignment.bottomRight,
+      height: _height,
+      width: _width,
+      child: AnimatedBuilder(
+        animation: animation,
+        child: buttonsColumn(),
+        builder: (context, child) {
+          return ClipPath(
+            clipper: RoundedClipper(_width, _height, animation.value),
+            child: Stack(
+              alignment: Alignment.bottomCenter,
               children: [
-                Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Visibility(
-                        visible: _downloadVisible,
-                        child: AnimatedOpacity(
-                          opacity: _downloadOpacity,
-                          duration: const Duration(milliseconds: 150),
-                          child: IconButton(
-                            onPressed: _onTapDownload,
-                            icon: const Icon(Icons.download),
-                          ),
+                IgnorePointer(
+                  child: Container(
+                    height: _height - animation.value,
+                    width: 70,
+                    decoration: const BoxDecoration(
+                      borderRadius:
+                          BorderRadius.only(topLeft: Radius.circular(35)),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black,
                         ),
-                      ),
-                      Visibility(
-                        visible: _infoVisible,
-                        child: AnimatedOpacity(
-                          opacity: _infoOpacity,
-                          duration: const Duration(milliseconds: 150),
-                          child: IconButton(
-                            onPressed: _onTapOpenInfo,
-                            icon: const Icon(Icons.info_rounded),
-                          ),
+                        BoxShadow(
+                          color: Themes.lightGrey,
+                          blurRadius: 6.0,
+                          offset: Offset(6, 6),
                         ),
-                      ),
-                      Visibility(
-                        visible: _addCheckVisible,
-                        child: AnimatedOpacity(
-                          opacity: _addCheckOpacity,
-                          duration: const Duration(milliseconds: 150),
-                          child: IconButton(
-                            onPressed: _onTapNewChecklist,
-                            icon: const Icon(Icons.check_box_rounded),
-                          ),
-                        ),
-                      ),
-                      Visibility(
-                        visible: _addPlainVisible,
-                        child: AnimatedOpacity(
-                          opacity: _addPlainOpacity,
-                          duration: const Duration(milliseconds: 150),
-                          child: IconButton(
-                            onPressed: _onTapNewPlainNote,
-                            icon: const Icon(Icons.dehaze_rounded),
-                          ),
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
-                SizedBox(
-                  width: iconSize,
-                  height: iconSize,
-                  // decoration: BoxDecoration(
-                  //     borderRadius: BorderRadius.circular(iconSize / 2),
-                  //     border: Border.all(
-                  //       color: Themes.tileBg,
-                  //       width: 2,
-                  //     )),
-                  child: InkWell(
-                    onTap: _onTapArrow,
-                    borderRadius: BorderRadius.circular(iconSize / 2),
-                    highlightColor: Themes.red,
-                    child: Transform.rotate(
-                        angle: _controller.value * pi * -1,
-                        child: const Icon(Icons.keyboard_arrow_up_rounded)),
-                  ),
-                ),
+                child!,
               ],
             ),
-          ],
-        ));
+          );
+        },
+      ),
+    );
   }
+
+  Widget buttonsColumn() => Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 10),
+            child: IconButton(
+              onPressed: _onTapDownload,
+              icon: const Icon(Icons.download),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 10),
+            child: IconButton(
+              onPressed: _onTapOpenInfo,
+              icon: const Icon(Icons.info_rounded),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 10),
+            child: IconButton(
+              onPressed: _onTapNewChecklist,
+              icon: const Icon(Icons.check_box_rounded),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 10),
+            child: IconButton(
+              onPressed: _onTapNewPlainNote,
+              icon: const Icon(Icons.dehaze_rounded),
+            ),
+          ),
+          SizedBox(
+            width: 70,
+            height: 70,
+            child: InkWell(
+                onTap: _onTapArrow,
+                borderRadius: BorderRadius.circular(35),
+                highlightColor: Themes.red,
+                child: AnimatedRotation(
+                  turns: _turns,
+                  duration: const Duration(milliseconds: 250),
+                  child: const Icon(Icons.keyboard_arrow_up_rounded),
+                )),
+          ),
+        ],
+      );
 
   void _onTapArrow() {
-    if (!isAnimating) {
-      if (_height != iconSize) {
-        closeToolbar();
+    if (_controller.status != AnimationStatus.reverse &&
+        _controller.status != AnimationStatus.forward) {
+      if (animation.value == 0) {
+        // close toolbar
+        setState(() {
+          _turns = 0.0;
+        });
+        _controller.reverse();
       } else {
-        openToolbar();
+        // open toolbar
+        setState(() {
+          _turns = -0.5;
+        });
+        _controller.forward();
       }
     }
-  }
-
-  void closeToolbar() {
-    isAnimating = true;
-    setState(() {
-      _downloadOpacity = 0.0;
-      _controller.reverse();
-    });
-    Future.delayed(const Duration(milliseconds: 50), () {
-      setState(() {
-        _infoOpacity = 0.0;
-      });
-    });
-    Future.delayed(const Duration(milliseconds: 100), () {
-      setState(() {
-        _addCheckOpacity = 0.0;
-      });
-    });
-    Future.delayed(const Duration(milliseconds: 150), () {
-      setState(() {
-        _addPlainOpacity = 0.0;
-      });
-    });
-    Future.delayed(const Duration(milliseconds: 250), () {
-      setState(() {
-        _downloadVisible = false;
-        _infoVisible = false;
-        _addCheckVisible = false;
-        _addPlainVisible = false;
-        _height = iconSize;
-      });
-      isAnimating = false;
-    });
-  }
-
-  void openToolbar() {
-    isAnimating = true;
-    setState(() {
-      _height = (iconSize * 5 + 3 * iconSize * 0.1);
-      _controller.forward();
-    });
-    Future.delayed(const Duration(milliseconds: 200), () {
-      setState(() {
-        _addPlainVisible = true;
-        _addCheckVisible = true;
-        _infoVisible = true;
-        _downloadVisible = true;
-        _addPlainOpacity = 1.0;
-      });
-    });
-    Future.delayed(const Duration(milliseconds: 250), () {
-      setState(() {
-        _addCheckOpacity = 1.0;
-      });
-    });
-    Future.delayed(const Duration(milliseconds: 300), () {
-      setState(() {
-        _infoOpacity = 1.0;
-      });
-      isAnimating = false;
-    });
-    Future.delayed(const Duration(milliseconds: 350), () {
-      setState(() {
-        _downloadOpacity = 1.0;
-      });
-      isAnimating = false;
-    });
   }
 
   void _onTapNewPlainNote() {
@@ -268,4 +208,32 @@ class _SunkenToolbarState extends State<SunkenToolbar>
     );
     ScaffoldMessenger.of(context).showSnackBar(snack);
   }
+}
+
+class RoundedClipper extends CustomClipper<Path> {
+  final double height;
+  final double width;
+  final double animVal;
+
+  RoundedClipper(this.width, this.height, this.animVal);
+
+  @override
+  Path getClip(Size size) {
+    var path = Path();
+    path.lineTo(0.0, height);
+    path.lineTo(width, height);
+    path.lineTo(width, animVal);
+    path.lineTo(width / 2, animVal);
+    path.quadraticBezierTo(
+      0,
+      animVal,
+      0,
+      animVal + width / 2,
+    );
+    path.close();
+    return path;
+  }
+
+  @override
+  bool shouldReclip(CustomClipper<Path> oldClipper) => true;
 }
