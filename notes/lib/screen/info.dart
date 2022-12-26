@@ -15,7 +15,7 @@ class InfoPage extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-          Themes.background,
+          AppTheme().theme.background,
           Center(
             child: SizedBox(
               width: MediaQuery.of(context).size.width * 0.66,
@@ -46,9 +46,9 @@ class InfoPage extends StatelessWidget {
                     child: RichText(
                       text: TextSpan(
                         text: 'GitHub repository',
-                        style: const TextStyle(
+                        style: TextStyle(
                             decoration: TextDecoration.underline,
-                            color: Themes.red),
+                            color: AppTheme().theme.textColor),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
                             launchUrl(AppInfo.repoURL);
@@ -61,9 +61,9 @@ class InfoPage extends StatelessWidget {
                     child: RichText(
                       text: TextSpan(
                         text: 'Report a bug',
-                        style: const TextStyle(
+                        style: TextStyle(
                             decoration: TextDecoration.underline,
-                            color: Themes.red),
+                            color: AppTheme().theme.textColor),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
                             launchUrl(AppInfo.bugReportLink);

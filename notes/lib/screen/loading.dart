@@ -3,6 +3,7 @@ import 'package:notes/model/storage/local_db.dart';
 import 'package:notes/model/storage/parse_result.dart';
 
 import '../theme/app_theme.dart';
+import '../theme/themes.dart';
 import 'main.dart';
 
 class LoadingPage extends StatefulWidget {
@@ -53,7 +54,7 @@ class _LoadingPageState extends State<LoadingPage> {
     return Scaffold(
       body: Stack(
         children: [
-          Themes.background,
+          AppTheme().theme.background,
           SafeArea(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,

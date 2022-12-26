@@ -14,7 +14,7 @@ class MainPage extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-          Themes.background,
+          AppTheme().theme.background,
           Center(
             child: Container(
               alignment: Alignment.center,

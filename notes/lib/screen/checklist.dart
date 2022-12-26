@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../model/note/notifier/checklist_list.dart';
 import '../theme/app_theme.dart';
+import '../theme/themes.dart';
 import '../widget/dismissible_checklist.dart';
 
 class ChecklistPage extends StatefulWidget {
@@ -29,7 +30,7 @@ class _ChecklistPageState extends State<ChecklistPage> {
       resizeToAvoidBottomInset: false,
       body: Stack(
         children: [
-          Themes.background,
+          AppTheme().theme.background,
           Scaffold(
             backgroundColor: Colors.transparent,
             body: SafeArea(
@@ -43,7 +44,7 @@ class _ChecklistPageState extends State<ChecklistPage> {
                         width: MediaQuery.of(context).size.width * 0.85,
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
-                          color: Themes.tileBg,
+                          color: AppTheme().theme.semiTransparentBG,
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: TextField(

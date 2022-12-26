@@ -31,7 +31,7 @@ class _NoteTileState extends State<NoteTile> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Themes.tileBg,
+        color: AppTheme().theme.semiTransparentBG,
         borderRadius: BorderRadius.circular(20),
       ),
       child: Consumer<NotesList>(builder: (context, noteslist, child) {

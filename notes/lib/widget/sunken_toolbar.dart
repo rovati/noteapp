@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:notes/model/storage/local_db.dart';
-import 'dart:math' show pi;
 
 import '../model/note/checklist.dart';
 import '../model/note/notifier/main_list.dart';
@@ -31,14 +30,20 @@ class _SunkenToolbarState extends State<SunkenToolbar>
   late AnimationController _controller;
   late AnimationController _rotation;
   double _turns = 0;
-  Color _exportIconColor = Colors.white;
-  Color _checklistIconColor = Colors.white;
-  Color _plaintextIconColor = Colors.white;
-  final Color _tapColor = const Color.fromARGB(255, 77, 77, 77);
+  late Color _exportIconColor;
+  late Color _checklistIconColor;
+  late Color _plaintextIconColor;
+  late Color _tapColor;
 
   @override
   void initState() {
     super.initState();
+
+    _exportIconColor = AppTheme().theme.toolbarIconColor;
+    _checklistIconColor = AppTheme().theme.toolbarIconColor;
+    _plaintextIconColor = AppTheme().theme.toolbarIconColor;
+    _tapColor = AppTheme().theme.toolbarIconTapColor;
+
     _rotation = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 250));
     _controller = AnimationController(
@@ -75,17 +80,17 @@ class _SunkenToolbarState extends State<SunkenToolbar>
                   child: Container(
                     height: _height - animation.value,
                     width: 70,
-                    decoration: const BoxDecoration(
+                    decoration: BoxDecoration(
                       borderRadius:
-                          BorderRadius.only(topLeft: Radius.circular(35)),
+                          const BorderRadius.only(topLeft: Radius.circular(35)),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black,
+                          color: AppTheme().theme.toolbarShade,
                         ),
                         BoxShadow(
-                          color: Themes.lightGrey,
+                          color: AppTheme().theme.toolbarBG,
                           blurRadius: 6.0,
-                          offset: Offset(6, 6),
+                          offset: const Offset(6, 6),
                         ),
                       ],
                     ),
@@ -143,17 +148,17 @@ class _SunkenToolbarState extends State<SunkenToolbar>
           Container(
             width: _width * 0.8,
             height: _height * 0.01,
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               gradient: LinearGradient(
                   begin: Alignment.centerLeft,
                   end: Alignment.centerRight,
                   colors: [
                     Colors.transparent,
-                    Colors.white54,
-                    Colors.white54,
+                    AppTheme().theme.toolbarSepColor,
+                    AppTheme().theme.toolbarSepColor,
                     Colors.transparent,
                   ],
-                  stops: [
+                  stops: const [
                     0.0,
                     0.4,
                     0.6,
@@ -203,7 +208,7 @@ class _SunkenToolbarState extends State<SunkenToolbar>
       Future.delayed(
           const Duration(milliseconds: 500),
           () => setState(() {
-                _plaintextIconColor = Colors.white;
+                _plaintextIconColor = AppTheme().theme.toolbarIconColor;
               }));
     } else {
       showNotesFullSnackbar();
@@ -219,7 +224,7 @@ class _SunkenToolbarState extends State<SunkenToolbar>
       Future.delayed(
           const Duration(milliseconds: 500),
           () => setState(() {
-                _checklistIconColor = Colors.white;
+                _checklistIconColor = AppTheme().theme.toolbarIconColor;
               }));
     } else {
       showNotesFullSnackbar();
@@ -242,7 +247,7 @@ class _SunkenToolbarState extends State<SunkenToolbar>
     Future.delayed(
         const Duration(milliseconds: 500),
         () => setState(() {
-              _exportIconColor = Colors.white;
+              _exportIconColor = AppTheme().theme.toolbarIconColor;
             }));
     LocalDB.archiveNotes().then((res) {
       if (res) {

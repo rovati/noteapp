@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import '../model/note/notifier/main_list.dart';
 import '../model/note/plaintext.dart';
 import '../theme/app_theme.dart';
+import '../theme/themes.dart';
 
 class PlaintextPage extends StatefulWidget {
   final int noteID;
@@ -45,7 +46,7 @@ class _PlaintextPageState extends State<PlaintextPage> {
       resizeToAvoidBottomInset: false,
       body: Stack(
         children: [
-          Themes.background,
+          AppTheme().theme.background,
           Scaffold(
             backgroundColor: Colors.transparent,
             body: SafeArea(
@@ -59,7 +60,7 @@ class _PlaintextPageState extends State<PlaintextPage> {
                         width: MediaQuery.of(context).size.width * 0.85,
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
-                          color: Themes.tileBg,
+                          color: AppTheme().theme.semiTransparentBG,
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: TextField(
@@ -89,7 +90,7 @@ class _PlaintextPageState extends State<PlaintextPage> {
                           Container(
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(15),
-                              color: Themes.plaintextBg,
+                              color: AppTheme().theme.semiTransparentBG,
                             ),
                           ),
                           FractionallySizedBox(
