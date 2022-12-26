@@ -26,11 +26,15 @@ class SunkenToolbar extends StatefulWidget {
 class _SunkenToolbarState extends State<SunkenToolbar>
     with TickerProviderStateMixin {
   final double _width = 70.0;
-  final _height = 310.0;
+  final _height = 325.0;
   late Animation<double> animation;
   late AnimationController _controller;
   late AnimationController _rotation;
   double _turns = 0;
+  Color _exportIconColor = Colors.white;
+  Color _checklistIconColor = Colors.white;
+  Color _plaintextIconColor = Colors.white;
+  final Color _tapColor = const Color.fromARGB(255, 77, 77, 77);
 
   @override
   void initState() {
@@ -100,45 +104,73 @@ class _SunkenToolbarState extends State<SunkenToolbar>
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           Padding(
-            padding: const EdgeInsets.only(top: 10),
+            padding: const EdgeInsets.only(bottom: 10),
             child: IconButton(
               onPressed: _onTapDownload,
-              icon: const Icon(Icons.download),
+              icon: Icon(
+                Icons.download,
+                color: _exportIconColor,
+              ),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 10),
+            padding: const EdgeInsets.only(bottom: 10),
             child: IconButton(
               onPressed: _onTapOpenInfo,
               icon: const Icon(Icons.info_rounded),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 10),
+            padding: const EdgeInsets.only(bottom: 10),
             child: IconButton(
               onPressed: _onTapNewChecklist,
-              icon: const Icon(Icons.check_box_rounded),
+              icon: Icon(
+                Icons.check_box_rounded,
+                color: _checklistIconColor,
+              ),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 10),
+            padding: const EdgeInsets.only(bottom: 10),
             child: IconButton(
               onPressed: _onTapNewPlainNote,
-              icon: const Icon(Icons.dehaze_rounded),
+              icon: Icon(
+                Icons.dehaze_rounded,
+                color: _plaintextIconColor,
+              ),
             ),
           ),
-          SizedBox(
-            width: 70,
-            height: 70,
-            child: InkWell(
-                onTap: _onTapArrow,
-                borderRadius: BorderRadius.circular(35),
-                highlightColor: Themes.red,
-                child: AnimatedRotation(
-                  turns: _turns,
-                  duration: const Duration(milliseconds: 250),
-                  child: const Icon(Icons.keyboard_arrow_up_rounded),
-                )),
+          Container(
+            width: _width * 0.8,
+            height: _height * 0.01,
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                  colors: [
+                    Colors.transparent,
+                    Colors.white54,
+                    Colors.white54,
+                    Colors.transparent,
+                  ],
+                  stops: [
+                    0.0,
+                    0.4,
+                    0.6,
+                    1.0
+                  ]),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 15, bottom: 10),
+            child: IconButton(
+              onPressed: _onTapArrow,
+              icon: AnimatedRotation(
+                turns: _turns,
+                duration: const Duration(milliseconds: 250),
+                child: const Icon(Icons.keyboard_arrow_up_rounded),
+              ),
+            ),
           ),
         ],
       );
@@ -165,6 +197,14 @@ class _SunkenToolbarState extends State<SunkenToolbar>
   void _onTapNewPlainNote() {
     if (NotesList().notes.length < Values.maxNotes) {
       IDProvider.getNextId().then((id) => NotesList().addNote(Plaintext(id)));
+      setState(() {
+        _plaintextIconColor = _tapColor;
+      });
+      Future.delayed(
+          const Duration(milliseconds: 500),
+          () => setState(() {
+                _plaintextIconColor = Colors.white;
+              }));
     } else {
       showNotesFullSnackbar();
     }
@@ -173,6 +213,14 @@ class _SunkenToolbarState extends State<SunkenToolbar>
   void _onTapNewChecklist() {
     if (NotesList().notes.length < Values.maxNotes) {
       IDProvider.getNextId().then((id) => NotesList().addNote(Checklist(id)));
+      setState(() {
+        _checklistIconColor = _tapColor;
+      });
+      Future.delayed(
+          const Duration(milliseconds: 500),
+          () => setState(() {
+                _checklistIconColor = Colors.white;
+              }));
     } else {
       showNotesFullSnackbar();
     }
@@ -188,6 +236,14 @@ class _SunkenToolbarState extends State<SunkenToolbar>
     // TODO add check whether we are already zipping
     SnackBar snack;
 
+    setState(() {
+      _exportIconColor = _tapColor;
+    });
+    Future.delayed(
+        const Duration(milliseconds: 500),
+        () => setState(() {
+              _exportIconColor = Colors.white;
+            }));
     LocalDB.archiveNotes().then((res) {
       if (res) {
         snack = const SnackBar(
