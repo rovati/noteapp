@@ -6,7 +6,7 @@ import '../model/note/checklist.dart';
 import '../model/note/notifier/main_list.dart';
 import '../model/note/plaintext.dart';
 import '../model/storage/note_id_generator.dart';
-import '../screen/info.dart';
+import '../screen/settings.dart';
 import '../theme/app_theme.dart';
 import '../util/app_values.dart';
 
@@ -124,8 +124,8 @@ class _SunkenToolbarState extends State<SunkenToolbar>
           Padding(
             padding: const EdgeInsets.only(bottom: 10),
             child: IconButton(
-              onPressed: _onTapOpenInfo,
-              icon: const Icon(Icons.info_rounded),
+              onPressed: _onTapOpenSettings,
+              icon: const Icon(Icons.settings_rounded),
             ),
           ),
           Padding(
@@ -234,10 +234,10 @@ class _SunkenToolbarState extends State<SunkenToolbar>
     }
   }
 
-  void _onTapOpenInfo() {
+  void _onTapOpenSettings() {
     _onTapArrow();
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => InfoPage()));
+        context, MaterialPageRoute(builder: (context) => SettingsPage()));
   }
 
   void _onTapDownload() {

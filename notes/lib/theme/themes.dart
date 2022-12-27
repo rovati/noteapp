@@ -32,6 +32,7 @@ class AppThemeData {
   static final allThemes = [
     version2,
     alpsSunset,
+    neeck,
   ];
 
   static final version2 = AppThemeData(
@@ -87,7 +88,7 @@ class AppThemeData {
         decoration: const BoxDecoration(color: Color.fromARGB(255, 37, 37, 37)),
       ),
       noteTitleBG: const Color.fromARGB(0xFF, 0xE1, 0x55, 0x54),
-      semiTransparentBG: const Color.fromARGB(19, 73, 73, 73),
+      semiTransparentBG: const Color.fromARGB(19, 94, 94, 94),
       toolbarBG: const Color.fromARGB(0xFF, 0xE1, 0x55, 0x54),
       toolbarShade: Colors.black,
       accentColor: const Color.fromARGB(0xFF, 0xE1, 0x55, 0x54),

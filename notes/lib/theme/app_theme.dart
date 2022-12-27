@@ -12,9 +12,8 @@ class AppTheme extends ChangeNotifier {
   }
 
   AppTheme._internal() {
-    theme = AppThemeData.version2;
-    final futPrefs = SharedPreferences.getInstance();
-    futPrefs.then((prefs) {
+    theme = AppThemeData.neeck;
+    SharedPreferences.getInstance().then((prefs) {
       var themeIdx = prefs.getInt('theme') ?? 0;
       theme = AppThemeData.allThemes[themeIdx];
       prefs.setInt('theme', theme.idx);
@@ -23,6 +22,9 @@ class AppTheme extends ChangeNotifier {
 
   void setTheme(AppThemeData theme) {
     this.theme = theme;
+    SharedPreferences.getInstance().then((prefs) {
+      prefs.setInt('theme', theme.idx);
+    });
     notifyListeners();
   }
 }
