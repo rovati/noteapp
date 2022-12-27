@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:notes/model/note/notifier/main_list.dart';
+import 'package:notes/model/note/plaintext.dart';
 import 'package:notes/model/storage/local_db.dart';
 import 'package:notes/model/storage/parse_result.dart';
 
+import '../model/storage/note_id_generator.dart';
 import '../theme/app_theme.dart';
-import '../theme/themes.dart';
 import 'main.dart';
 
 class LoadingPage extends StatefulWidget {
@@ -15,124 +17,107 @@ class LoadingPage extends StatefulWidget {
 
 class _LoadingPageState extends State<LoadingPage> {
   late ParseResult _parseResult;
-  bool _loaderVisible = false;
-  bool _recoveryTextVisible = false;
-  bool _recoveredNotesVisible = false;
-  double _loaderOpacity = 1.0;
-  double _recoveryTextOpacity = 0.0;
-  double _recoveredNotesOpacity = 0.0;
+  late String errorMessage;
+  var recoveryButtonVisible = false;
+  late void Function() recoveryButtonCallback;
 
-  void loadNotes(BuildContext context) async {
-    LocalDB.getNotes().then((list) {
-      _parseResult = list;
-      return Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => const MainPage()));
-    }).timeout(const Duration(seconds: 5), onTimeout: _switchWidgets);
+  @override
+  void initState() {
+    super.initState();
+    errorMessage = '';
+    recoveryButtonCallback = _exportNotes;
+    _loadNotes(context);
   }
 
-  void _switchWidgets() {
-    _loaderOpacity = 0.0;
-    Future.delayed(const Duration(milliseconds: 200), () {
-      _loaderVisible = false;
-      _recoveryTextVisible = true;
-      _recoveryTextOpacity = 1.0;
+  void _loadNotes(BuildContext context) async {
+    try {
+      LocalDB.getNotes().then((list) {
+        _parseResult = list;
+        if (_parseResult.unparsed.isNotEmpty) {
+          setState(() {
+            recoveryButtonVisible = true;
+            errorMessage =
+                'There were some errors during the parsing of some notes.\n'
+                'Tap here to recover them.';
+          });
+          recoveryButtonCallback = _recoverNotes;
+        } else {
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (context) => const MainPage()));
+        }
+      }).timeout(const Duration(seconds: 5));
+    } catch (err) {
+      setState(() {
+        recoveryButtonVisible = true;
+        errorMessage = 'The app is having issues parsing the notes.\n'
+            'Tap here to try a recovery.';
+      });
+      recoveryButtonCallback = _exportNotes;
+    }
+  }
+
+  void _exportNotes() {
+    LocalDB.archiveNotes().then((success) {
+      if (success) {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text('Notes archive saved to local storage'),
+        ));
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => const MainPage()));
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text('Could not create the notes archive!'),
+        ));
+      }
     });
   }
 
-  void _showRecoveredNotes() {
-    _recoveryTextOpacity = 0.0;
-    Future.delayed(const Duration(milliseconds: 200), () {
-      _recoveryTextVisible = false;
-      _recoveredNotesVisible = true;
-      _recoveredNotesOpacity = 1.0;
-    });
+  void _recoverNotes() {
+    for (int i = 0; i < _parseResult.unparsed.length; i++) {
+      IDProvider.getNextId().then((id) => NotesList().addNote(Plaintext(id,
+          title: 'recovered note $i', content: _parseResult.unparsed[i])));
+    }
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => const MainPage()));
   }
 
   @override
-  Widget build(BuildContext context) {
-    loadNotes(context);
-    return Scaffold(
-      body: Stack(
-        children: [
-          AppTheme().theme.background,
-          SafeArea(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                AnimatedOpacity(
-                  opacity: _loaderOpacity,
-                  duration: const Duration(milliseconds: 200),
-                  child: Visibility(
-                    visible: _loaderVisible,
-                    child: Center(
-                      child: Transform.scale(
-                        scale: 3.0,
-                        child: const CircularProgressIndicator(
-                          color: Color.fromARGB(0xFF, 0xE1, 0x55, 0x54),
-                          strokeWidth: 2.0,
+  Widget build(BuildContext context) => Scaffold(
+        body: Stack(
+          children: [
+            AppTheme().theme.background,
+            SafeArea(
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  Transform.scale(
+                    scale: 3.0,
+                    child: CircularProgressIndicator(
+                      color: AppTheme().theme.textColor,
+                      strokeWidth: 2.0,
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Visibility(
+                      visible: recoveryButtonVisible,
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 20),
+                        child: TextButton(
+                          onPressed: recoveryButtonCallback,
+                          child: Text(
+                            errorMessage,
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(color: Colors.white),
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-                AnimatedOpacity(
-                  opacity: _recoveryTextOpacity,
-                  duration: const Duration(milliseconds: 200),
-                  child: Visibility(
-                    visible: _recoveryTextVisible,
-                    child: Center(
-                      child: TextButton(
-                        child: const Text(
-                            'The app is having issues parsing the notes.\nTap here to try a recovery.'),
-                        onPressed: () => _showRecoveredNotes,
-                      ),
-                    ),
-                  ),
-                ),
-                AnimatedOpacity(
-                  opacity: _recoveredNotesOpacity,
-                  duration: const Duration(milliseconds: 200),
-                  child: Visibility(
-                    visible: _recoveredNotesVisible,
-                    child: _parseResult != null
-                        ? Expanded(
-                            child: ListView.builder(
-                              itemCount: _parseResult.unparsed.length + 1,
-                              itemBuilder: (context, index) => index !=
-                                      _parseResult.unparsed.length
-                                  ? Padding(
-                                      padding: const EdgeInsets.only(
-                                          top: 6, bottom: 6),
-                                      child: Text(_parseResult.unparsed[index]),
-                                    )
-                                  : Padding(
-                                      padding: const EdgeInsets.only(top: 10),
-                                      child: TextButton(
-                                        child: const Text('OK'),
-                                        onPressed: () => MaterialPageRoute(
-                                          builder: (context) =>
-                                              const MainPage(),
-                                        ),
-                                      ),
-                                    ),
-                            ),
-                          )
-                        : Center(
-                            child: TextButton(
-                              child: const Text('OK'),
-                              onPressed: () => MaterialPageRoute(
-                                builder: (context) => const MainPage(),
-                              ),
-                            ),
-                          ),
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
-      ),
-    );
-  }
+          ],
+        ),
+      );
 }

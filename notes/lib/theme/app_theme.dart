@@ -14,4 +14,9 @@ class AppTheme extends ChangeNotifier {
     // TODO load from shared preferences
     theme = AppThemeData.version2;
   }
+
+  void setTheme(AppThemeData theme) {
+    this.theme = theme;
+    notifyListeners();
+  }
 }
