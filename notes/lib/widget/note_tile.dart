@@ -29,27 +29,29 @@ class _NoteTileState extends State<NoteTile> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: AppTheme().theme.semiTransparentBG,
-        borderRadius: BorderRadius.circular(20),
+    return Consumer<AppTheme>(
+      builder: (context, appTheme, child) => Container(
+        decoration: BoxDecoration(
+          color: appTheme.theme.semiTransparentBG,
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Consumer<NotesList>(builder: (context, noteslist, child) {
+          var note = noteslist.getNoteWithID(widget.noteID);
+          Icon icon = note is Plaintext
+              ? const Icon(Icons.dehaze_rounded)
+              : const Icon(Icons.check_box_rounded);
+          String title = note.title == '' ? 'New note' : note.title;
+          return ListTile(
+            onTap: _onTap,
+            onLongPress: _onLongPress,
+            leading: icon,
+            trailing: note.pinned ? const Icon(Icons.push_pin_rounded) : null,
+            title: Text(title),
+            minVerticalPadding: 20,
+            horizontalTitleGap: 10,
+          );
+        }),
       ),
-      child: Consumer<NotesList>(builder: (context, noteslist, child) {
-        var note = noteslist.getNoteWithID(widget.noteID);
-        Icon icon = note is Plaintext
-            ? const Icon(Icons.dehaze_rounded)
-            : const Icon(Icons.check_box_rounded);
-        String title = note.title == '' ? 'New note' : note.title;
-        return ListTile(
-          onTap: _onTap,
-          onLongPress: _onLongPress,
-          leading: icon,
-          trailing: note.pinned ? const Icon(Icons.push_pin_rounded) : null,
-          title: Text(title),
-          minVerticalPadding: 20,
-          horizontalTitleGap: 10,
-        );
-      }),
     );
   }
 

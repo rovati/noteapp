@@ -1,11 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../model/note/notifier/main_list.dart';
 import '../model/note/plaintext.dart';
 import '../theme/app_theme.dart';
-import '../theme/themes.dart';
 
 class PlaintextPage extends StatefulWidget {
   final int noteID;
@@ -44,81 +44,83 @@ class _PlaintextPageState extends State<PlaintextPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      body: Stack(
-        children: [
-          AppTheme().theme.background,
-          Scaffold(
-            backgroundColor: Colors.transparent,
-            body: SafeArea(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 10.0),
-                    child: Center(
-                      child: Container(
-                        width: MediaQuery.of(context).size.width * 0.85,
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          color: AppTheme().theme.semiTransparentBG,
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: TextField(
-                          readOnly: note.id == -1,
-                          onChanged: _onNoteModified,
-                          maxLines: null,
-                          maxLength: 50,
-                          controller: _titleController,
-                          textInputAction: TextInputAction.done,
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(fontSize: 24),
-                          decoration: const InputDecoration(
-                            hintText: 'Note title',
-                            border: InputBorder.none,
-                            counterText: '',
+      body: Consumer<AppTheme>(
+        builder: (context, appTheme, child) => Stack(
+          children: [
+            appTheme.theme.background,
+            Scaffold(
+              backgroundColor: Colors.transparent,
+              body: SafeArea(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10.0),
+                      child: Center(
+                        child: Container(
+                          width: MediaQuery.of(context).size.width * 0.85,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            color: appTheme.theme.semiTransparentBG,
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: TextField(
+                            readOnly: note.id == -1,
+                            onChanged: _onNoteModified,
+                            maxLines: null,
+                            maxLength: 50,
+                            controller: _titleController,
+                            textInputAction: TextInputAction.done,
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(fontSize: 24),
+                            decoration: const InputDecoration(
+                              hintText: 'Note title',
+                              border: InputBorder.none,
+                              counterText: '',
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.all(20),
-                      child: Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(15),
-                              color: AppTheme().theme.semiTransparentBG,
-                            ),
-                          ),
-                          FractionallySizedBox(
-                            alignment: Alignment.center,
-                            widthFactor: 0.95,
-                            heightFactor: 0.95,
-                            child: TextField(
-                              onChanged: _onNoteModified,
-                              readOnly: note.id == -1,
-                              maxLines: null,
-                              textInputAction: TextInputAction.newline,
-                              controller: _bodyController,
-                              style: const TextStyle(fontSize: 20),
-                              decoration: const InputDecoration.collapsed(
-                                hintText: 'New note',
-                                border: InputBorder.none,
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.all(20),
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15),
+                                color: appTheme.theme.semiTransparentBG,
                               ),
                             ),
-                          ),
-                        ],
+                            FractionallySizedBox(
+                              alignment: Alignment.center,
+                              widthFactor: 0.95,
+                              heightFactor: 0.95,
+                              child: TextField(
+                                onChanged: _onNoteModified,
+                                readOnly: note.id == -1,
+                                maxLines: null,
+                                textInputAction: TextInputAction.newline,
+                                controller: _bodyController,
+                                style: const TextStyle(fontSize: 20),
+                                decoration: const InputDecoration.collapsed(
+                                  hintText: 'New note',
+                                  border: InputBorder.none,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

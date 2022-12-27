@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../theme/app_theme.dart';
@@ -13,87 +14,89 @@ class InfoPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          AppTheme().theme.background,
-          Center(
-            child: SizedBox(
-              width: MediaQuery.of(context).size.width * 0.66,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const Text(
-                    AppInfo.appInfo1,
-                    textAlign: TextAlign.center,
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.only(top: 5),
-                    child: Text(
-                      AppInfo.appInfo2,
+      body: Consumer<AppTheme>(
+        builder: (context, appTheme, child) => Stack(
+          children: [
+            appTheme.theme.background,
+            Center(
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width * 0.66,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const Text(
+                      AppInfo.appInfo1,
                       textAlign: TextAlign.center,
                     ),
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.only(top: 5),
-                    child: Text(
-                      AppInfo.appInfo3,
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 20),
-                    child: RichText(
-                      text: TextSpan(
-                        text: 'GitHub repository',
-                        style: TextStyle(
-                            decoration: TextDecoration.underline,
-                            color: AppTheme().theme.textColor),
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () {
-                            launchUrl(AppInfo.repoURL);
-                          },
+                    const Padding(
+                      padding: EdgeInsets.only(top: 5),
+                      child: Text(
+                        AppInfo.appInfo2,
+                        textAlign: TextAlign.center,
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 10),
-                    child: RichText(
-                      text: TextSpan(
-                        text: 'Report a bug',
-                        style: TextStyle(
-                            decoration: TextDecoration.underline,
-                            color: AppTheme().theme.textColor),
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () {
-                            launchUrl(AppInfo.bugReportLink);
-                          },
+                    const Padding(
+                      padding: EdgeInsets.only(top: 5),
+                      child: Text(
+                        AppInfo.appInfo3,
+                        textAlign: TextAlign.center,
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 20),
-                    child: FutureBuilder<String>(
-                        future: _version,
-                        builder: (context, snapshot) {
-                          var version = 'retreiving app version...';
-                          if (snapshot.hasData) {
-                            version = 'v${snapshot.data!}';
-                          }
-                          if (snapshot.hasError) {
-                            version = 'failed to retreive the app version';
-                          }
-                          return Text(
-                            version,
-                            style: const TextStyle(fontSize: 10),
-                          );
-                        }),
-                  ),
-                ],
+                    Padding(
+                      padding: const EdgeInsets.only(top: 20),
+                      child: RichText(
+                        text: TextSpan(
+                          text: 'GitHub repository',
+                          style: TextStyle(
+                              decoration: TextDecoration.underline,
+                              color: appTheme.theme.secondaryColor),
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              launchUrl(AppInfo.repoURL);
+                            },
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10),
+                      child: RichText(
+                        text: TextSpan(
+                          text: 'Report a bug',
+                          style: TextStyle(
+                              decoration: TextDecoration.underline,
+                              color: appTheme.theme.secondaryColor),
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              launchUrl(AppInfo.bugReportLink);
+                            },
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 20),
+                      child: FutureBuilder<String>(
+                          future: _version,
+                          builder: (context, snapshot) {
+                            var version = 'retreiving app version...';
+                            if (snapshot.hasData) {
+                              version = 'v${snapshot.data!}';
+                            }
+                            if (snapshot.hasError) {
+                              version = 'failed to retreive the app version';
+                            }
+                            return Text(
+                              version,
+                              style: const TextStyle(fontSize: 10),
+                            );
+                          }),
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

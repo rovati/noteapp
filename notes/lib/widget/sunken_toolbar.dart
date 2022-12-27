@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:notes/model/storage/local_db.dart';
+import 'package:provider/provider.dart';
 
 import '../model/note/checklist.dart';
 import '../model/note/notifier/main_list.dart';
@@ -39,9 +40,9 @@ class _SunkenToolbarState extends State<SunkenToolbar>
   void initState() {
     super.initState();
 
-    _exportIconColor = AppTheme().theme.toolbarIconColor;
-    _checklistIconColor = AppTheme().theme.toolbarIconColor;
-    _plaintextIconColor = AppTheme().theme.toolbarIconColor;
+    _exportIconColor = AppTheme().theme.secondaryColor;
+    _checklistIconColor = AppTheme().theme.secondaryColor;
+    _plaintextIconColor = AppTheme().theme.secondaryColor;
     _tapColor = AppTheme().theme.toolbarIconTapColor;
 
     _rotation = AnimationController(
@@ -63,44 +64,46 @@ class _SunkenToolbarState extends State<SunkenToolbar>
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      alignment: Alignment.bottomRight,
-      height: _height,
-      width: _width,
-      child: AnimatedBuilder(
-        animation: animation,
-        child: buttonsColumn(),
-        builder: (context, child) {
-          return ClipPath(
-            clipper: RoundedClipper(_width, _height, animation.value),
-            child: Stack(
-              alignment: Alignment.bottomCenter,
-              children: [
-                IgnorePointer(
-                  child: Container(
-                    height: _height - animation.value,
-                    width: 70,
-                    decoration: BoxDecoration(
-                      borderRadius:
-                          const BorderRadius.only(topLeft: Radius.circular(35)),
-                      boxShadow: [
-                        BoxShadow(
-                          color: AppTheme().theme.toolbarShade,
-                        ),
-                        BoxShadow(
-                          color: AppTheme().theme.toolbarBG,
-                          blurRadius: 6.0,
-                          offset: const Offset(6, 6),
-                        ),
-                      ],
+    return Consumer<AppTheme>(
+      builder: (context, appTheme, child) => Container(
+        alignment: Alignment.bottomRight,
+        height: _height,
+        width: _width,
+        child: AnimatedBuilder(
+          animation: animation,
+          child: buttonsColumn(),
+          builder: (context, child) {
+            return ClipPath(
+              clipper: RoundedClipper(_width, _height, animation.value),
+              child: Stack(
+                alignment: Alignment.bottomCenter,
+                children: [
+                  IgnorePointer(
+                    child: Container(
+                      height: _height - animation.value,
+                      width: 70,
+                      decoration: BoxDecoration(
+                        borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(35)),
+                        boxShadow: [
+                          BoxShadow(
+                            color: appTheme.theme.toolbarShade,
+                          ),
+                          BoxShadow(
+                            color: appTheme.theme.toolbarBG,
+                            blurRadius: 6.0,
+                            offset: const Offset(6, 6),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-                child!,
-              ],
-            ),
-          );
-        },
+                  child!,
+                ],
+              ),
+            );
+          },
+        ),
       ),
     );
   }
@@ -208,7 +211,7 @@ class _SunkenToolbarState extends State<SunkenToolbar>
       Future.delayed(
           const Duration(milliseconds: 500),
           () => setState(() {
-                _plaintextIconColor = AppTheme().theme.toolbarIconColor;
+                _plaintextIconColor = AppTheme().theme.secondaryColor;
               }));
     } else {
       showNotesFullSnackbar();
@@ -224,7 +227,7 @@ class _SunkenToolbarState extends State<SunkenToolbar>
       Future.delayed(
           const Duration(milliseconds: 500),
           () => setState(() {
-                _checklistIconColor = AppTheme().theme.toolbarIconColor;
+                _checklistIconColor = AppTheme().theme.secondaryColor;
               }));
     } else {
       showNotesFullSnackbar();
@@ -247,7 +250,7 @@ class _SunkenToolbarState extends State<SunkenToolbar>
     Future.delayed(
         const Duration(milliseconds: 500),
         () => setState(() {
-              _exportIconColor = AppTheme().theme.toolbarIconColor;
+              _exportIconColor = AppTheme().theme.secondaryColor;
             }));
     LocalDB.archiveNotes().then((res) {
       if (res) {

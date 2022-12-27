@@ -3,6 +3,7 @@ import 'package:notes/model/note/notifier/main_list.dart';
 import 'package:notes/model/note/plaintext.dart';
 import 'package:notes/model/storage/local_db.dart';
 import 'package:notes/model/storage/parse_result.dart';
+import 'package:provider/provider.dart';
 
 import '../model/storage/note_id_generator.dart';
 import '../theme/app_theme.dart';
@@ -25,7 +26,7 @@ class _LoadingPageState extends State<LoadingPage> {
   void initState() {
     super.initState();
     errorMessage = '';
-    recoveryButtonCallback = _exportNotes;
+    recoveryButtonCallback = () {};
     _loadNotes(context);
   }
 
@@ -83,41 +84,44 @@ class _LoadingPageState extends State<LoadingPage> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        body: Stack(
-          children: [
-            AppTheme().theme.background,
-            SafeArea(
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  Transform.scale(
-                    scale: 3.0,
-                    child: CircularProgressIndicator(
-                      color: AppTheme().theme.textColor,
-                      strokeWidth: 2.0,
+        body: Consumer<AppTheme>(
+          builder: (context, appTheme, child) => Stack(
+            children: [
+              appTheme.theme.background,
+              SafeArea(
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Transform.scale(
+                      scale: 3.0,
+                      child: CircularProgressIndicator(
+                        color: appTheme.theme.secondaryColor,
+                        strokeWidth: 2.0,
+                      ),
                     ),
-                  ),
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Visibility(
-                      visible: recoveryButtonVisible,
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 20),
-                        child: TextButton(
-                          onPressed: recoveryButtonCallback,
-                          child: Text(
-                            errorMessage,
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(color: Colors.white),
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Visibility(
+                        visible: recoveryButtonVisible,
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 20),
+                          child: TextButton(
+                            onPressed: recoveryButtonCallback,
+                            child: Text(
+                              errorMessage,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  color: appTheme.theme.secondaryColor),
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       );
 }

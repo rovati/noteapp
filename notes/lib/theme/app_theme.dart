@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'themes.dart';
 
@@ -11,8 +12,13 @@ class AppTheme extends ChangeNotifier {
   }
 
   AppTheme._internal() {
-    // TODO load from shared preferences
     theme = AppThemeData.version2;
+    final futPrefs = SharedPreferences.getInstance();
+    futPrefs.then((prefs) {
+      var themeIdx = prefs.getInt('theme') ?? 0;
+      theme = AppThemeData.allThemes[themeIdx];
+      prefs.setInt('theme', theme.idx);
+    });
   }
 
   void setTheme(AppThemeData theme) {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../theme/app_theme.dart';
 import '../widget/dimsissible_notes.dart';
@@ -12,21 +13,23 @@ class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          AppTheme().theme.background,
-          Center(
-            child: Container(
-              alignment: Alignment.center,
-              width: MediaQuery.of(context).size.width * 0.90,
-              child: const DismissibleNotes(),
+      body: Consumer<AppTheme>(
+        builder: (context, appTheme, child) => Stack(
+          children: [
+            appTheme.theme.background,
+            Center(
+              child: Container(
+                alignment: Alignment.center,
+                width: MediaQuery.of(context).size.width * 0.90,
+                child: const DismissibleNotes(),
+              ),
             ),
-          ),
-          const Align(
-            alignment: Alignment.bottomRight,
-            child: SunkenToolbar(),
-          )
-        ],
+            const Align(
+              alignment: Alignment.bottomRight,
+              child: SunkenToolbar(),
+            )
+          ],
+        ),
       ),
     );
   }
