@@ -20,7 +20,6 @@ class MainPage extends StatelessWidget {
             Center(
               child: Container(
                 alignment: Alignment.center,
-                width: MediaQuery.of(context).size.width * 0.90,
                 child: const DismissibleNotes(),
               ),
             ),

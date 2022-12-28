@@ -23,6 +23,7 @@ class _DismissibleNotesState extends State<DismissibleNotes> {
                 child: SizedBox(
                   width: MediaQuery.of(context).size.width * 0.75,
                   child: RichText(
+                    textAlign: TextAlign.center,
                     softWrap: true,
                     text: TextSpan(
                       style: TextStyle(color: appTheme.theme.secondaryColor),
@@ -56,7 +57,8 @@ class _DismissibleNotesState extends State<DismissibleNotes> {
                 itemBuilder: (context, index) {
                   Note note = noteslist.notes[index];
                   return Padding(
-                    padding: const EdgeInsets.only(top: 6, bottom: 6),
+                    padding: const EdgeInsets.only(
+                        top: 6, bottom: 6, left: 12, right: 12),
                     child: Dismissible(
                       key: UniqueKey(),
                       direction: DismissDirection.endToStart,
@@ -67,9 +69,9 @@ class _DismissibleNotesState extends State<DismissibleNotes> {
                       ),
                       secondaryBackground: Container(
                           alignment: Alignment.centerRight,
-                          child: const Icon(
+                          child: Icon(
                             Icons.delete_rounded,
-                            color: Colors.red,
+                            color: appTheme.theme.secondaryColor,
                           )),
                       child: NoteTile(note.id),
                     ),
