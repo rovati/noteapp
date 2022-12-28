@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:notes/theme/app_theme.dart';
 import 'package:provider/provider.dart';
 
 import '../model/note/note.dart';
@@ -15,31 +16,66 @@ class DismissibleNotes extends StatefulWidget {
 class _DismissibleNotesState extends State<DismissibleNotes> {
   @override
   Widget build(BuildContext context) {
-    return Consumer<NotesList>(
-      builder: (context, noteslist, child) => ListView.builder(
-          itemCount: noteslist.notes.length,
-          itemBuilder: (context, index) {
-            Note note = noteslist.notes[index];
-            return Padding(
-              padding: const EdgeInsets.only(top: 6, bottom: 6),
-              child: Dismissible(
-                key: UniqueKey(),
-                direction: DismissDirection.endToStart,
-                onDismissed: (direction) =>
-                    _onDismissDelete(direction, note.id),
-                background: Container(
-                  color: Colors.transparent,
+    return Consumer<AppTheme>(
+      builder: (context, appTheme, child) => Consumer<NotesList>(
+        builder: (context, noteslist, child) => noteslist.notes.isEmpty
+            ? Center(
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.75,
+                  child: RichText(
+                    softWrap: true,
+                    text: TextSpan(
+                      style: TextStyle(color: appTheme.theme.secondaryColor),
+                      children: const [
+                        TextSpan(
+                          text: 'To start, open the toolbar by tapping ',
+                        ),
+                        WidgetSpan(
+                          child:
+                              Icon(Icons.keyboard_arrow_up_rounded, size: 14),
+                        ),
+                        TextSpan(
+                          text: ' and create a plaintext note with ',
+                        ),
+                        WidgetSpan(
+                          child: Icon(Icons.dehaze_rounded, size: 14),
+                        ),
+                        TextSpan(
+                          text: ' or a checklist with ',
+                        ),
+                        WidgetSpan(
+                          child: Icon(Icons.check_box_rounded, size: 14),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
-                secondaryBackground: Container(
-                    alignment: Alignment.centerRight,
-                    child: const Icon(
-                      Icons.delete_rounded,
-                      color: Colors.red,
-                    )),
-                child: NoteTile(note.id),
-              ),
-            );
-          }),
+              )
+            : ListView.builder(
+                itemCount: noteslist.notes.length,
+                itemBuilder: (context, index) {
+                  Note note = noteslist.notes[index];
+                  return Padding(
+                    padding: const EdgeInsets.only(top: 6, bottom: 6),
+                    child: Dismissible(
+                      key: UniqueKey(),
+                      direction: DismissDirection.endToStart,
+                      onDismissed: (direction) =>
+                          _onDismissDelete(direction, note.id),
+                      background: Container(
+                        color: Colors.transparent,
+                      ),
+                      secondaryBackground: Container(
+                          alignment: Alignment.centerRight,
+                          child: const Icon(
+                            Icons.delete_rounded,
+                            color: Colors.red,
+                          )),
+                      child: NoteTile(note.id),
+                    ),
+                  );
+                }),
+      ),
     );
   }
 
