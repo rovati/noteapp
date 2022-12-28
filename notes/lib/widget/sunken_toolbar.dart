@@ -125,7 +125,10 @@ class _SunkenToolbarState extends State<SunkenToolbar>
             padding: const EdgeInsets.only(bottom: 10),
             child: IconButton(
               onPressed: _onTapOpenSettings,
-              icon: const Icon(Icons.settings_rounded),
+              icon: Icon(
+                Icons.settings_rounded,
+                color: AppTheme().theme.secondaryColor,
+              ),
             ),
           ),
           Padding(
