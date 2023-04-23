@@ -13,11 +13,23 @@ class AppTheme extends ChangeNotifier {
 
   AppTheme._internal() {
     theme = AppThemeData.neeck;
-    SharedPreferences.getInstance().then((prefs) {
+    SharedPreferences.getInstance()
+    .then((prefs) {
       var themeIdx = prefs.getInt('theme') ?? 0;
       theme = AppThemeData.allThemes[themeIdx];
       prefs.setInt('theme', theme.idx);
+    }).then((_) {
+      notifyListeners();
     });
+  }
+
+  Future<void> waitForLoad() async {
+    return SharedPreferences.getInstance()
+      .then((prefs) {
+        var themeIdx = prefs.getInt('theme') ?? 0;
+        theme = AppThemeData.allThemes[themeIdx];
+        prefs.setInt('theme', theme.idx);
+      });
   }
 
   void setTheme(AppThemeData theme) {

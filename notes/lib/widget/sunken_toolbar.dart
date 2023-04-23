@@ -78,7 +78,8 @@ class _SunkenToolbarState extends State<SunkenToolbar>
               child: Stack(
                 alignment: Alignment.bottomCenter,
                 children: [
-                  IgnorePointer(
+                  AbsorbPointer(
+                    absorbing: true,
                     child: Container(
                       height: _height - animation.value,
                       width: 70,
