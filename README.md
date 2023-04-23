@@ -21,7 +21,7 @@ Version 3 is currently under development and the following features are planned:
 - add the option of creating an account for cloud syncing of the notes and syncing across devices
 
 ## Repo structure
-Starting from version 3 of the Android app it has been deided to revisit the organization of the repo. It is possible to access old code of the Android app through an "archive" branch [android-prev-versions](https://github.com/rovati/noteapp/tree/android-prev-versions). The currrent development of the Android app is found in the branch [android-app](https://github.com/rovati/noteapp/tree/android_app) while the _main_ branch is kept only as a welcome page.
+Starting from version 3 of the Android app it has been decided to revisit the organization of the repo. It is possible to access old code of the Android app through an "archive" branch [android-prev-versions](https://github.com/rovati/noteapp/tree/android-prev-versions). The currrent development of the Android app is found in the branch [android-app](https://github.com/rovati/noteapp/tree/android_app) while the _main_ branch contains code for the latest stable version released.
 
 ## Licensing and forking
 This project is open-source and non-profit. The project is released under [GNU General Public License v3.0](LICENSE). Feel free to fork it or download it for personal use. If you modify it we would really appreciate you mentioning all the current contributors on this project.
