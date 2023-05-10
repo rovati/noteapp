@@ -43,8 +43,7 @@ class _LoadingPageState extends State<LoadingPage> {
           });
           recoveryButtonCallback = _recoverNotes;
         } else {
-          Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (context) => const MainPage()));
+          _goToMainPage(context);
         }
       }).timeout(const Duration(seconds: 5));
     } catch (err) {
@@ -63,8 +62,7 @@ class _LoadingPageState extends State<LoadingPage> {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           content: Text('Notes archive saved to local storage'),
         ));
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => const MainPage()));
+        _goToMainPage(context);
       } else {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           content: Text('Could not create the notes archive!'),
@@ -78,8 +76,14 @@ class _LoadingPageState extends State<LoadingPage> {
       IDProvider.getNextId().then((id) => NotesList().addNote(Plaintext(id,
           title: 'recovered note $i', content: _parseResult.unparsed[i])));
     }
-    Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => const MainPage()));
+    _goToMainPage(context);
+  }
+
+  void _goToMainPage(BuildContext context) {
+    AppTheme().waitForLoad().then((_) {
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => const MainPage()));
+    });
   }
 
   @override

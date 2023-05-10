@@ -17,6 +17,16 @@ class AppTheme extends ChangeNotifier {
       var themeIdx = prefs.getInt('theme') ?? 0;
       theme = AppThemeData.allThemes[themeIdx];
       prefs.setInt('theme', theme.idx);
+    }).then((_) {
+      notifyListeners();
+    });
+  }
+
+  Future<void> waitForLoad() async {
+    return SharedPreferences.getInstance().then((prefs) {
+      var themeIdx = prefs.getInt('theme') ?? 0;
+      theme = AppThemeData.allThemes[themeIdx];
+      prefs.setInt('theme', theme.idx);
     });
   }
 
