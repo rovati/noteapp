@@ -146,7 +146,7 @@ class LocalDB {
   }
 
   static Note buildNote(Map<String, dynamic> json) {
-    // for back-compatibility
+    // for backward compatibility
     if (!json.keys.contains('plain')) {
       json['plain'] = true;
     }

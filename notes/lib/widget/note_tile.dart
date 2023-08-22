@@ -74,7 +74,7 @@ class _NoteTileState extends State<NoteTile> {
       NotesList().togglePin(toggled);
     } else if (note is Checklist) {
       Checklist toggled = Checklist(widget.noteID,
-          title: note.title, chContent: note.chContent, pinned: !note.pinned);
+          title: note.title, groups: note.groups, pinned: !note.pinned);
       NotesList().togglePin(toggled);
     }
   }

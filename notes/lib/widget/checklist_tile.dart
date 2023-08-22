@@ -7,9 +7,11 @@ import '../model/note/checklist_element.dart';
 import '../model/note/notifier/checklist_list.dart';
 
 class ChecklistTile extends StatefulWidget {
-  final int idx;
+  final int groupIdx;
+  final int elemIdx;
+  final bool checked;
 
-  const ChecklistTile(this.idx, {super.key});
+  const ChecklistTile(this.groupIdx, this.elemIdx, this.checked, {super.key});
 
   @override
   State<ChecklistTile> createState() => _ChecklistTileState();
@@ -19,12 +21,15 @@ class _ChecklistTileState extends State<ChecklistTile> {
   late final TextEditingController _controller = TextEditingController();
   late bool _ticked = false;
   Timer? _updateTimer;
+  late ChecklistElement _element;
 
   @override
   void initState() {
     super.initState();
-    _controller.text = ChecklistManager().elems[widget.idx].content;
-    _ticked = ChecklistManager().elems[widget.idx].isChecked;
+    _element = ChecklistManager()
+        .elem(widget.groupIdx, widget.elemIdx, widget.checked);
+    _controller.text = _element.content;
+    _ticked = _element.isChecked;
   }
 
   @override
@@ -36,8 +41,11 @@ class _ChecklistTileState extends State<ChecklistTile> {
   @override
   Widget build(BuildContext context) {
     return Consumer<ChecklistManager>(builder: (context, manager, child) {
-      _controller.text = manager.elems[widget.idx].content;
-      _ticked = manager.elems[widget.idx].isChecked;
+      _element = ChecklistManager()
+          .elem(widget.groupIdx, widget.elemIdx, widget.checked);
+
+      _controller.text = _element.content;
+      _ticked = _element.isChecked;
       return Row(
         children: [
           IconButton(
@@ -72,12 +80,14 @@ class _ChecklistTileState extends State<ChecklistTile> {
     setState(() {
       _ticked = !_ticked;
     });
-    ChecklistManager().modifyElement(
-        widget.idx,
-        ChecklistElement(
-          isChecked: _ticked,
-          content: _controller.text,
-        ));
+    ChecklistManager().modifyElementOfGroup(
+      widget.groupIdx,
+      widget.elemIdx,
+      ChecklistElement(
+        isChecked: _ticked,
+        content: _controller.text,
+      ),
+    );
   }
 
   void _onContentModified(String ignored) {
@@ -89,12 +99,14 @@ class _ChecklistTileState extends State<ChecklistTile> {
   }
 
   void _contentUpdateCallback() {
-    ChecklistManager().modifyElement(
-        widget.idx,
-        ChecklistElement(
-          isChecked: _ticked,
-          content: _controller.text,
-        ));
+    ChecklistManager().modifyElementOfGroup(
+      widget.groupIdx,
+      widget.elemIdx,
+      ChecklistElement(
+        isChecked: _ticked,
+        content: _controller.text,
+      ),
+    );
   }
 
   void _onContentSubmitted(String ignored) {

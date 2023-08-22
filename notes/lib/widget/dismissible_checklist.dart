@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../model/note/notifier/checklist_list.dart';
-import 'checklist_tile.dart';
+import 'checklist_group_tile.dart';
 
 class DismissibleChecklist extends StatefulWidget {
   const DismissibleChecklist({super.key});
@@ -12,19 +12,20 @@ class DismissibleChecklist extends StatefulWidget {
 
 class _DismissibleCLState extends State<DismissibleChecklist> {
   @override
+  // TODO separate list and new group button
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: ChecklistManager().elems.length + 1,
+      itemCount: ChecklistManager().groupsCount() + 1,
       itemBuilder: (context, index) {
-        if (index < ChecklistManager().elems.length) {
+        if (index < ChecklistManager().groupsCount()) {
           return Stack(
             children: [
-              ChecklistTile(index),
+              ChecklistGroupTile(index),
               Align(
                 alignment: Alignment.centerRight,
                 child: IconButton(
                   icon: const Icon(Icons.remove_circle_rounded, size: 18),
-                  onPressed: () => _onTapRemoveElement(index),
+                  onPressed: () => _onTapRemoveGroup(index),
                 ),
               )
             ],
@@ -37,9 +38,7 @@ class _DismissibleCLState extends State<DismissibleChecklist> {
                 icon: const Icon(Icons.add_rounded),
                 onPressed: _onTapAddElement,
               ),
-              title: const Text(
-                'Add item',
-              ),
+              title: const Text('Add group'),
               onTap: _onTapAddElement,
             ),
           );
@@ -49,12 +48,12 @@ class _DismissibleCLState extends State<DismissibleChecklist> {
   }
 
   void _onTapAddElement() {
-    ChecklistManager().addElement();
+    ChecklistManager().addGroup();
     setState(() {});
   }
 
-  void _onTapRemoveElement(idx) {
-    ChecklistManager().removeElement(idx);
+  void _onTapRemoveGroup(idx) {
+    ChecklistManager().removeGroup(idx);
     setState(() {});
   }
 }

@@ -21,7 +21,7 @@ class _ChecklistPageState extends State<ChecklistPage> {
   @override
   void initState() {
     super.initState();
-    _titleController.text = ChecklistManager().title;
+    _titleController.text = ChecklistManager().note.title;
   }
 
   @override
@@ -49,7 +49,7 @@ class _ChecklistPageState extends State<ChecklistPage> {
                             borderRadius: BorderRadius.circular(20),
                           ),
                           child: TextField(
-                            readOnly: ChecklistManager().id == -1,
+                            readOnly: ChecklistManager().note.id == -1,
                             onChanged: _onTitleModified,
                             maxLines: null,
                             maxLength: 50,
