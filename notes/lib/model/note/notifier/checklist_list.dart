@@ -52,10 +52,23 @@ class ChecklistManager extends ChangeNotifier {
     notifyListeners();
   }
 
-  // TODO why isnt it saved to local db?
   void modifyElementOfGroup(
       int groupIdx, int elementIdx, ChecklistElement newElem) {
     note.groups[groupIdx].updateElementAt(elementIdx, newElem);
+    NotesList().modifyNote(note);
+  }
+
+  void toggleElementOfGroup(int groupIdx, int elementIdx, bool checked) {
+    var element = elem(groupIdx, elementIdx, checked);
+    if (checked) {
+      element.isChecked = false;
+      removeCheckedElementFromGroup(groupIdx, elementIdx);
+      note.groups[groupIdx].uncheckedElems.add(element);
+    } else {
+      element.isChecked = true;
+      removeUncheckedElementFromGroup(groupIdx, elementIdx);
+      note.groups[groupIdx].checkedElems.add(element);
+    }
     NotesList().modifyNote(note);
   }
 

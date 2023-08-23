@@ -51,8 +51,24 @@ class _CLGroupTileState extends State<ChecklistGroupTile> {
                     );
                   },
                 ),
-                // TODO add separator line
-                const Padding(padding: EdgeInsets.symmetric(vertical: 10)),
+                Padding(
+                  padding: const EdgeInsets.only(top: 1),
+                  child: Center(
+                    child: GestureDetector(
+                      onTap: _onTapAddElement,
+                      child: const Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.add_rounded),
+                          Text(
+                            'Add element',
+                            style: TextStyle(fontSize: 16),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
                 ListView.builder(
                   shrinkWrap: true,
                   itemCount:
@@ -72,24 +88,6 @@ class _CLGroupTileState extends State<ChecklistGroupTile> {
                       ],
                     );
                   },
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 1),
-                  child: Center(
-                    child: GestureDetector(
-                      onTap: _onTapAddElement,
-                      child: const Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.add_rounded),
-                          Text(
-                            'Add element',
-                            style: TextStyle(fontSize: 16),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
                 ),
               ],
             ),

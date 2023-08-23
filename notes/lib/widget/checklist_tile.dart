@@ -19,17 +19,17 @@ class ChecklistTile extends StatefulWidget {
 
 class _ChecklistTileState extends State<ChecklistTile> {
   late final TextEditingController _controller = TextEditingController();
-  late bool _ticked = false;
   Timer? _updateTimer;
   late ChecklistElement _element;
+  late bool _ticked;
 
   @override
   void initState() {
     super.initState();
+    _ticked = widget.checked;
     _element = ChecklistManager()
         .elem(widget.groupIdx, widget.elemIdx, widget.checked);
     _controller.text = _element.content;
-    _ticked = _element.isChecked;
   }
 
   @override
@@ -45,7 +45,6 @@ class _ChecklistTileState extends State<ChecklistTile> {
           .elem(widget.groupIdx, widget.elemIdx, widget.checked);
 
       _controller.text = _element.content;
-      _ticked = _element.isChecked;
       return Row(
         children: [
           IconButton(
@@ -77,17 +76,9 @@ class _ChecklistTileState extends State<ChecklistTile> {
   }
 
   void _onTapCheckbox() {
-    setState(() {
-      _ticked = !_ticked;
-    });
-    ChecklistManager().modifyElementOfGroup(
-      widget.groupIdx,
-      widget.elemIdx,
-      ChecklistElement(
-        isChecked: _ticked,
-        content: _controller.text,
-      ),
-    );
+    ChecklistManager()
+        .toggleElementOfGroup(widget.groupIdx, widget.elemIdx, _ticked);
+    _ticked = !_ticked;
   }
 
   void _onContentModified(String ignored) {

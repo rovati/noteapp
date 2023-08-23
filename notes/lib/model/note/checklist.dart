@@ -54,7 +54,6 @@ class Checklist extends Note {
       }
       return [ChecklistGroup(checkedElems: checked, uncheckedElems: unchecked)];
     } else {
-      print(json);
       var groups = json['groups'];
       if (groups.isEmpty) {
         return [ChecklistGroup()];

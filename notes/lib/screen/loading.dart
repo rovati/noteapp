@@ -73,7 +73,6 @@ class _LoadingPageState extends State<LoadingPage> {
 
   void _recoverNotes() {
     for (int i = 0; i < _parseResult.unparsed.length; i++) {
-      print(_parseResult.unparsed[i]);
       IDProvider.getNextId().then((id) => NotesList().addNote(Plaintext(id,
           title: 'recovered note $i', content: _parseResult.unparsed[i])));
     }
