@@ -49,7 +49,7 @@ class _ChecklistTileState extends State<ChecklistTile> {
       return Row(
         children: [
           IconButton(
-            icon: _ticked
+            icon: widget.checked
                 ? const Icon(Icons.check_box_rounded)
                 : const Icon(Icons.check_box_outline_blank_rounded),
             onPressed: _onTapCheckbox,

@@ -1,17 +1,19 @@
 import 'checklist_element.dart';
 
 class ChecklistGroup {
-  late String title;
+  String title;
   List<ChecklistElement> uncheckedElems;
   List<ChecklistElement> checkedElems;
 
   ChecklistGroup(
-      {title = '', uncheckedElems = const [], checkedElems = const []})
+      {this.title = 'No Title',
+      uncheckedElems = const [],
+      checkedElems = const []})
       : uncheckedElems = extractContent(uncheckedElems),
         checkedElems = extractContent(checkedElems);
 
   ChecklistGroup.fromJSON(Map<String, dynamic> json)
-      : title = json['title'],
+      : title = json['title'] ?? '',
         uncheckedElems = unfoldJsonList(json['unchecked']),
         checkedElems = unfoldJsonList(json['checked']);
 
@@ -39,7 +41,7 @@ class ChecklistGroup {
       jsonList.map((e) => ChecklistElement.fromJson(e)).toList();
 
   static List<ChecklistElement> extractContent(List<dynamic> elems) =>
-      elems.isEmpty ? [ChecklistElement()] : elems as List<ChecklistElement>;
+      elems.isEmpty ? [] : elems as List<ChecklistElement>;
 
   ChecklistElement uncheckedElementAt(int idx) => uncheckedElems[idx];
   ChecklistElement checkedElementAt(int idx) => checkedElems[idx];

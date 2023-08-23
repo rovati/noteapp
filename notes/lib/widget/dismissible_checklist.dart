@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:notes/theme/app_theme.dart';
 
 import '../model/note/notifier/checklist_list.dart';
 import 'checklist_group_tile.dart';
@@ -14,36 +15,49 @@ class _DismissibleCLState extends State<DismissibleChecklist> {
   @override
   // TODO separate list and new group button
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: ChecklistManager().groupsCount() + 1,
-      itemBuilder: (context, index) {
-        if (index < ChecklistManager().groupsCount()) {
-          return Stack(
-            children: [
-              ChecklistGroupTile(index),
-              Align(
-                alignment: Alignment.centerRight,
-                child: IconButton(
-                  icon: const Icon(Icons.remove_circle_rounded, size: 18),
-                  onPressed: () => _onTapRemoveGroup(index),
-                ),
-              )
-            ],
-          );
-        } else {
-          return Padding(
-            padding: const EdgeInsets.only(top: 1),
-            child: ListTile(
-              leading: IconButton(
-                icon: const Icon(Icons.add_rounded),
-                onPressed: _onTapAddElement,
-              ),
-              title: const Text('Add group'),
-              onTap: _onTapAddElement,
+    return Column(
+      children: [
+        ListView.separated(
+          separatorBuilder: (BuildContext context, int index) {
+            return const SizedBox(height: 10);
+          },
+          shrinkWrap: true,
+          itemCount: ChecklistManager().groupsCount(),
+          itemBuilder: (context, index) => Dismissible(
+            key: UniqueKey(),
+            direction: DismissDirection.endToStart,
+            onDismissed: (direction) => _onTapRemoveGroup(index),
+            background: Container(
+              color: Colors.transparent,
             ),
-          );
-        }
-      },
+            secondaryBackground: Container(
+                alignment: Alignment.centerRight,
+                child: Icon(
+                  Icons.delete_rounded,
+                  color: AppTheme().theme.secondaryColor,
+                )),
+            child: ChecklistGroupTile(index),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 10),
+          child: Center(
+            child: GestureDetector(
+              onTap: _onTapAddElement,
+              child: const Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.add_rounded),
+                  Text(
+                    'Add group',
+                    style: TextStyle(fontSize: 20),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 

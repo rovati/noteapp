@@ -35,16 +35,16 @@ class Checklist extends Note {
 
   static List<ChecklistGroup> getGroupsFromJson(Map<String, dynamic> json) {
     // support for checklist structure of versions 3 and before
-    if (!json.keys.contains('content')) {
-      var unchecked = [];
-      var checked = [];
+    if (json.keys.contains('content')) {
+      List<ChecklistElement> unchecked = [];
+      List<ChecklistElement> checked = [];
 
       var elems = json['content'];
-      if (elems.isEmpty()) {
+      if (elems.isEmpty) {
         unchecked.add(ChecklistElement());
       } else {
         for (var elem in json['content']) {
-          ChecklistElement e = elem as ChecklistElement;
+          ChecklistElement e = ChecklistElement.fromJson(elem);
           if (e.isChecked) {
             checked.add(e);
           } else {
@@ -52,14 +52,18 @@ class Checklist extends Note {
           }
         }
       }
-
       return [ChecklistGroup(checkedElems: checked, uncheckedElems: unchecked)];
     } else {
+      print(json);
       var groups = json['groups'];
-      if (groups.isEmpty()) {
+      if (groups.isEmpty) {
         return [ChecklistGroup()];
       } else {
-        return groups as List<ChecklistGroup>;
+        List<ChecklistGroup> parsedGroups = [];
+        for (var g in groups) {
+          parsedGroups.add(ChecklistGroup.fromJSON(g));
+        }
+        return parsedGroups;
       }
     }
   }
