@@ -56,6 +56,7 @@ class _CLGroupTileState extends State<ChecklistGroupTile> {
                 ),
                 ListView.builder(
                   shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
                   itemCount: manager.groupAt(widget.groupIdx).uncheckedLength,
                   itemBuilder: (context, index) {
                     return ChecklistTile(widget.groupIdx, index, false);
@@ -79,20 +80,23 @@ class _CLGroupTileState extends State<ChecklistGroupTile> {
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(15),
-                  child: GestureDetector(
-                    onTap: _onTapToggleCollapse,
-                    //child: Expanded(
-                    child: Container(
-                      height: 2,
-                      decoration: const BoxDecoration(color: Colors.white),
+                Visibility(
+                  visible:
+                      manager.note.groups[widget.groupIdx].checkedLength > 0,
+                  child: Padding(
+                    padding: const EdgeInsets.all(15),
+                    child: GestureDetector(
+                      onTap: _onTapToggleCollapse,
+                      child: Container(
+                        height: 2,
+                        decoration: const BoxDecoration(color: Colors.white),
+                      ),
                     ),
-                    //),
                   ),
                 ),
                 ListView.builder(
                   shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
                   itemCount: _nbCheckedToShow(manager),
                   itemBuilder: (context, index) {
                     return Dismissible(
