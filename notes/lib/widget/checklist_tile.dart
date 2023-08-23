@@ -41,17 +41,19 @@ class _ChecklistTileState extends State<ChecklistTile> {
   @override
   Widget build(BuildContext context) {
     return Consumer<ChecklistManager>(builder: (context, manager, child) {
-      _element = ChecklistManager()
-          .elem(widget.groupIdx, widget.elemIdx, widget.checked);
+      _element = manager.elem(widget.groupIdx, widget.elemIdx, widget.checked);
 
       _controller.text = _element.content;
       return Row(
         children: [
-          IconButton(
-            icon: widget.checked
-                ? const Icon(Icons.check_box_rounded)
-                : const Icon(Icons.check_box_outline_blank_rounded),
-            onPressed: _onTapCheckbox,
+          Opacity(
+            opacity: _ticked ? 0.5 : 1,
+            child: IconButton(
+              icon: widget.checked
+                  ? const Icon(Icons.check_box_rounded)
+                  : const Icon(Icons.check_box_outline_blank_rounded),
+              onPressed: _onTapCheckbox,
+            ),
           ),
           Expanded(
             child: TextField(
@@ -67,6 +69,7 @@ class _ChecklistTileState extends State<ChecklistTile> {
                 border: InputBorder.none,
                 counterText: '',
               ),
+              enabled: !_ticked,
             ),
           ),
           const Padding(padding: EdgeInsets.only(right: 30))

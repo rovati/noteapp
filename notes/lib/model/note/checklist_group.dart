@@ -6,9 +6,7 @@ class ChecklistGroup {
   List<ChecklistElement> checkedElems;
 
   ChecklistGroup(
-      {this.title = 'No Title',
-      uncheckedElems = const [],
-      checkedElems = const []})
+      {this.title = '', uncheckedElems = const [], checkedElems = const []})
       : uncheckedElems = extractContent(uncheckedElems),
         checkedElems = extractContent(checkedElems);
 

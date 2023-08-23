@@ -86,11 +86,7 @@ class _ChecklistPageState extends State<ChecklistPage> {
     if (_updateTimer != null) {
       _updateTimer!.cancel();
     }
-    _updateTimer =
-        Timer(const Duration(milliseconds: 200), _titleUpdateCallback);
-  }
-
-  void _titleUpdateCallback() {
-    ChecklistManager().setTitle(_titleController.text);
+    _updateTimer = Timer(const Duration(milliseconds: 200),
+        () => ChecklistManager().setTitle(_titleController.text));
   }
 }

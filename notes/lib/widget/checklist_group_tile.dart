@@ -15,40 +15,50 @@ class ChecklistGroupTile extends StatefulWidget {
 }
 
 class _CLGroupTileState extends State<ChecklistGroupTile> {
+  var _collapsed = false;
+  final TextEditingController _titleController = TextEditingController();
+
   @override
-  Widget build(BuildContext context) => Consumer<AppTheme>(
-        builder: (context, appTheme, child) => Container(
-          decoration: BoxDecoration(
-            color: appTheme.theme.noteTitleBG,
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10),
+  void initState() {
+    super.initState();
+    _titleController.text =
+        ChecklistManager().note.groups[widget.groupIdx].title;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<AppTheme>(
+      builder: (context, appTheme, child) => Container(
+        decoration: BoxDecoration(
+          color: appTheme.theme.noteTitleBG,
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Consumer<ChecklistManager>(
+          builder: (context, manager, child) => Padding(
+            padding: const EdgeInsets.symmetric(vertical: 5),
             child: Column(
               children: [
                 Center(
-                    child: Text(
-                        ChecklistManager().groupAt(widget.groupIdx).title)),
+                  child: TextField(
+                    onChanged: _onGroupTitleModified,
+                    maxLines: 1,
+                    maxLength: 30,
+                    textInputAction: TextInputAction.done,
+                    controller: _titleController,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(fontSize: 20),
+                    decoration: const InputDecoration(
+                      hintText: 'Group title',
+                      border: InputBorder.none,
+                      counterText: '',
+                    ),
+                  ),
+                ),
                 ListView.builder(
                   shrinkWrap: true,
-                  itemCount: ChecklistManager()
-                      .groupAt(widget.groupIdx)
-                      .uncheckedLength,
+                  itemCount: manager.groupAt(widget.groupIdx).uncheckedLength,
                   itemBuilder: (context, index) {
-                    return Stack(
-                      children: [
-                        ChecklistTile(widget.groupIdx, index, false),
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: IconButton(
-                            icon: const Icon(Icons.remove_circle_rounded,
-                                size: 18),
-                            onPressed: () =>
-                                _onTapRemoveUncheckedElement(index),
-                          ),
-                        )
-                      ],
-                    );
+                    return ChecklistTile(widget.groupIdx, index, false);
                   },
                 ),
                 Padding(
@@ -69,23 +79,41 @@ class _CLGroupTileState extends State<ChecklistGroupTile> {
                     ),
                   ),
                 ),
+                Padding(
+                  padding: const EdgeInsets.all(15),
+                  child: GestureDetector(
+                    onTap: _onTapToggleCollapse,
+                    //child: Expanded(
+                    child: Container(
+                      height: 2,
+                      decoration: const BoxDecoration(color: Colors.white),
+                    ),
+                    //),
+                  ),
+                ),
                 ListView.builder(
                   shrinkWrap: true,
-                  itemCount:
-                      ChecklistManager().groupAt(widget.groupIdx).checkedLength,
+                  itemCount: _nbCheckedToShow(manager),
                   itemBuilder: (context, index) {
-                    return Stack(
-                      children: [
-                        ChecklistTile(widget.groupIdx, index, true),
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: IconButton(
-                            icon: const Icon(Icons.remove_circle_rounded,
-                                size: 18),
-                            onPressed: () => _onTapRemoveCheckedElement(index),
+                    return Dismissible(
+                      key: UniqueKey(),
+                      direction: DismissDirection.endToStart,
+                      onDismissed: (direction) =>
+                          _onTapRemoveCheckedElement(index),
+                      background: Container(
+                        color: Colors.transparent,
+                      ),
+                      secondaryBackground: Container(
+                        alignment: Alignment.centerRight,
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 5),
+                          child: Icon(
+                            Icons.delete_rounded,
+                            color: appTheme.theme.secondaryColor,
                           ),
-                        )
-                      ],
+                        ),
+                      ),
+                      child: ChecklistTile(widget.groupIdx, index, true),
                     );
                   },
                 ),
@@ -93,11 +121,12 @@ class _CLGroupTileState extends State<ChecklistGroupTile> {
             ),
           ),
         ),
-      );
+      ),
+    );
+  }
 
-  void _onTapRemoveUncheckedElement(idx) {
-    ChecklistManager().removeUncheckedElementFromGroup(widget.groupIdx, idx);
-    setState(() {});
+  void _onGroupTitleModified(String newTitle) {
+    ChecklistManager().updateGroupTitle(widget.groupIdx, newTitle);
   }
 
   void _onTapRemoveCheckedElement(idx) {
@@ -109,5 +138,16 @@ class _CLGroupTileState extends State<ChecklistGroupTile> {
     ChecklistManager().addElementToGroup(widget.groupIdx);
     // NOTE change to consumer? it would still rebuild all groups...
     setState(() {});
+  }
+
+  void _onTapToggleCollapse() {
+    setState(() {
+      _collapsed = !_collapsed;
+    });
+  }
+
+  int _nbCheckedToShow(manager) {
+    var nbChecked = manager.groupAt(widget.groupIdx).checkedLength;
+    return _collapsed && nbChecked > 0 ? 1 : nbChecked;
   }
 }
