@@ -25,31 +25,38 @@ class ChecklistManager extends ChangeNotifier {
 
   void addGroup() {
     note.groups.add(ChecklistGroup());
+    NotesList().modifyNote(note);
   }
 
   ChecklistGroup groupAt(int idx) => note.groups[idx];
 
   void removeGroup(int idx) {
     note.groups.removeAt(idx);
+    NotesList().modifyNote(note);
   }
 
   void addElementToGroup(int idx) {
     note.groups[idx].addElement();
+    NotesList().modifyNote(note);
   }
 
   void removeCheckedElementFromGroup(int groupIdx, int elementIdx) {
     note.groups[groupIdx].removeCheckedElementAt(elementIdx);
+    NotesList().modifyNote(note);
     notifyListeners();
   }
 
   void removeUncheckedElementFromGroup(int groupIdx, int elementIdx) {
     note.groups[groupIdx].removeUncheckedElementAt(elementIdx);
+    NotesList().modifyNote(note);
     notifyListeners();
   }
 
+  // TODO why isnt it saved to local db?
   void modifyElementOfGroup(
       int groupIdx, int elementIdx, ChecklistElement newElem) {
     note.groups[groupIdx].updateElementAt(elementIdx, newElem);
+    NotesList().modifyNote(note);
   }
 
   int groupsCount() => note.groups.length;

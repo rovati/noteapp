@@ -59,8 +59,8 @@ class ChecklistGroup {
   }
 
   void updateElementAt(int idx, ChecklistElement newElement) {
-    checkedElems.removeAt(idx);
-    checkedElems.insert(idx, newElement);
+    uncheckedElems.removeAt(idx);
+    uncheckedElems.insert(idx, newElement);
   }
 
   int get uncheckedLength => uncheckedElems.length;
