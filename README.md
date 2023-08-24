@@ -84,7 +84,7 @@ The project is fully implemented in [Dart](https://dart.dev/) using the [Flutter
 ⚪ ⏸️ Web client\
 ⬇️ &nbsp;&nbsp;&nbsp;&nbsp;↘️ _Notes_ web-app\
 ⬇️\
-⚪ ❓
+⚪ ❓\
 ⬇️\
 ⚪ 🏁
 
