@@ -13,7 +13,7 @@ To install it, head over to the [Releases](https://github.com/rovati/noteapp/rel
 ## What it can do
 Ok, the app is installed. But actually... what can it do?<br>
 
-The app is equipped with a toolbar on the bottom right of the screen, use it to create new notes or to head over to the settings page (a reminder text is showed when no notes exist). On the main page you can access the full list of your notes. You can open them by tapping their tile or delet them by swiping left on them. Moreover, you can pin them at the top of the list by long pressing on them.<br>
+The app is equipped with a toolbar on the bottom right of the screen, use it to create new notes or to head over to the settings page (a reminder text is shown when no notes exist). On the main page you can access the full list of your notes. You can open them by tapping their tile or delet them by swiping left on them. Moreover, you can pin them at the top of the list by long pressing on them.<br>
 
 <p align="center">
   <img src="https://github.com/rovati/noteapp/blob/main/resources/readme_imgs/v3-1-0/homescreen_empty.png" width="200" title="Empty Home Page">
@@ -27,6 +27,9 @@ There currently are two types of notes: plaintext notes and checklists. Plaintex
   <img src="https://github.com/rovati/noteapp/blob/main/resources/readme_imgs/v3-1-0/checklist.png" width="200" title="Checklist Note">
 <p>
 
+> [!NOTE]
+>  Please refer to [this section](#a-complete-guide-to-checklists) for a full description of how to use checklists at their best.
+
 Through the settings page it is possible to select the theme of the app. The app currently offers a short selection of predefined themes, including a couple dark ones for the lovers of low brightness and high contrast. In this page it is also possible to find useful links and info.<br>
 
 <p align="center">
@@ -34,10 +37,7 @@ Through the settings page it is possible to select the theme of the app. The app
 </p>
 
 
-Lastly, the toolbar is equipped with a button for saving locally a zipped version of the notes, so that they can exported in text format. This functionality is under revision since it is not consistent with its desired behaviour.
-
-> [!NOTE]
->  Please refer to [this section](#a-complete-guide-to-checklists) for a full description of how to use checklists at their best.
+Lastly, the toolbar is equipped with a button for saving locally a zipped version of the notes, so that they can be exported in text format. This functionality is under revision since it is not consistent with its desired behaviour.
 
 ## How it is implemented
 The project is fully implemented in [Dart](https://dart.dev/) using the [Flutter](https://flutter.dev/) framework. This choice was de based solely on personal interest, but it empowers the project with the possibility of easily extending the ecosystem with clients for various platforms.
@@ -47,40 +47,40 @@ The project is fully implemented in [Dart](https://dart.dev/) using the [Flutter
 
 ## Roadmap
 
-⚪ ✅ Version 1
-⬇️ &nbsp;&nbsp;&nbsp;&nbsp;↘️ Plaintext notes
-⬇️ 
-⚪ ✅ Version 2
-⬇️ &nbsp;&nbsp;&nbsp;&nbsp;↘️ Checklist notes
-⬇️ &nbsp;&nbsp;&nbsp;&nbsp;↘️ Pin/unpin system 
-⬇️
-⚪ ✅ Recovery update
-⬇️ &nbsp;&nbsp;&nbsp;&nbsp;↘️ Recovery from failure on notes loading
-⬇️ &nbsp;&nbsp;&nbsp;&nbsp;↘️ Export notes in text format
-⬇️
-⚪ ✅ Colorful update
-⬇️ &nbsp;&nbsp;&nbsp;&nbsp;↘️ Color themes
-⬇️ &nbsp;&nbsp;&nbsp;&nbsp;↘️ New toolbar
-⬇️
-⚪ ✅ Checklist overhaul
-⬇️ &nbsp;&nbsp;&nbsp;&nbsp;↘️ Groups in checklists
-⬇️
-⚪ 🔜 Zippy update
-⬇️ &nbsp;&nbsp;&nbsp;&nbsp;↘️ Improve notes export system
-⬇️
-⚪ ⏸️ Tidy update
-⬇️ &nbsp;&nbsp;&nbsp;&nbsp;↘️ Rework of part of the codebase
-⬇️ &nbsp;&nbsp;&nbsp;&nbsp;↘️ Extend checklist keyboard functionalities
-⬇️
-⚪ ⏸️ Sync update
-⬇️ &nbsp;&nbsp;&nbsp;&nbsp;↘️ Accounts
-⬇️ &nbsp;&nbsp;&nbsp;&nbsp;↘️ Cloud save of notes
-⬇️ &nbsp;&nbsp;&nbsp;&nbsp;↘️ Multi-device sync
-⬇️
-⚪ ⏸️ Web client
-⬇️ &nbsp;&nbsp;&nbsp;&nbsp;↘️ _Notes_ web-app
-⬇️
-⚪ ❓
+⚪ ✅ Version 1<br>
+⬇️ &nbsp;&nbsp;&nbsp;&nbsp;↘️ Plaintext notes<br>
+⬇️ <br>
+⚪ ✅ Version 2<br>
+⬇️ &nbsp;&nbsp;&nbsp;&nbsp;↘️ Checklist notes<br>
+⬇️ &nbsp;&nbsp;&nbsp;&nbsp;↘️ Pin/unpin system <br>
+⬇️<br>
+⚪ ✅ Recovery update<br>
+⬇️ &nbsp;&nbsp;&nbsp;&nbsp;↘️ Recovery from failure on notes loading<br>
+⬇️ &nbsp;&nbsp;&nbsp;&nbsp;↘️ Export notes in text format<br>
+⬇️<br>
+⚪ ✅ Colorful update<br>
+⬇️ &nbsp;&nbsp;&nbsp;&nbsp;↘️ Color themes<br>
+⬇️ &nbsp;&nbsp;&nbsp;&nbsp;↘️ New toolbar<br>
+⬇️<br>
+⚪ ✅ Checklist overhaul<br>
+⬇️ &nbsp;&nbsp;&nbsp;&nbsp;↘️ Groups in checklists<br>
+⬇️<br>
+⚪ 🔜 Zippy update<br>
+⬇️ &nbsp;&nbsp;&nbsp;&nbsp;↘️ Improve notes export system<br>
+⬇️<br>
+⚪ ⏸️ Tidy update<br>
+⬇️ &nbsp;&nbsp;&nbsp;&nbsp;↘️ Rework of part of the codebase<br>
+⬇️ &nbsp;&nbsp;&nbsp;&nbsp;↘️ Extend checklist keyboard functionalities<br>
+⬇️<br>
+⚪ ⏸️ Sync update<br>
+⬇️ &nbsp;&nbsp;&nbsp;&nbsp;↘️ Accounts<br>
+⬇️ &nbsp;&nbsp;&nbsp;&nbsp;↘️ Cloud save of notes<br>
+⬇️ &nbsp;&nbsp;&nbsp;&nbsp;↘️ Multi-device sync<br>
+⬇️<br>
+⚪ ⏸️ Web client<br>
+⬇️ &nbsp;&nbsp;&nbsp;&nbsp;↘️ _Notes_ web-app<br>
+⬇️<br>
+⚪ ❓<br>
 
 
 ## Licensing and forking
