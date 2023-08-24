@@ -71,7 +71,7 @@ class _SunkenToolbarState extends State<SunkenToolbar>
         width: _width,
         child: AnimatedBuilder(
           animation: animation,
-          child: buttonsColumn(),
+          child: buttonsColumn(appTheme),
           builder: (context, child) {
             return ClipPath(
               clipper: RoundedClipper(_width, _height, animation.value),
@@ -109,7 +109,7 @@ class _SunkenToolbarState extends State<SunkenToolbar>
     );
   }
 
-  Widget buttonsColumn() => Column(
+  Widget buttonsColumn(AppTheme appTheme) => Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           Padding(
@@ -128,7 +128,7 @@ class _SunkenToolbarState extends State<SunkenToolbar>
               onPressed: _onTapOpenSettings,
               icon: Icon(
                 Icons.settings_rounded,
-                color: AppTheme().theme.secondaryColor,
+                color: appTheme.theme.secondaryColor,
               ),
             ),
           ),
@@ -153,24 +153,10 @@ class _SunkenToolbarState extends State<SunkenToolbar>
             ),
           ),
           Container(
-            width: _width * 0.8,
+            width: _width * 0.6,
             height: _height * 0.01,
             decoration: BoxDecoration(
-              gradient: LinearGradient(
-                  begin: Alignment.centerLeft,
-                  end: Alignment.centerRight,
-                  colors: [
-                    Colors.transparent,
-                    AppTheme().theme.toolbarSepColor,
-                    AppTheme().theme.toolbarSepColor,
-                    Colors.transparent,
-                  ],
-                  stops: const [
-                    0.0,
-                    0.4,
-                    0.6,
-                    1.0
-                  ]),
+              color: appTheme.theme.secondaryColor,
             ),
           ),
           Padding(

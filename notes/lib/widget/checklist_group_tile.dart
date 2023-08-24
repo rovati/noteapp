@@ -89,7 +89,8 @@ class _CLGroupTileState extends State<ChecklistGroupTile> {
                       onTap: _onTapToggleCollapse,
                       child: Container(
                         height: 2,
-                        decoration: const BoxDecoration(color: Colors.white),
+                        decoration:
+                            BoxDecoration(color: appTheme.theme.secondaryColor),
                       ),
                     ),
                   ),
