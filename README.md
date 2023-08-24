@@ -47,7 +47,7 @@ The project is fully implemented in [Dart](https://dart.dev/) using the [Flutter
 
 ## 🚀 Roadmap
 
-⚪ ✅ Version \
+⚪ ✅ Version 1\
 ⬇️ &nbsp;&nbsp;&nbsp;&nbsp;↘️ Plaintext notes\
 ⬇️ \
 ⚪ ✅ Version 2\
@@ -68,6 +68,10 @@ The project is fully implemented in [Dart](https://dart.dev/) using the [Flutter
 ⚪ 🔜 Zippy update\
 ⬇️ &nbsp;&nbsp;&nbsp;&nbsp;↘️ Improve notes export system\
 ⬇️\
+⚪ ⏸️ Beauty update\
+⬇️ &nbsp;&nbsp;&nbsp;&nbsp;↘️ UI improvements\
+⬇️ &nbsp;&nbsp;&nbsp;&nbsp;↘️ Animations\
+⬇️\
 ⚪ ⏸️ Tidy update\
 ⬇️ &nbsp;&nbsp;&nbsp;&nbsp;↘️ Rework of part of the codebase\
 ⬇️ &nbsp;&nbsp;&nbsp;&nbsp;↘️ Extend checklist keyboard functionalities\
@@ -81,6 +85,8 @@ The project is fully implemented in [Dart](https://dart.dev/) using the [Flutter
 ⬇️ &nbsp;&nbsp;&nbsp;&nbsp;↘️ _Notes_ web-app\
 ⬇️\
 ⚪ ❓
+⬇️\
+⚪ 🏁
 
 
 ## ©️ Licensing and forking
