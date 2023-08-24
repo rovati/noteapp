@@ -35,7 +35,7 @@ class _CLGroupTileState extends State<ChecklistGroupTile> {
         ),
         child: Consumer<ChecklistManager>(
           builder: (context, manager, child) => Padding(
-            padding: const EdgeInsets.symmetric(vertical: 5),
+            padding: const EdgeInsets.only(bottom: 5),
             child: Column(
               children: [
                 Center(
