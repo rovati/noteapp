@@ -156,6 +156,7 @@ class _SunkenToolbarState extends State<SunkenToolbar>
             width: _width * 0.6,
             height: _height * 0.01,
             decoration: BoxDecoration(
+              borderRadius: const BorderRadius.all(Radius.circular(2)),
               color: appTheme.theme.secondaryColor,
             ),
           ),
