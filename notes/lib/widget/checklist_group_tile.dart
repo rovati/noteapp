@@ -30,7 +30,7 @@ class _CLGroupTileState extends State<ChecklistGroupTile> {
     return Consumer<AppTheme>(
       builder: (context, appTheme, child) => Container(
         decoration: BoxDecoration(
-          color: appTheme.theme.noteTitleBG,
+          color: appTheme.theme.semiTransparentBG,
           borderRadius: BorderRadius.circular(20),
         ),
         child: Consumer<ChecklistManager>(
