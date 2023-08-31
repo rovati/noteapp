@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:notes/model/note/checklist_group.dart';
 import 'package:notes/theme/app_theme.dart';
 import 'package:provider/provider.dart';
 
@@ -14,7 +15,6 @@ class DismissibleChecklist extends StatefulWidget {
 
 class _DismissibleCLState extends State<DismissibleChecklist> {
   @override
-  // TODO separate list and new group button
   Widget build(BuildContext context) {
     return Consumer<ChecklistManager>(
       builder: (context, checklist, child) => SingleChildScrollView(
@@ -74,7 +74,18 @@ class _DismissibleCLState extends State<DismissibleChecklist> {
   }
 
   void _onTapRemoveGroup(idx) {
+    ChecklistGroup gr = ChecklistManager().groupAt(idx);
     ChecklistManager().removeGroup(idx);
     setState(() {});
+    SnackBar snack = SnackBar(
+      content: const Text('Group deleted'),
+      action: SnackBarAction(
+          label: 'UNDO',
+          onPressed: () {
+            ChecklistManager().addGroupAt(gr, idx);
+            setState(() {});
+          }),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snack);
   }
 }
