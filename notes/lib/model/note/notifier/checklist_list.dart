@@ -28,6 +28,11 @@ class ChecklistManager extends ChangeNotifier {
     NotesList().modifyNote(note);
   }
 
+  void addGroupAt(ChecklistGroup group, int idx) {
+    note.groups.insert(idx, group);
+    NotesList().modifyNote(note);
+  }
+
   ChecklistGroup groupAt(int idx) => note.groups[idx];
 
   void removeGroup(int idx) {
