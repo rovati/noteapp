@@ -1,16 +1,15 @@
 # ✍️ Notes - A simple note-taking Android app
-
-<img src="resources/readme_imgs/IzzyOnDroid.png" width="170">
 [![Open Source Love](https://badges.frapsoft.com/os/v2/open-source-150x25.png?v=103)](https://github.com/ellerbrock/open-source-badges/)
-[![GPL Licence](https://badges.frapsoft.com/os/gpl/gpl-125x28.png?v=103)](https://opensource.org/licenses/GPL-3.0/)
 
 Welcome! _Notes_ is a simple but effective app for taking plain text notes and making check lists, developed and currently maintained by [Rova](https://github.com/rovati).</br>
 It started as a little playground to learn a new dev framework but quickly evolved into the desire to create a meaningful product. <br>
 Apps these days tend to offer an elaborate set of features, at the cost of asking the user for many permissions. _Notes_ takes the opposite approach: it carefully picks a small set of essential features so that the user does not have to worry about security and privacy related issues. Your data is yours to keep.
 
 ## 📲 How to install it
-Due to costs, the app is not available on any of the mainstream app platforms (namely Apple AppStore and Google Play). It is only possible to obtain the app for Android through this GitHub repository.<br>
-To install it, head over to the [Releases](https://github.com/rovati/noteapp/releases) section and download the most recent version. Each release offers an apk for the three main mobile architectures (and a fat apk compatible with any of those three architectures, if you are unsure which one your phone is built on). Download the right one for your phone and simply tap on the file to install the app. Voilà, everything is ready to go!
+<img src="resources/readme_imgs/IzzyOnDroid.png" width="170">
+
+Due to costs, the app is not available on any of the mainstream app platforms (namely Apple AppStore and Google Play). It is only possible to obtain the app for Android through this GitHub repository or [IzzyOnDroid's repo](https://apt.izzysoft.de/fdroid/index/apk/dev.rova.notes/).<br>
+To install it, head over to the [Releases](https://github.com/rovati/noteapp/releases) section and download the most recent version. Each release offers an apk for the three main mobile architectures (and a fat apk compatible with any of those three architectures, if you are unsure which one your phone is built on. On IzzyOnDroid's page only the arm6-v8a build is available). Download the right one for your phone and simply tap on the file to install the app. Voilà, everything is ready to go!
 
 > [!IMPORTANT]
 > For security reasons, Android phones do not allow the installation of apk files from untrusted sources, i.e. the internet. If the installation of the apk is blocked, please look up a guide for your operative system on how to disable this rule.
@@ -95,6 +94,7 @@ The project is fully implemented in [Dart](https://dart.dev/) using the [Flutter
 
 
 ## ©️ Licensing and forking
+[![GPL Licence](https://badges.frapsoft.com/os/gpl/gpl-125x28.png?v=103)](https://opensource.org/licenses/GPL-3.0/)
 This project is and always will be open-source and non-profit. The project is released under [GNU General Public License v3.0](LICENSE). Feel free to fork it or download it for personal use. If you modify it we would really appreciate you mentioning all the current contributors on this project.
 
 ## 🗺️ Navigating the repo
