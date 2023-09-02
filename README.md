@@ -6,7 +6,7 @@ It started as a little playground to learn a new dev framework but quickly evolv
 Apps these days tend to offer an elaborate set of features, at the cost of asking the user for many permissions. _Notes_ takes the opposite approach: it carefully picks a small set of essential features so that the user does not have to worry about security and privacy related issues. Your data is yours to keep.
 
 ## 📲 How to install it
-<img src="resources/readme_imgs/IzzyOnDroid.png" width="170">
+[<img src="resources/readme_imgs/IzzyOnDroid.png" width="170">](https://apt.izzysoft.de/fdroid/index/apk/dev.rova.notes/)
 
 Due to costs, the app is not available on any of the mainstream app platforms (namely Apple AppStore and Google Play). It is only possible to obtain the app for Android through this GitHub repository or [IzzyOnDroid's repo](https://apt.izzysoft.de/fdroid/index/apk/dev.rova.notes/).<br>
 To install it, head over to the [Releases](https://github.com/rovati/noteapp/releases) section and download the most recent version. Each release offers an apk for the three main mobile architectures (and a fat apk compatible with any of those three architectures, if you are unsure which one your phone is built on. On IzzyOnDroid's page only the arm6-v8a build is available). Download the right one for your phone and simply tap on the file to install the app. Voilà, everything is ready to go!
