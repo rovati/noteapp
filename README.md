@@ -1,4 +1,9 @@
 # ✍️ Notes - A simple note-taking Android app
+
+<img src="resources/readme_imgs/IzzyOnDroid.png" width="170">
+[![Open Source Love](https://badges.frapsoft.com/os/v2/open-source-150x25.png?v=103)](https://github.com/ellerbrock/open-source-badges/)
+[![GPL Licence](https://badges.frapsoft.com/os/gpl/gpl-125x28.png?v=103)](https://opensource.org/licenses/GPL-3.0/)
+
 Welcome! _Notes_ is a simple but effective app for taking plain text notes and making check lists, developed and currently maintained by [Rova](https://github.com/rovati).</br>
 It started as a little playground to learn a new dev framework but quickly evolved into the desire to create a meaningful product. <br>
 Apps these days tend to offer an elaborate set of features, at the cost of asking the user for many permissions. _Notes_ takes the opposite approach: it carefully picks a small set of essential features so that the user does not have to worry about security and privacy related issues. Your data is yours to keep.
