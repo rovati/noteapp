@@ -15,7 +15,6 @@ class ChecklistGroupTile extends StatefulWidget {
 }
 
 class _CLGroupTileState extends State<ChecklistGroupTile> {
-  var _collapsed = false;
   final TextEditingController _titleController = TextEditingController();
 
   @override
@@ -85,20 +84,17 @@ class _CLGroupTileState extends State<ChecklistGroupTile> {
                       manager.note.groups[widget.groupIdx].checkedLength > 0,
                   child: Padding(
                     padding: const EdgeInsets.all(15),
-                    child: GestureDetector(
-                      onTap: _onTapToggleCollapse,
-                      child: Container(
-                        height: 2,
-                        decoration:
-                            BoxDecoration(color: appTheme.theme.secondaryColor),
-                      ),
+                    child: Container(
+                      height: 2,
+                      decoration:
+                          BoxDecoration(color: appTheme.theme.secondaryColor),
                     ),
                   ),
                 ),
                 ListView.builder(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
-                  itemCount: _nbCheckedToShow(manager),
+                  itemCount: manager.groupAt(widget.groupIdx).checkedLength,
                   itemBuilder: (context, index) {
                     return Dismissible(
                       key: UniqueKey(),
@@ -143,16 +139,5 @@ class _CLGroupTileState extends State<ChecklistGroupTile> {
     ChecklistManager().addElementToGroup(widget.groupIdx);
     // NOTE change to consumer? it would still rebuild all groups...
     setState(() {});
-  }
-
-  void _onTapToggleCollapse() {
-    setState(() {
-      _collapsed = !_collapsed;
-    });
-  }
-
-  int _nbCheckedToShow(manager) {
-    var nbChecked = manager.groupAt(widget.groupIdx).checkedLength;
-    return _collapsed && nbChecked > 0 ? 1 : nbChecked;
   }
 }
