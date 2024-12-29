@@ -60,16 +60,15 @@ class LocalDB {
 
   static Future<bool> archiveNotes() async {
     formatAndSaveNotes();
-    var notesDir = await _localPath + Values.notesDir;
+    var notesDir = Directory('${await _localPath}/${Values.notesDir}');
     var zipDir = await _externalPath;
     final zipFile = File('$zipDir/notes.zip');
 
     try {
-      ZipFile.createFromDirectory(
-          sourceDir: Directory(notesDir),
-          zipFile: zipFile,
-          recurseSubDirs: true);
-      return Future.value(true);
+      return ZipFile.createFromDirectory(
+        sourceDir: notesDir,
+        zipFile: zipFile,
+      ).then((_) => true);
     } catch (e) {
       return Future.value(false);
     }
