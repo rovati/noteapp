@@ -60,7 +60,7 @@ class LocalDB {
 
   static Future<bool> archiveNotes() async {
     formatAndSaveNotes();
-    var notesDir = await _localPath + Values.tempDir;
+    var notesDir = await _localPath + Values.notesDir;
     var zipDir = await _externalPath;
     final zipFile = File('$zipDir/notes.zip');
 
