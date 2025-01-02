@@ -74,13 +74,14 @@ The project is fully implemented in [Dart](https://dart.dev/) using the [Flutter
 ⚪ 🔜 Zippy update\
 ⬇️ &nbsp;&nbsp;&nbsp;&nbsp;↘️ Improve notes export system\
 ⬇️\
+⚪ 🔜 Usability update\
+⬇️ &nbsp;&nbsp;&nbsp;&nbsp;↘️ Extend checklist keyboard functionalities\
+⬇️ &nbsp;&nbsp;&nbsp;&nbsp;↘️ Improve items management in checklist\
+⬇️ &nbsp;&nbsp;&nbsp;&nbsp;↘️ Support Markdown notes (?)\
+⬇️\
 ⚪ ⏸️ Beauty update\
 ⬇️ &nbsp;&nbsp;&nbsp;&nbsp;↘️ UI improvements\
 ⬇️ &nbsp;&nbsp;&nbsp;&nbsp;↘️ Animations\
-⬇️\
-⚪ ⏸️ Tidy update\
-⬇️ &nbsp;&nbsp;&nbsp;&nbsp;↘️ Rework of part of the codebase\
-⬇️ &nbsp;&nbsp;&nbsp;&nbsp;↘️ Extend checklist keyboard functionalities\
 ⬇️\
 ⚪ ⏸️ Sync update\
 ⬇️ &nbsp;&nbsp;&nbsp;&nbsp;↘️ Accounts\
