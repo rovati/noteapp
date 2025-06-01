@@ -53,54 +53,54 @@ The project is fully implemented in [Dart](https://dart.dev/) using the [Flutter
 
 ## 🚀 Roadmap
 
-⚪ ✅ Version 1\
+✅ Version 1\
 ⬇️ &nbsp;&nbsp;&nbsp;&nbsp;↘️ Plaintext notes\
 ⬇️ \
-⚪ ✅ Version 2\
+✅ Version 2\
 ⬇️ &nbsp;&nbsp;&nbsp;&nbsp;↘️ Checklist notes\
 ⬇️ &nbsp;&nbsp;&nbsp;&nbsp;↘️ Pin/unpin system \
 ⬇️\
-⚪ ✅ Recovery update\
+✅ Recovery update\
 ⬇️ &nbsp;&nbsp;&nbsp;&nbsp;↘️ Recovery from failure on notes loading\
 ⬇️ &nbsp;&nbsp;&nbsp;&nbsp;↘️ Export notes in text format\
 ⬇️\
-⚪ ✅ Colorful update\
+✅ Colorful update\
 ⬇️ &nbsp;&nbsp;&nbsp;&nbsp;↘️ Color themes\
 ⬇️ &nbsp;&nbsp;&nbsp;&nbsp;↘️ New toolbar\
 ⬇️\
-⚪ ✅ Checklist overhaul\
+✅ Checklist overhaul\
 ⬇️ &nbsp;&nbsp;&nbsp;&nbsp;↘️ Groups in checklists\
 ⬇️\
-⚙️ 🔜 Maintenance\
+🔜 ⚙️ Maintenance\
 ⬇️ &nbsp;&nbsp;&nbsp;&nbsp;↘️ Update to latest dependencies\
 ⬇️ &nbsp;&nbsp;&nbsp;&nbsp;↘️ CI/CD + F-Droid release\
 ⬇️\
-⚪ ⏸️ Zippy update\
+🟠 Zippy update\
 ⬇️ &nbsp;&nbsp;&nbsp;&nbsp;↘️ Improve notes export system\
 ⬇️\
-⚪ ⏸️ Usability update\
+🟠 Usability update\
 ⬇️ &nbsp;&nbsp;&nbsp;&nbsp;↘️ Extend checklist keyboard functionalities\
 ⬇️ &nbsp;&nbsp;&nbsp;&nbsp;↘️ Improve items management in checklist\
 ⬇️ &nbsp;&nbsp;&nbsp;&nbsp;↘️ Support Markdown notes (?)\
 ⬇️\
-⚙️ ⏸️ Maintenance\
+🟠 ⚙️ Maintenance\
 ⬇️ &nbsp;&nbsp;&nbsp;&nbsp;↘️ Clean up of codebase\
 ⬇️\
-⚪ ⏸️ Sync update\
+🟠 Sync update\
 ⬇️ &nbsp;&nbsp;&nbsp;&nbsp;↘️ Accounts\
 ⬇️ &nbsp;&nbsp;&nbsp;&nbsp;↘️ Cloud save of notes\
 ⬇️ &nbsp;&nbsp;&nbsp;&nbsp;↘️ Multi-device sync\
 ⬇️\
-⚪ ⏸️ Beauty update\
+🟠 Beauty update\
 ⬇️ &nbsp;&nbsp;&nbsp;&nbsp;↘️ UI improvements\
 ⬇️ &nbsp;&nbsp;&nbsp;&nbsp;↘️ Animations\
 ⬇️\
-⚪ ⏸️ Web client\
+🟠 Web client\
 ⬇️ &nbsp;&nbsp;&nbsp;&nbsp;↘️ _Notes_ web-app\
 ⬇️\
-⚪ ❓\
+❓\
 ⬇️\
-⚪ 🏁
+🏁
 
 
 ## ©️ Licensing and forking
