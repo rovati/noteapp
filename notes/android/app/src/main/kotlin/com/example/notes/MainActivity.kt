@@ -1,4 +1,4 @@
-package com.example.notes
+package dev.rova.notes
 
 import io.flutter.embedding.android.FlutterActivity
 
