@@ -6,24 +6,26 @@ publish_to: 'none'
 version: 3.1.7+37
 
 environment:
-  sdk: '^3.6.0'
+  sdk: '>=3.0.0 <4.0.0'
 
 dependencies:
   flutter:
     sdk: flutter
 
   cupertino_icons: ^1.0.2
-  package_info_plus: ^8.1.2
+  package_info_plus: ^9.0.0
   shared_preferences: ^2.0.15
   path_provider: ^2.0.11
   url_launcher: ^6.1.7
-  flutter_archive: ^6.0.3
+  flutter_archive: ^6.0.4
   provider: ^6.0.5
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
+  # The "flutter_lints" package below contains a set of recommended lints to
+  # encourage good coding practices.
   flutter_lints: ^6.0.0
 
 flutter:
