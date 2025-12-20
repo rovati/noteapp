@@ -246,7 +246,7 @@ class _SunkenToolbarState extends State<SunkenToolbar>
     LocalDB.archiveNotes().then((res) {
       if (res) {
         snack = const SnackBar(
-          content: Text('Notes archive saved to local storage'),
+          content: Text('Notes archive saved to Downloads directory'),
         );
       } else {
         snack = const SnackBar(

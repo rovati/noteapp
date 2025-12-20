@@ -2,7 +2,9 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter_archive/flutter_archive.dart';
+import 'package:notes/util/date_format.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:downloadsfolder/downloadsfolder.dart';
 
 import '../../util/app_values.dart';
 import '../note/checklist.dart';
@@ -59,16 +61,20 @@ class LocalDB {
   }
 
   static Future<bool> archiveNotes() async {
-    formatAndSaveNotes();
-    var notesDir = Directory('${await _localPath}/${Values.notesDir}');
-    var zipDir = await _externalPath;
-    final zipFile = File('$zipDir/notes.zip');
+    var notesDir = await formatAndSaveNotes();
+    var exportDir = Directory('${await _localPath}/${Values.exportDir}');
+    var exportFileName = 'notes_${DateFormat.formatFileName(DateTime.now())}.zip';
+    final zipFile = File('${exportDir.path}/$exportFileName');
+
+    zipFile.createSync(recursive: true);
 
     try {
       return ZipFile.createFromDirectory(
         sourceDir: notesDir,
         zipFile: zipFile,
-      ).then((_) => true);
+      ).then((_) async =>
+          await copyFileIntoDownloadFolder(zipFile.path, exportFileName) ??
+          false);
     } catch (e) {
       return Future.value(false);
     }
@@ -89,12 +95,6 @@ class LocalDB {
   static Future<String> get _localPath async {
     final directory = await getApplicationDocumentsDirectory();
     return directory.path;
-  }
-
-  // NOTE this only works for android!
-  static Future<String> get _externalPath async {
-    final directory = await getExternalStorageDirectory();
-    return directory!.path;
   }
 
   static Future<void> createDirs() async {
@@ -123,7 +123,7 @@ class LocalDB {
     return files;
   }
 
-  static void formatAndSaveNotes() async {
+  static Future<Directory> formatAndSaveNotes() async {
     Directory tempDir = Directory('${await _localPath}/${Values.tempDir}');
     var lcPath = await _localPath;
 
@@ -135,12 +135,13 @@ class LocalDB {
 
     // format each note and save as plain text file
     var idxFileName = 0;
-    getNotes().then((res) {
+    return getNotes().then((res) {
       for (var note in res.parsed) {
         var file = File('$lcPath/${Values.tempDir}/note_$idxFileName.txt');
         file.writeAsString(note.toFormatted());
         idxFileName++;
       }
+      return tempDir;
     });
   }
 

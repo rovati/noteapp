@@ -60,7 +60,7 @@ class _LoadingPageState extends State<LoadingPage> {
     LocalDB.archiveNotes().then((success) {
       if (success) {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content: Text('Notes archive saved to local storage'),
+          content: Text('Notes archive saved to Downloads directory'),
         ));
         _goToMainPage(context);
       } else {

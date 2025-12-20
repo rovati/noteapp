@@ -3,4 +3,5 @@ class Values {
   static const String notesDir = 'notes';
   static const String notesOrderDir = 'ordering';
   static const String tempDir = 'temp';
+  static const String exportDir = 'export';
 }
