@@ -71,11 +71,8 @@ The project is fully implemented in [Dart](https://dart.dev/) using the [Flutter
 ✅ Checklist overhaul\
 ⬇️ &nbsp;&nbsp;&nbsp;&nbsp;↘️ Groups in checklists\
 ⬇️\
-🔜 ⚙️ Maintenance\
+🔜 Zippy update\
 ⬇️ &nbsp;&nbsp;&nbsp;&nbsp;↘️ Update to latest dependencies\
-⬇️ &nbsp;&nbsp;&nbsp;&nbsp;↘️ CI/CD + F-Droid release\
-⬇️\
-🟠 Zippy update\
 ⬇️ &nbsp;&nbsp;&nbsp;&nbsp;↘️ Improve notes export system\
 ⬇️\
 🟠 Usability update\
@@ -85,6 +82,7 @@ The project is fully implemented in [Dart](https://dart.dev/) using the [Flutter
 ⬇️\
 🟠 ⚙️ Maintenance\
 ⬇️ &nbsp;&nbsp;&nbsp;&nbsp;↘️ Clean up of codebase\
+⬇️ &nbsp;&nbsp;&nbsp;&nbsp;↘️ CI/CD + F-Droid release\
 ⬇️\
 🟠 Sync update\
 ⬇️ &nbsp;&nbsp;&nbsp;&nbsp;↘️ Accounts\
