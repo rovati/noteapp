@@ -85,8 +85,11 @@ class _DismissibleNotesState extends State<DismissibleNotes> {
     var note = NotesList().getNoteWithID(noteID);
     NotesList().removeNote(noteID);
     SnackBar snack = SnackBar(
+      showCloseIcon: true,
       content: const Text('Note deleted'),
+      persist: false,
       action: SnackBarAction(
+        textColor: AppTheme().theme.accentColor,
         label: 'UNDO',
         onPressed: () => NotesList().addNote(note),
       ),

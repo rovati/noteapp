@@ -67,21 +67,26 @@ class _SunkenToolbarState extends State<SunkenToolbar>
     return Consumer<AppTheme>(
       builder: (context, appTheme, child) => Container(
         alignment: Alignment.bottomRight,
-        height: _height,
+        height: _height + MediaQuery.of(context).padding.bottom,
         width: _width,
         child: AnimatedBuilder(
           animation: animation,
           child: buttonsColumn(appTheme),
           builder: (context, child) {
             return ClipPath(
-              clipper: RoundedClipper(_width, _height, animation.value),
+              clipper: RoundedClipper(
+                  _width,
+                  _height + MediaQuery.of(context).padding.bottom,
+                  animation.value),
               child: Stack(
                 alignment: Alignment.bottomCenter,
                 children: [
                   AbsorbPointer(
                     absorbing: true,
                     child: Container(
-                      height: _height - animation.value,
+                      height: _height +
+                          MediaQuery.of(context).padding.bottom -
+                          animation.value,
                       width: 70,
                       decoration: BoxDecoration(
                         borderRadius: const BorderRadius.only(
@@ -171,6 +176,9 @@ class _SunkenToolbarState extends State<SunkenToolbar>
               ),
             ),
           ),
+          SizedBox(
+            height: MediaQuery.of(context).padding.bottom,
+          )
         ],
       );
 
@@ -239,6 +247,7 @@ class _SunkenToolbarState extends State<SunkenToolbar>
 
   void showNotesFullSnackbar() {
     SnackBar snack = const SnackBar(
+      showCloseIcon: true,
       content: Text('There already are too many notes!'),
     );
     ScaffoldMessenger.of(context).showSnackBar(snack);

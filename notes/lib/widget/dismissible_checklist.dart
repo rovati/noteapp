@@ -78,6 +78,7 @@ class _DismissibleCLState extends State<DismissibleChecklist> {
     ChecklistManager().removeGroup(idx);
     setState(() {});
     SnackBar snack = SnackBar(
+      showCloseIcon: true,
       content: const Text('Group deleted'),
       action: SnackBarAction(
           label: 'UNDO',

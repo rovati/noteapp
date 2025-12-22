@@ -121,10 +121,12 @@ class _SyncPageState extends State<SyncPage> {
       LocalDB.archiveNotes().then((res) {
         if (res) {
           snack = const SnackBar(
+            showCloseIcon: true,
             content: Text('Notes archive saved to Downloads directory'),
           );
         } else {
           snack = const SnackBar(
+            showCloseIcon: true,
             content: Text('Could not create the notes archive!'),
           );
         }
@@ -161,6 +163,7 @@ class _SyncPageState extends State<SyncPage> {
               });
               _isImporting = false;
               snack = SnackBar(
+                  showCloseIcon: true,
                   content:
                       Text('Imported $importedNotes notes from Zip files.'));
               if (mounted) {
@@ -175,6 +178,7 @@ class _SyncPageState extends State<SyncPage> {
               });
               _isImporting = false;
               snack = SnackBar(
+                  showCloseIcon: true,
                   content:
                       Text('Imported $importedNotes notes from Md files.'));
               if (mounted) {
@@ -183,7 +187,9 @@ class _SyncPageState extends State<SyncPage> {
             });
           }
         } else {
-          snack = const SnackBar(content: Text('No file selected for import.'));
+          snack = const SnackBar(
+              showCloseIcon: true,
+              content: Text('No file selected for import.'));
           setState(() {
             _exportIconColor = AppTheme().theme.secondaryColor;
           });
