@@ -48,6 +48,14 @@ class ChecklistGroup {
     uncheckedElems.add(ChecklistElement());
   }
 
+  void insertElement(ChecklistElement elem) {
+    if (elem.isChecked) {
+      checkedElems.add(elem);
+    } else {
+      uncheckedElems.add(elem);
+    }
+  }
+
   void removeUncheckedElementAt(int idx) {
     uncheckedElems.removeAt(idx);
   }

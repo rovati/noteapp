@@ -20,7 +20,7 @@ class Plaintext extends Note {
       };
 
   @override
-  String toFormatted() => 'Title: $title\n\n$content';
+  String toFormatted() => '# $title\n\n$content';
 
   Plaintext modifyContent(String newContent) {
     return Plaintext(id, title: title, content: newContent);

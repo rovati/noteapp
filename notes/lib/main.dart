@@ -26,8 +26,8 @@ class MyApp extends StatelessWidget {
         themeMode: ThemeMode.dark,
         title: 'Notes',
         theme: ThemeData(
-          brightness: Brightness.dark,
-        ),
+            brightness: Brightness.dark,
+            colorScheme: ColorScheme.dark(onPrimary: Colors.white)),
         home: const LoadingPage(),
       );
 }
