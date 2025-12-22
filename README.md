@@ -22,8 +22,8 @@ Ok, the app is installed. But actually... what can it do?<br>
 The app is equipped with a toolbar on the bottom right of the screen, use it to create new notes or to head over to the settings page (a reminder text is shown when no notes exist). On the main page you can access the full list of your notes. You can open them by tapping their tile or delete them by swiping left on them. Moreover, you can pin them at the top of the list by long pressing on them.<br>
 
 <p align="center">
-  <img src="https://github.com/rovati/noteapp/blob/main/resources/readme_imgs/v3-1-0/homescreen_empty.png" width="200" title="Empty Home Page">
-  <img src="https://github.com/rovati/noteapp/blob/main/resources/readme_imgs/v3-1-0/homescreen.png" width="200" title="Home Page">
+  <img src="https://github.com/rovati/noteapp/blob/main/resources/readme_imgs/v3-2-0/homescreen_empty.png" width="200" title="Empty Home Page">
+  <img src="https://github.com/rovati/noteapp/blob/main/resources/readme_imgs/v3-2-0/homescreen.png" width="200" title="Home Page">
 <p>
 
 There currently are two types of notes: plaintext notes and checklists. Plaintext notes are simple notes with a title and body you can write on. Checklists are notes with a title and groups of elements. Each element can contain a short text and can be marked as completed.<br>
@@ -32,18 +32,20 @@ There currently are two types of notes: plaintext notes and checklists. Plaintex
 >  Please refer to [this section](#a-complete-guide-to-checklists) for a full description of how to use checklists at their best.
 
 <p align="center">
-  <img src="https://github.com/rovati/noteapp/blob/main/resources/readme_imgs/v3-1-0/plaintext.png" width="200" title="Plaintext Note">
-  <img src="https://github.com/rovati/noteapp/blob/main/resources/readme_imgs/v3-1-0/checklist.png" width="200" title="Checklist Note">
+  <img src="https://github.com/rovati/noteapp/blob/main/resources/readme_imgs/v3-2-0/plaintext.png" width="200" title="Plaintext Note">
+  <img src="https://github.com/rovati/noteapp/blob/main/resources/readme_imgs/v3-2-0/checklist.png" width="200" title="Checklist Note">
 <p>
 
 Through the settings page it is possible to select the theme of the app. The app currently offers a short selection of predefined themes, including a couple dark ones for the lovers of low brightness and high contrast. In this page it is also possible to find useful links and info.<br>
+In the sync page you can find the possibility to export an zipped archived of the notes to the Download folders. You can also import notes from Markdown files (or a zip archive containing Markdown files).
+
+> [!NOTE]
+>  The current implementation of the file parser is quite basic and requires a specific file structure to correctly parse the notes. The structure follows the format used in the notes exported.
 
 <p align="center">
-  <img src="https://github.com/rovati/noteapp/blob/main/resources/readme_imgs/v3-1-0/settings.png" width="200" title="Settings Page">
+  <img src="https://github.com/rovati/noteapp/blob/main/resources/readme_imgs/v3-2-0/settings.png" width="200" title="Settings Page">
+  <img src="https://github.com/rovati/noteapp/blob/main/resources/readme_imgs/v3-2-0/sync.png" width="200" title="Import and Export Page">
 </p>
-
-
-Lastly, the toolbar is equipped with a button for saving locally a zipped version of the notes, so that they can be exported in text format. This functionality is under revision since it is not consistent with its desired behaviour.
 
 ## ⚙️ How it is implemented
 The project is fully implemented in [Dart](https://dart.dev/) using the [Flutter](https://flutter.dev/) framework. This choice was based solely on personal interest, but it empowers the project with the possibility of easily extending the ecosystem with clients for various platforms.
@@ -71,11 +73,11 @@ The project is fully implemented in [Dart](https://dart.dev/) using the [Flutter
 ✅ Checklist overhaul\
 ⬇️ &nbsp;&nbsp;&nbsp;&nbsp;↘️ Groups in checklists\
 ⬇️\
-🔜 Zippy update\
+✅ Zippy update\
 ⬇️ &nbsp;&nbsp;&nbsp;&nbsp;↘️ Update to latest dependencies\
 ⬇️ &nbsp;&nbsp;&nbsp;&nbsp;↘️ Improve notes export system\
 ⬇️\
-🟠 Usability update\
+🔜 Usability update\
 ⬇️ &nbsp;&nbsp;&nbsp;&nbsp;↘️ Extend checklist keyboard functionalities\
 ⬇️ &nbsp;&nbsp;&nbsp;&nbsp;↘️ Improve items management in checklist\
 ⬇️ &nbsp;&nbsp;&nbsp;&nbsp;↘️ Support Markdown notes (?)\
