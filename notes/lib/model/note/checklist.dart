@@ -26,11 +26,22 @@ class Checklist extends Note {
 
   @override
   String toFormatted() {
-    var str = 'Title: $title\n\n';
+    var str = '# $title\n\n';
     for (var group in groups) {
-      str += '$group\n';
+      str += _formatGroup(group);
     }
     return str;
+  }
+
+  String _formatGroup(ChecklistGroup group) {
+    var str = '## ${group.title}\n\n';
+    for (var uncheckedElem in group.uncheckedElems) {
+      str += '- [ ] ${uncheckedElem.content}\n';
+    }
+    for (var checkedElem in group.checkedElems) {
+      str += '- [x] ${checkedElem.content}\n';
+    }
+    return str += '\n';
   }
 
   static List<ChecklistGroup> getGroupsFromJson(Map<String, dynamic> json) {

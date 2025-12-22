@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:notes/model/storage/local_db.dart';
+import 'package:notes/screen/sync.dart';
 import 'package:provider/provider.dart';
 
 import '../model/note/checklist.dart';
@@ -115,9 +115,9 @@ class _SunkenToolbarState extends State<SunkenToolbar>
           Padding(
             padding: const EdgeInsets.only(bottom: 10),
             child: IconButton(
-              onPressed: _onTapDownload,
+              onPressed: _onTapOpenSync,
               icon: Icon(
-                Icons.download,
+                Icons.sync,
                 color: _exportIconColor,
               ),
             ),
@@ -231,30 +231,10 @@ class _SunkenToolbarState extends State<SunkenToolbar>
         context, MaterialPageRoute(builder: (context) => SettingsPage()));
   }
 
-  void _onTapDownload() {
-    // TODO add check whether we are already zipping
-    SnackBar snack;
-
-    setState(() {
-      _exportIconColor = _tapColor;
-    });
-    Future.delayed(
-        const Duration(milliseconds: 500),
-        () => setState(() {
-              _exportIconColor = AppTheme().theme.secondaryColor;
-            }));
-    LocalDB.archiveNotes().then((res) {
-      if (res) {
-        snack = const SnackBar(
-          content: Text('Notes archive saved to Downloads directory'),
-        );
-      } else {
-        snack = const SnackBar(
-          content: Text('Could not create the notes archive!'),
-        );
-      }
-      ScaffoldMessenger.of(context).showSnackBar(snack);
-    });
+  void _onTapOpenSync() {
+    _onTapArrow();
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => SyncPage()));
   }
 
   void showNotesFullSnackbar() {

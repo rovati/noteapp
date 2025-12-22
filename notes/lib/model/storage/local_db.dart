@@ -63,7 +63,8 @@ class LocalDB {
   static Future<bool> archiveNotes() async {
     var notesDir = await formatAndSaveNotes();
     var exportDir = Directory('${await _localPath}/${Values.exportDir}');
-    var exportFileName = 'notes_${DateFormat.formatFileName(DateTime.now())}.zip';
+    var exportFileName =
+        'notes_${DateFormat.formatFileName(DateTime.now())}.zip';
     final zipFile = File('${exportDir.path}/$exportFileName');
 
     zipFile.createSync(recursive: true);
@@ -72,9 +73,18 @@ class LocalDB {
       return ZipFile.createFromDirectory(
         sourceDir: notesDir,
         zipFile: zipFile,
-      ).then((_) async =>
-          await copyFileIntoDownloadFolder(zipFile.path, exportFileName) ??
-          false);
+      ).then((_) {
+        return copyFileIntoDownloadFolder(zipFile.path, exportFileName)
+        .then((res) {
+          if (res ?? false) {
+            zipFile.deleteSync();
+            notesDir.deleteSync(recursive: true);
+            return true;
+          } else {
+            return false;
+          }
+        });
+      });
     } catch (e) {
       return Future.value(false);
     }
@@ -137,7 +147,7 @@ class LocalDB {
     var idxFileName = 0;
     return getNotes().then((res) {
       for (var note in res.parsed) {
-        var file = File('$lcPath/${Values.tempDir}/note_$idxFileName.txt');
+        var file = File('$lcPath/${Values.tempDir}/note_$idxFileName.md');
         file.writeAsString(note.toFormatted());
         idxFileName++;
       }

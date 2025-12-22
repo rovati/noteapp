@@ -20,6 +20,7 @@ dependencies:
   flutter_archive: ^6.0.4
   provider: ^6.0.5
   downloadsfolder: ^1.2.0
+  file_picker: ^10.3.8
 
 dev_dependencies:
   flutter_test:
