@@ -28,20 +28,9 @@ class _DismissibleCLState extends State<DismissibleChecklist> {
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               itemCount: checklist.groupsCount(),
-              itemBuilder: (context, index) => Dismissible(
-                key: UniqueKey(),
-                direction: DismissDirection.endToStart,
-                onDismissed: (direction) => _onTapRemoveGroup(index),
-                background: Container(
-                  color: Colors.transparent,
-                ),
-                secondaryBackground: Container(
-                    alignment: Alignment.centerRight,
-                    child: Icon(
-                      Icons.delete_rounded,
-                      color: AppTheme().theme.secondaryColor,
-                    )),
-                child: ChecklistGroupTile(index),
+              itemBuilder: (context, index) => ChecklistGroupTile(
+                index,
+                deletionCallback: _onTapRemoveGroup,
               ),
             ),
             Padding(
@@ -80,7 +69,9 @@ class _DismissibleCLState extends State<DismissibleChecklist> {
     SnackBar snack = SnackBar(
       showCloseIcon: true,
       content: const Text('Group deleted'),
+      persist: false,
       action: SnackBarAction(
+          textColor: AppTheme().theme.accentColor,
           label: 'UNDO',
           onPressed: () {
             ChecklistManager().addGroupAt(gr, idx);
