@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import '../model/note/checklist_element.dart';
 import '../model/note/notifier/checklist_list.dart';
@@ -40,48 +39,45 @@ class _ChecklistTileState extends State<ChecklistTile> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<ChecklistManager>(builder: (context, manager, child) {
-      _element = manager.elem(widget.groupIdx, widget.elemIdx, widget.checked);
-
-      _controller.text = _element.content;
-      return Row(
-        children: [
-          Opacity(
-            opacity: _ticked ? 0.5 : 1,
-            child: IconButton(
-              icon: widget.checked
-                  ? const Icon(Icons.check_box_rounded)
-                  : const Icon(Icons.check_box_outline_blank_rounded),
-              onPressed: _onTapCheckbox,
-            ),
+    _element = ChecklistManager()
+        .elem(widget.groupIdx, widget.elemIdx, widget.checked);
+    _controller.text = _element.content;
+    return Row(
+      children: [
+        Opacity(
+          opacity: _ticked ? 0.5 : 1,
+          child: IconButton(
+            icon: widget.checked
+                ? const Icon(Icons.check_box_rounded)
+                : const Icon(Icons.check_box_outline_blank_rounded),
+            onPressed: _onTapCheckbox,
           ),
-          Expanded(
-            child: TextField(
-              controller: _controller,
-              maxLength: 100,
-              maxLines: null,
-              onChanged: _onContentModified,
-              onSubmitted: _onContentSubmitted,
-              textInputAction: TextInputAction.done,
-              style: const TextStyle(fontSize: 20),
-              decoration: const InputDecoration(
-                hintText: 'Item',
-                border: InputBorder.none,
-                counterText: '',
-              ),
-              enabled: !_ticked,
+        ),
+        Expanded(
+          child: TextField(
+            controller: _controller,
+            maxLength: 100,
+            maxLines: null,
+            onChanged: _onContentModified,
+            onSubmitted: _onContentSubmitted,
+            textInputAction: TextInputAction.done,
+            style: const TextStyle(fontSize: 20),
+            decoration: const InputDecoration(
+              hintText: 'Item',
+              border: InputBorder.none,
+              counterText: '',
             ),
+            enabled: !_ticked,
           ),
-          const Padding(padding: EdgeInsets.only(right: 30))
-        ],
-      );
-    });
+        ),
+        const Padding(padding: EdgeInsets.only(right: 30))
+      ],
+    );
   }
 
   void _onTapCheckbox() {
     ChecklistManager()
         .toggleElementOfGroup(widget.groupIdx, widget.elemIdx, _ticked);
-    _ticked = !_ticked;
   }
 
   void _onContentModified(String ignored) {
