@@ -53,13 +53,11 @@ class ChecklistManager extends ChangeNotifier {
   void removeCheckedElementFromGroup(int groupIdx, int elementIdx) {
     note.groups[groupIdx].removeCheckedElementAt(elementIdx);
     NotesList().modifyNote(note);
-    notifyListeners();
   }
 
   void removeUncheckedElementFromGroup(int groupIdx, int elementIdx) {
     note.groups[groupIdx].removeUncheckedElementAt(elementIdx);
     NotesList().modifyNote(note);
-    notifyListeners();
   }
 
   void modifyElementOfGroup(
@@ -80,6 +78,7 @@ class ChecklistManager extends ChangeNotifier {
       note.groups[groupIdx].checkedElems.add(element);
     }
     NotesList().modifyNote(note);
+    notifyListeners();
   }
 
   int groupsCount() => note.groups.length;

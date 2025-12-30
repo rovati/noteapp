@@ -122,7 +122,8 @@ class _CLGroupTileState extends State<ChecklistGroupTile> {
                   ),
                 ),
                 Visibility(
-                  visible: !_displayCheckedItems,
+                  visible: !_displayCheckedItems &&
+                      manager.note.groups[widget.groupIdx].checkedLength > 0,
                   child: Center(
                     child: Opacity(
                       opacity: 0.75,
