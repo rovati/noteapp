@@ -75,6 +75,10 @@ class _PlaintextPageState extends State<PlaintextPage> {
                             style: const TextStyle(fontSize: 24),
                             decoration: const InputDecoration(
                               hintText: 'Note title',
+                              hintStyle: TextStyle(
+                                  fontSize: 20,
+                                  color: Color.from(
+                                      alpha: 0.75, red: 1, green: 1, blue: 1)),
                               border: InputBorder.none,
                               counterText: '',
                             ),
@@ -107,6 +111,13 @@ class _PlaintextPageState extends State<PlaintextPage> {
                                 style: const TextStyle(fontSize: 20),
                                 decoration: const InputDecoration.collapsed(
                                   hintText: 'New note',
+                                  hintStyle: TextStyle(
+                                      fontSize: 20,
+                                      color: Color.from(
+                                          alpha: 0.75,
+                                          red: 1,
+                                          green: 1,
+                                          blue: 1)),
                                   border: InputBorder.none,
                                 ),
                               ),

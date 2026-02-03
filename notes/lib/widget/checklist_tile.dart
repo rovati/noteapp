@@ -9,8 +9,9 @@ class ChecklistTile extends StatefulWidget {
   final int groupIdx;
   final int elemIdx;
   final bool checked;
+  final Function onSubmitCallback;
 
-  const ChecklistTile(this.groupIdx, this.elemIdx, this.checked, {super.key});
+  const ChecklistTile(this.groupIdx, this.elemIdx, this.checked, this.onSubmitCallback, {super.key});
 
   @override
   State<ChecklistTile> createState() => _ChecklistTileState();
@@ -60,10 +61,11 @@ class _ChecklistTileState extends State<ChecklistTile> {
             maxLines: null,
             onChanged: _onContentModified,
             onSubmitted: _onContentSubmitted,
-            textInputAction: TextInputAction.done,
+            textInputAction: TextInputAction.next,
             style: const TextStyle(fontSize: 20),
             decoration: const InputDecoration(
               hintText: 'Item',
+              hintStyle: TextStyle(fontSize: 20, color: Color.from(alpha: 0.75, red: 1, green: 1, blue: 1)),
               border: InputBorder.none,
               counterText: '',
             ),
@@ -104,5 +106,6 @@ class _ChecklistTileState extends State<ChecklistTile> {
       _updateTimer!.cancel();
     }
     _contentUpdateCallback();
+    widget.onSubmitCallback();
   }
 }

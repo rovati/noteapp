@@ -59,6 +59,7 @@ class _ChecklistPageState extends State<ChecklistPage> {
                             style: const TextStyle(fontSize: 24),
                             decoration: const InputDecoration(
                               hintText: 'Note title',
+                              hintStyle: TextStyle(fontSize: 20, color: Color.from(alpha: 0.75, red: 1, green: 1, blue: 1)),
                               border: InputBorder.none,
                               counterText: '',
                             ),

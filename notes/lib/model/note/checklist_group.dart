@@ -64,6 +64,10 @@ class ChecklistGroup {
     checkedElems.removeAt(idx);
   }
 
+  void removeCheckedElements() {
+    checkedElems.clear();
+  }
+
   void updateElementAt(int idx, ChecklistElement newElement) {
     uncheckedElems.removeAt(idx);
     uncheckedElems.insert(idx, newElement);

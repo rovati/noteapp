@@ -54,6 +54,10 @@ class _CLGroupTileState extends State<ChecklistGroupTile> {
                         style: const TextStyle(fontSize: 20),
                         decoration: const InputDecoration(
                           hintText: 'Group title',
+                          hintStyle: TextStyle(
+                              fontSize: 20,
+                              color: Color.from(
+                                  alpha: 0.75, red: 1, green: 1, blue: 1)),
                           border: InputBorder.none,
                           counterText: '',
                         ),
@@ -74,7 +78,7 @@ class _CLGroupTileState extends State<ChecklistGroupTile> {
                   physics: const NeverScrollableScrollPhysics(),
                   itemCount: manager.groupAt(widget.groupIdx).uncheckedLength,
                   itemBuilder: (context, index) {
-                    return ChecklistTile(widget.groupIdx, index, false);
+                    return ChecklistTile(widget.groupIdx, index, false, () => _onTapAddElement());
                   },
                 ),
                 Padding(
@@ -121,14 +125,39 @@ class _CLGroupTileState extends State<ChecklistGroupTile> {
                     ),
                   ),
                 ),
-                Visibility(
-                  visible: !_displayCheckedItems &&
-                      manager.note.groups[widget.groupIdx].checkedLength > 0,
-                  child: Center(
-                    child: Opacity(
-                      opacity: 0.75,
-                      child: Text(
-                        '${manager.note.groups[widget.groupIdx].checkedLength} checked item${manager.note.groups[widget.groupIdx].checkedLength != 1 ? 's' : ''}',
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  child: Visibility(
+                    visible: !_displayCheckedItems &&
+                        manager.note.groups[widget.groupIdx].checkedLength > 0,
+                    child: Dismissible(
+                      key: UniqueKey(),
+                      direction: DismissDirection.endToStart,
+                      onDismissed: (direction) => _onDismissClearChecked(),
+                      background: Container(
+                        color: Colors.transparent,
+                      ),
+                      secondaryBackground: Container(
+                          alignment: Alignment.centerRight,
+                          child: Icon(
+                            Icons.delete_rounded,
+                            color: appTheme.theme.secondaryColor,
+                          )),
+                      child: Visibility(
+                        visible: !_displayCheckedItems &&
+                            manager.note.groups[widget.groupIdx].checkedLength >
+                                0,
+                        child: Center(
+                          child: Padding(
+                            padding: EdgeInsets.only(bottom: 5),
+                            child: Opacity(
+                              opacity: 0.75,
+                              child: Text(
+                                '${manager.note.groups[widget.groupIdx].checkedLength} checked item${manager.note.groups[widget.groupIdx].checkedLength != 1 ? 's' : ''}',
+                              ),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                   ),
@@ -151,14 +180,14 @@ class _CLGroupTileState extends State<ChecklistGroupTile> {
                         secondaryBackground: Container(
                           alignment: Alignment.centerRight,
                           child: Padding(
-                            padding: const EdgeInsets.only(right: 5),
+                            padding: const EdgeInsets.only(right: 10),
                             child: Icon(
                               Icons.delete_rounded,
                               color: appTheme.theme.secondaryColor,
                             ),
                           ),
                         ),
-                        child: ChecklistTile(widget.groupIdx, index, true),
+                        child: ChecklistTile(widget.groupIdx, index, true, () {}),
                       );
                     },
                   ),
@@ -175,7 +204,7 @@ class _CLGroupTileState extends State<ChecklistGroupTile> {
     ChecklistManager().updateGroupTitle(widget.groupIdx, newTitle);
   }
 
-  void _onTapRemoveCheckedElement(idx) {
+  void _onTapRemoveCheckedElement(int idx) {
     ChecklistManager().removeCheckedElementFromGroup(widget.groupIdx, idx);
     setState(() {});
   }
@@ -183,6 +212,11 @@ class _CLGroupTileState extends State<ChecklistGroupTile> {
   void _onTapAddElement() {
     ChecklistManager().addElementToGroup(widget.groupIdx);
     // NOTE change to consumer? it would still rebuild all groups...
+    setState(() {});
+  }
+
+  void _onDismissClearChecked() {
+    ChecklistManager().removeAllCheckedElementsFromGroup(widget.groupIdx);
     setState(() {});
   }
 
