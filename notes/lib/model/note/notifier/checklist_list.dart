@@ -55,6 +55,11 @@ class ChecklistManager extends ChangeNotifier {
     NotesList().modifyNote(note);
   }
 
+  void removeAllCheckedElementsFromGroup(int groupIdx) {
+    note.groups[groupIdx].removeCheckedElements();
+    NotesList().modifyNote(note);
+  }
+
   void removeUncheckedElementFromGroup(int groupIdx, int elementIdx) {
     note.groups[groupIdx].removeUncheckedElementAt(elementIdx);
     NotesList().modifyNote(note);
