@@ -149,7 +149,7 @@ class _SyncPageState extends State<SyncPage> {
       });
       SnackBar snack;
 
-      FilePicker.platform.pickFiles(
+      FilePicker.pickFiles(
         allowMultiple: extension != 'zip',
         type: FileType.custom,
         allowedExtensions: [extension],

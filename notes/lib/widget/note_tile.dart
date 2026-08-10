@@ -41,14 +41,17 @@ class _NoteTileState extends State<NoteTile> {
               ? const Icon(Icons.dehaze_rounded)
               : const Icon(Icons.check_box_rounded);
           String title = note.title == '' ? 'New note' : note.title;
-          return ListTile(
-            onTap: _onTap,
-            onLongPress: _onLongPress,
-            leading: icon,
-            trailing: note.pinned ? const Icon(Icons.push_pin_rounded) : null,
-            title: Text(title),
-            minVerticalPadding: 20,
-            horizontalTitleGap: 10,
+          return Material(
+            type: MaterialType.transparency,
+            child: ListTile(
+              onTap: _onTap,
+              onLongPress: _onLongPress,
+              leading: icon,
+              trailing: note.pinned ? const Icon(Icons.push_pin_rounded) : null,
+              title: Text(title),
+              minVerticalPadding: 20,
+              horizontalTitleGap: 10,
+            ),
           );
         }),
       ),
