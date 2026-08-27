@@ -1,0 +1,49 @@
+name: Build APKs and release
+
+on:
+  push:
+    tags:        
+      - "v*.*.*"
+
+jobs:
+  Build-APKs:
+    runs-on: ubuntu-latest
+    
+    defaults:
+      run:
+        working-directory: ./notes
+
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: actions/setup-java@v6
+        with:
+          distribution: 'temurin'
+          java-version: '25'
+      
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: 3.47.1
+
+      - run: echo "${{ secrets.PROPS_FILE }}" | base64 -di > android/key.properties
+      - run: echo "${{ secrets.JKS_FILE }}" | base64 -di > android/app/release.jks
+      - run: flutter config --no-analytics
+      - run: yes | flutter doctor --android-licenses
+      - run: flutter doctor -v
+      - run: flutter clean
+      - run: flutter pub get
+      
+      - name: Build APKs
+        shell: bash
+        run: flutter build apk --release --split-per-abi
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v3
+        with:
+          body_path: ./releasenotes/${{ github.ref_name }}-CHANGELOG.md
+          latest: true
+          name: ${{ github.ref_name }}
+          files: |
+            ./notes/build/app/outputs/flutter-apk/*.apk
+

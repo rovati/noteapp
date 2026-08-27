@@ -3,11 +3,11 @@ description: A simple Android app for taking notes.
 
 publish_to: 'none'
 
-version: 3.2.5+43
+version: 3.2.7+44
 
 environment:
   sdk: '>=3.0.0 <4.0.0'
-  flutter: '3.44.9'
+  flutter: '3.47.1'
 
 dependencies:
   flutter:
@@ -27,8 +27,6 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  # The "flutter_lints" package below contains a set of recommended lints to
-  # encourage good coding practices.
   flutter_lints: ^6.0.0
 
 flutter:
