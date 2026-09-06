@@ -3,7 +3,7 @@ description: A simple Android app for taking notes.
 
 publish_to: 'none'
 
-version: 3.2.7+44
+version: 3.3.0+45
 
 environment:
   sdk: ^3.13.1
