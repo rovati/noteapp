@@ -4,7 +4,6 @@ import 'dart:io';
 import 'package:flutter_archive/flutter_archive.dart';
 import 'package:notes/util/date_format.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:downloadsfolder/downloadsfolder.dart';
 
 import '../../util/app_values.dart';
 import '../note/checklist.dart';
@@ -46,11 +45,7 @@ class LocalDB {
   static void writeNote(Note note, NotesOrder ord) async {
     await createDirs();
     getPathForNote(note.id.toString()).then((file) {
-      if (note is Plaintext) {
-        file.writeAsString(jsonEncode(note as Plaintext).toString());
-      } else {
-        file.writeAsString(jsonEncode(note as Checklist).toString());
-      }
+        file.writeAsString(jsonEncode(note).toString());
     });
     writeOrdering(ord);
   }
@@ -69,25 +64,16 @@ class LocalDB {
 
     zipFile.createSync(recursive: true);
 
-    try {
-      return ZipFile.createFromDirectory(
+    return ZipFile.createFromDirectory(
         sourceDir: notesDir,
-        zipFile: zipFile,
-      ).then((_) {
-        return copyFileIntoDownloadFolder(zipFile.path, exportFileName)
-        .then((res) {
-          if (res ?? false) {
-            zipFile.deleteSync();
-            notesDir.deleteSync(recursive: true);
-            return true;
-          } else {
-            return false;
-          }
-        });
-      });
-    } catch (e) {
-      return Future.value(false);
-    }
+        zipFile: zipFile)
+      .then((_) => getApplicationDocumentsDirectory())
+      .then((dir) => zipFile.copy('${dir.path}/$exportFileName'))
+      .then((_) {
+        zipFile.deleteSync();
+        notesDir.deleteSync(recursive: true);
+        return true;
+      }, onError: (_) => false,);
   }
 
   /* Helpers */

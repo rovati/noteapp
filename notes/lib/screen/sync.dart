@@ -122,7 +122,7 @@ class _SyncPageState extends State<SyncPage> {
         if (res) {
           snack = const SnackBar(
             showCloseIcon: true,
-            content: Text('Notes archive saved to Downloads directory'),
+            content: Text('Notes archive saved to App Documents directory'),
           );
         } else {
           snack = const SnackBar(
@@ -149,56 +149,82 @@ class _SyncPageState extends State<SyncPage> {
       });
       SnackBar snack;
 
-      FilePicker.pickFiles(
-        allowMultiple: extension != 'zip',
-        type: FileType.custom,
-        allowedExtensions: [extension],
-      ).then((optResut) {
-        if (optResut != null && optResut.files.isNotEmpty) {
-          if (extension == 'zip') {
-            NoteImporter.importFromZipFile(optResut.files.first)
+      if (extension != 'zip') {
+        FilePicker.pickFiles(
+          type: FileType.custom,
+          allowedExtensions: [extension],
+        ).then((pickedFiles) {
+          if (pickedFiles.isNotEmpty) {
+            if (extension == 'md') {
+              NoteImporter.importFromMarkdownFiles(pickedFiles)
                 .then((importedNotes) {
-              setState(() {
-                _exportIconColor = AppTheme().theme.secondaryColor;
-              });
+                  setState(() {
+                    _exportIconColor = AppTheme().theme.secondaryColor;
+                  });
+                  _isImporting = false;
+                  snack = SnackBar(
+                      showCloseIcon: true,
+                      content: Text('Imported $importedNotes notes from Md files.'));
+                  if (mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(snack);
+                  }
+                });
+            } else {
               _isImporting = false;
               snack = SnackBar(
                   showCloseIcon: true,
-                  content:
-                      Text('Imported $importedNotes notes from Zip files.'));
+                  content: Text('Can import only MD files.'));
               if (mounted) {
                 ScaffoldMessenger.of(context).showSnackBar(snack);
               }
+            }
+          } else {
+            snack = const SnackBar(
+                showCloseIcon: true,
+                content: Text('No file selected for import.'));
+            setState(() {
+              _exportIconColor = AppTheme().theme.secondaryColor;
             });
-          } else if (extension == 'md') {
-            NoteImporter.importFromMarkdownFiles(optResut.files)
-                .then((importedNotes) {
-              setState(() {
-                _exportIconColor = AppTheme().theme.secondaryColor;
+            _isImporting = false;
+            if (mounted) {
+              ScaffoldMessenger.of(context).showSnackBar(snack);
+            }
+          }
+        });
+      } else {
+        FilePicker.pickFile(
+          type: FileType.custom,
+          allowedExtensions: ['zip'],
+        ).then((pickedFile) {
+          if (pickedFile != null) {
+              NoteImporter.importFromZipFile(pickedFile)
+                  .then((importedNotes) {
+                setState(() {
+                  _exportIconColor = AppTheme().theme.secondaryColor;
+                });
+                _isImporting = false;
+                snack = SnackBar(
+                    showCloseIcon: true,
+                    content:
+                        Text('Imported $importedNotes notes from Zip files.'));
+                if (mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(snack);
+                }
               });
-              _isImporting = false;
-              snack = SnackBar(
-                  showCloseIcon: true,
-                  content:
-                      Text('Imported $importedNotes notes from Md files.'));
-              if (mounted) {
-                ScaffoldMessenger.of(context).showSnackBar(snack);
-              }
+          } else {
+            snack = const SnackBar(
+                showCloseIcon: true,
+                content: Text('No file selected for import.'));
+            setState(() {
+              _exportIconColor = AppTheme().theme.secondaryColor;
             });
+            _isImporting = false;
+            if (mounted) {
+              ScaffoldMessenger.of(context).showSnackBar(snack);
+            }
           }
-        } else {
-          snack = const SnackBar(
-              showCloseIcon: true,
-              content: Text('No file selected for import.'));
-          setState(() {
-            _exportIconColor = AppTheme().theme.secondaryColor;
-          });
-          _isImporting = false;
-          if (mounted) {
-            ScaffoldMessenger.of(context).showSnackBar(snack);
-          }
-        }
-      });
+        });
+      }
     }
   }
 }
