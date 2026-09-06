@@ -42,7 +42,6 @@ jobs:
         uses: softprops/action-gh-release@v3
         with:
           body_path: ./releasenotes/${{ github.ref_name }}-CHANGELOG.md
-          latest: true
           name: ${{ github.ref_name }}
           files: |
             ./notes/build/app/outputs/flutter-apk/*.apk

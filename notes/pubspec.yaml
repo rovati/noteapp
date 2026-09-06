@@ -6,7 +6,7 @@ publish_to: 'none'
 version: 3.2.7+44
 
 environment:
-  sdk: '>=3.0.0 <4.0.0'
+  sdk: ^3.13.1
   flutter: '3.47.1'
 
 dependencies:
@@ -14,14 +14,13 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.2
-  package_info_plus: ^9.0.0
-  shared_preferences: ^2.0.15
-  path_provider: ^2.0.11
-  url_launcher: ^6.1.7
-  flutter_archive: ^6.0.4
-  provider: ^6.0.5
-  downloadsfolder: ^1.2.0
-  file_picker: ^11.0.3
+  package_info_plus: ^10.2.1
+  shared_preferences: ^2.5.5
+  path_provider: ^2.1.6
+  url_launcher: ^6.3.2
+  flutter_archive: ^6.3.1
+  provider: ^6.1.5+1
+  file_picker: ^12.2.0
 
 dev_dependencies:
   flutter_test:

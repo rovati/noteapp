@@ -61,7 +61,7 @@ class _LoadingPageState extends State<LoadingPage> {
       if (success) {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           showCloseIcon: true,
-          content: Text('Notes archive saved to Downloads directory'),
+          content: Text('Notes archive saved to App Documents directory'),
         ));
         _goToMainPage(context);
       } else {
