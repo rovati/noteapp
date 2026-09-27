@@ -1,0 +1,1 @@
+[![Project Status: Moved to http://example.com – The project has been moved to Codeberg, and the version at that location should be considered authoritative.](https://www.repostatus.org/badges/latest/moved.svg)](https://www.repostatus.org/#moved) to [https://codeberg.org/rova-dev/notes-android](https://codeberg.org/rova-dev/notes-android)
